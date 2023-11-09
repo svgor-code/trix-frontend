@@ -1,0 +1,36 @@
+{
+  "name": "trix",
+  "version": "0.0.1",
+  "description": "Frontend for Trix Project",
+  "main": "index.js",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "start": "node esbuild.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/svgor-code/trix-frontend.git"
+  },
+  "author": "svgor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/svgor-code/trix-frontend/issues"
+  },
+  "homepage": "https://github.com/svgor-code/trix-frontend#readme",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/inter": "^5.0.15",
+    "@mui/joy": "^5.0.0-beta.14",
+    "esbuild": "^0.19.5",
+    "esbuild-plugin-alias": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.18.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15"
+  }
+}
