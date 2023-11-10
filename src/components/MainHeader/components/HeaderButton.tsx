@@ -1,23 +1,32 @@
-import React from 'react';
-import { Link } from '@mui/joy';
+import React from "react";
+import { NavLink, useMatch } from "react-router-dom";
+import { Link } from "@mui/joy";
 
 type Props = {
   title: string;
   href: string;
-}
+};
 
-export const HeaderLink = ({ title, href }: Props) => {  
+export const HeaderLink = ({ title, href }: Props) => {
+  const isActive = Boolean(useMatch(href));
+
   return (
-    <Link sx={theme => ({
-      color: theme.palette.neutral[500],
-      fontWeight: theme.fontWeight.lg,
-      padding: theme.spacing(1, 2),
+    <NavLink to={href}>
+      <Link
+        sx={(theme) => ({
+          color: isActive ? theme.palette.neutral.plainColor : theme.palette.neutral[400],
+          fontWeight: theme.fontWeight.lg,
+          padding: theme.spacing(1, 2),
 
-      '&:hover': {
-        textDecoration: 'none',
-        backgroundColor: theme.palette.background.level2,
-        borderRadius: theme.radius.lg,
-      }
-    })} href={href}>{title}</Link>
-  )
+          "&:hover": {
+            textDecoration: "none",
+            backgroundColor: theme.palette.neutral.plainHoverBg,
+            borderRadius: theme.radius.lg,
+          },
+        })}
+      >
+        {title}
+      </Link>
+    </NavLink>
+  );
 };

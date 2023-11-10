@@ -22,6 +22,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/inter": "^5.0.15",
+    "@heroicons/react": "^2.0.18",
     "@mui/joy": "^5.0.0-beta.14",
     "esbuild": "^0.19.5",
     "esbuild-plugin-alias": "^0.2.1",
@@ -31,6 +32,8 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15"
+    "@types/react-dom": "^18.2.15",
+    "esbuild-plugin-svgr": "^2.1.0",
+    "esbuild-svg": "^1.0.3"
   }
 }

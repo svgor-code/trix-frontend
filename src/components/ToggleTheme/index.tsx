@@ -1,27 +1,30 @@
-import { Button, useColorScheme } from "@mui/joy";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import { Button, Switch, useColorScheme, useTheme } from "@mui/joy";
 import React, { useState } from "react";
 
-export const ModeToggle = () => {
+export const ToggleTheme = () => {
   const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = useState(false);
+  const theme = useTheme();
 
-  // necessary for server-side rendering
-  // because mode is undefined on the server
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) {
-    return null;
-  }
+  const dark = mode === 'dark';
 
   return (
-    <Button
-      variant="outlined"
-      onClick={() => {
-        setMode(mode === "light" ? "dark" : "light");
-      }}
-    >
-      {mode === "light" ? "Turn dark" : "Turn light"}
-    </Button>
+    <Switch
+      color={!dark ? 'warning' : 'neutral'}
+      startDecorator={
+        <SunIcon
+          style={{ color: dark ? theme.palette.neutral.lightChannel : theme.palette.neutral.darkChannel }}
+        />
+      }
+      endDecorator={
+        <MoonIcon
+          style={{ color: dark ? "primary.500" : "text.tertiary" }}
+        />
+      }
+      checked={dark}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+        setMode(event.target.checked ? 'dark' : 'light')
+      }
+    />
   );
 };

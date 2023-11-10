@@ -2,6 +2,7 @@ import { Box, Button, Sheet } from "@mui/joy";
 import React from "react";
 import { HeaderLink } from "./components/HeaderButton";
 import { NetworkDropdown } from "./components/NetworksDropdown";
+import { WalletDropdown } from "./components/WalletDropdown";
 
 export const MainHeader = () => {
   return (
@@ -20,8 +21,15 @@ export const MainHeader = () => {
         <HeaderLink title="Alert" href="/alert" />
         <HeaderLink title="Donation" href="/donation" />
       </Box>
-      <Box>
+      <Box
+        sx={(theme) => ({
+          display: "flex",
+          alignItems: "center",
+          gap: theme.spacing(2),
+        })}
+      >
         <NetworkDropdown />
+        <WalletDropdown />
       </Box>
     </Sheet>
   );
