@@ -12,6 +12,7 @@ export const MainHeader = () => {
         height: "80px",
         display: "flex",
         alignItems: "center",
+        background: theme.palette.background.level1,
         justifyContent: "space-between",
         padding: theme.spacing(0, 2),
       })}

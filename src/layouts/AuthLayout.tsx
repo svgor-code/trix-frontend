@@ -1,14 +1,20 @@
-import { Sheet } from '@mui/joy';
-import React from 'react';
-import { MainHeader } from 'src/components/MainHeader';
-import { ToggleTheme } from 'src/components/ToggleTheme';
-import { PropsWithChildren } from "src/types/components";
+import { Sheet, useTheme } from "@mui/joy";
+import React, { PropsWithChildren } from "react";
+import { MainHeader } from "src/components/MainHeader";
 
 export const AuthLayout = ({ children }: PropsWithChildren) => {
+  const theme = useTheme();
+
   return (
     <Sheet>
       <MainHeader />
-      {children}
+      <Sheet
+        sx={{
+          background: theme.palette.background.surface,
+        }}
+      >
+        {children}
+      </Sheet>
     </Sheet>
-  )
-}
+  );
+};
