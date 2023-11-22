@@ -5,6 +5,7 @@ import { DashboardPage } from "./pages/auth/DashboardPage";
 import AlertSettingsPage from './pages/auth/AlertSettingsPage';
 import DonationSettingsPage from './pages/auth/DonationSettingsPage';
 import { AlertListenerPage } from './pages/listen/AlertListenerPage';
+import { WalletConnectionPage } from './pages/unauth/WalletConnectionPage';
 
 export const router = createBrowserRouter([
   {
@@ -22,5 +23,9 @@ export const router = createBrowserRouter([
   {
     path: '/l',
     element: <AlertListenerPage />
+  },
+  {
+    path: '/connect-waller',
+    element: <WalletConnectionPage />
   }
 ])
