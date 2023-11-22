@@ -10,6 +10,7 @@ export const AuthLayout = ({ children }: PropsWithChildren) => {
       <MainHeader />
       <Sheet
         sx={{
+          marginTop: "80px",
           background: theme.palette.background.surface,
         }}
       >

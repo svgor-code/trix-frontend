@@ -27,12 +27,14 @@
     "esbuild": "^0.19.5",
     "esbuild-plugin-alias": "^0.2.1",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.10",
     "react-router-dom": "^6.18.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
+    "@types/react-color": "^3.0.10",
     "@types/react-dom": "^18.2.15",
     "esbuild-plugin-svgr": "^2.1.0",
     "esbuild-svg": "^1.0.3"

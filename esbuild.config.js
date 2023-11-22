@@ -1,9 +1,8 @@
 const esbuild = require("esbuild");
 const alias = require("esbuild-plugin-alias");
-const svgPlugin = require("esbuild-svg")
+const svgPlugin = require("esbuild-svg");
 
-
-const svgrConfig = { exportType: "named" }
+const svgrConfig = { exportType: "named" };
 
 // require("esbuild").buildSync({
 //   entryPoints: ["src/index.tsx"],

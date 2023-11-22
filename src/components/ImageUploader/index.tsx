@@ -1,41 +1,49 @@
 import { Sheet, useTheme } from "@mui/joy";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
-// type Props = {}
+type Props = {
+  image: string;
+  setImage: (image: string) => void;
+}
 
-export const ImageUploader = () => {
+export const ImageUploader = ({ image, setImage }: Props) => {
   const theme = useTheme();
-  const [file, setFile] = useState<File | null>(null);
 
   const handleChange = (file: File) => {
-    setFile(file);
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      setImage(e.target?.result as string);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   return (
     <FileUploader handleChange={handleChange} name="file" types={fileTypes}>
       <Sheet
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           border: "2px dashed",
-          padding: theme.spacing(6),
+          height: "200px",
           borderRadius: theme.radius.lg,
-          borderColor: theme.palette.neutral.outlinedBorder,
+          borderColor: theme.palette.neutral.outlinedBorder, 
           background: theme.palette.neutral.softBg,
-          cursor: 'pointer',
-        
+          cursor: "pointer",
+
           "& svg": {
             width: "64px",
             height: "64px",
-          }
+          },
         }}
       >
-        <PhotoIcon />
+        {image ? <img src={image} width="100%" height="100%" /> : <PhotoIcon />}
       </Sheet>
     </FileUploader>
   );

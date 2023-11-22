@@ -15,6 +15,8 @@ export const MainHeader = () => {
         background: theme.palette.background.level1,
         justifyContent: "space-between",
         padding: theme.spacing(0, 2),
+        position: "fixed",
+        top: 0,
       })}
     >
       <Box>

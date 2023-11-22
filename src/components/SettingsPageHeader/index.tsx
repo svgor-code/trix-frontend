@@ -1,4 +1,4 @@
-import { Box, Container, Sheet, Typography, useTheme } from "@mui/joy";
+import { Box, Container, Grid, Sheet, Typography, useTheme } from "@mui/joy";
 import React from "react";
 
 type Props = {
@@ -16,7 +16,7 @@ export const SettingsPageHeader = ({ title, description }: Props) => {
         background: theme.palette.background.level1,
       }}
     >
-      <Container sx={{ height: "100%" }}>
+      <Grid sx={{ height: "100%", marginX: theme.spacing(8) }}>
         <Box display="flex" alignItems="center" height="100%">
           <Box>
             <Typography
@@ -37,7 +37,7 @@ export const SettingsPageHeader = ({ title, description }: Props) => {
             </Typography>
           </Box>
         </Box>
-      </Container>
+      </Grid>
     </Sheet>
   );
 };

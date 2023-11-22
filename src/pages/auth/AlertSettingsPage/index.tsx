@@ -1,9 +1,11 @@
-import { Box, Container, Grid, Sheet, Typography, useTheme } from "@mui/joy";
 import React from "react";
+import { Container, Grid, useTheme } from "@mui/joy";
+
 import { SettingsPageHeader } from "src/components/SettingsPageHeader";
 
 import { AuthLayout } from "src/layouts/AuthLayout";
 import { AlertForm } from "./components/AlertForm";
+import { AlertPreview } from "./components/AlertPreview";
 
 const AlertSettingsPage = () => {
   const theme = useTheme();
@@ -12,16 +14,7 @@ const AlertSettingsPage = () => {
     <AuthLayout>
       <>
         <SettingsPageHeader title="Alert" description="Set up your alert." />
-        <Container sx={{
-          paddingY: theme.spacing(4),
-        }}>
-          <Grid container spacing={4}>
-            <Grid md={6}>
-              <AlertForm />
-            </Grid>
-            <Grid md={6}>123</Grid>
-          </Grid>
-        </Container>
+        <AlertForm />
       </>
     </AuthLayout>
   );
