@@ -17,6 +17,7 @@ export const MainHeader = () => {
         padding: theme.spacing(0, 2),
         position: "fixed",
         top: 0,
+        zIndex: 1000,
       })}
     >
       <Box>

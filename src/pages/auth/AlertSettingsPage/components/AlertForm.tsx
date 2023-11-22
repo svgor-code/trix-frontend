@@ -56,7 +56,7 @@ export const AlertForm = () => {
           <Box display="flex" flexDirection="column" gap={4}>
             <FormField label="Upload image">
               <Box display="flex" width={1} gap={2}>
-                <Box width={1 / 3}>
+                <Box width="200px">
                   <ImageUploader
                     image={state.image}
                     setImage={(image) => onChange("image", image)}
@@ -100,9 +100,8 @@ export const AlertForm = () => {
 
             {/* Switcher a for donation text */}
 
-
             <Box display="flex" flexDirection="row-reverse">
-              <Button>Save</Button>
+              <Button size="lg">Save</Button>
             </Box>
           </Box>
         </SettingsFormWrapper>

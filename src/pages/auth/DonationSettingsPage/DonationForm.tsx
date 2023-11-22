@@ -51,7 +51,7 @@ export const DonationForm = () => {
           <Box display="flex" flexDirection="column" gap={4}>
             <FormField label="Your avatar">
               <Box display="flex" width={1} gap={2}>
-                <Box width={1 / 4}>
+                <Box width="200px">
                   <ImageUploader
                     image={state.avatar}
                     setImage={(image) => onChange("avatar", image)}
@@ -79,12 +79,21 @@ export const DonationForm = () => {
               />
             </FormField>
 
-            {/* Switcher a for donation text */}
-
             <Box display="flex" flexDirection="row-reverse">
-              <Button>Save</Button>
+              <Button size="lg">Save</Button>
             </Box>
           </Box>
+        </SettingsFormWrapper>
+      </Grid>
+
+      <Grid lg={6} md={12} xs={12}>
+        <SettingsFormWrapper>
+          <FormField label="Your donation page url">
+            <Input
+              value={`${window.location.origin}/d/wallet`}
+              endDecorator={<Button sx={{ cursor: "pointer" }}>Copy</Button>}
+            />
+          </FormField>
         </SettingsFormWrapper>
       </Grid>
     </Grid>

@@ -13,6 +13,7 @@ export const HeaderLink = ({ title, href }: Props) => {
   return (
     <NavLink to={href}>
       <Link
+        component="div"
         sx={(theme) => ({
           color: isActive ? theme.palette.neutral.plainColor : theme.palette.neutral[400],
           fontWeight: theme.fontWeight.lg,

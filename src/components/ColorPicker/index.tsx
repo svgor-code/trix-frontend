@@ -34,6 +34,7 @@ export const ColorPicker = ({ color, setColor }: Props) => {
           sx={{
             position: "absolute",
             top: "50px",
+            zIndex: 2,
           }}
         >
           {open && (

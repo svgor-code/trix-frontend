@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { DashboardPage } from "./pages/auth/DashboardPage";
 import AlertSettingsPage from './pages/auth/AlertSettingsPage';
 import DonationSettingsPage from './pages/auth/DonationSettingsPage';
+import { AlertListenerPage } from './pages/listen/AlertListenerPage';
 
 export const router = createBrowserRouter([
   {
@@ -17,5 +18,9 @@ export const router = createBrowserRouter([
   {
     path: '/donation',
     element: <DonationSettingsPage />
+  },
+  {
+    path: '/l',
+    element: <AlertListenerPage />
   }
 ])
