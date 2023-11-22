@@ -3,20 +3,18 @@ import React from "react";
 import { SettingsPageHeader } from "src/components/SettingsPageHeader";
 
 import { AuthLayout } from "src/layouts/AuthLayout";
+import { DonationForm } from "./DonationForm";
 
 const DonationSettingsPage = () => {
   return (
     <AuthLayout>
-      <Sheet
-        sx={{
-          height: "100px",
-        }}
-      >
+      <>
         <SettingsPageHeader
-          title="Donation"
+          title="Donation page"
           description="Set up your donation page."
         />
-      </Sheet>
+        <DonationForm />
+      </>
     </AuthLayout>
   );
 };

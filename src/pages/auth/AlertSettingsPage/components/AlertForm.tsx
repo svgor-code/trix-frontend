@@ -56,7 +56,7 @@ export const AlertForm = () => {
           <Box display="flex" flexDirection="column" gap={4}>
             <FormField label="Upload image">
               <Box display="flex" width={1} gap={2}>
-                <Box width={1 / 2}>
+                <Box width={1 / 3}>
                   <ImageUploader
                     image={state.image}
                     setImage={(image) => onChange("image", image)}

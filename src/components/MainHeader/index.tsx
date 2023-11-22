@@ -22,7 +22,7 @@ export const MainHeader = () => {
       <Box>
         <HeaderLink title="Dashboard" href="/" />
         <HeaderLink title="Alert" href="/alert" />
-        <HeaderLink title="Donation" href="/donation" />
+        <HeaderLink title="Donation page" href="/donation" />
       </Box>
       <Box
         sx={(theme) => ({
