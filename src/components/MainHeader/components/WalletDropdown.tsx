@@ -15,7 +15,7 @@ import {
   useTheme,
   Option,
 } from "@mui/joy";
-import React, { useState } from "react";
+import React from "react";
 
 import PersonIcon from "../../../assets/icons/person.svg?";
 import {
@@ -25,10 +25,15 @@ import {
 
 import { useIcon } from "src/hooks/useIcon";
 import { ToggleTheme } from "src/components/ToggleTheme";
+import { useAuthContext } from "src/providers/AuthProvider";
+import { reduceWalletAddress } from "src/utils/wallet";
 
 export const WalletDropdown = () => {
   const theme = useTheme();
   const { Icon } = useIcon();
+  const { signer } = useAuthContext();
+
+  const walletAddress = reduceWalletAddress(signer?.address);
 
   return (
     <Dropdown>
@@ -38,7 +43,7 @@ export const WalletDropdown = () => {
           height: "48px",
         })}
       >
-        <Typography variant="plain">0x9f…5236</Typography>
+        <Typography variant="plain">{walletAddress}</Typography>
         <Box
           sx={(theme) => ({
             marginLeft: theme.spacing(1),
@@ -98,7 +103,8 @@ export const WalletDropdown = () => {
                 },
               })}
             >
-              0x9f…5236 <ArrowTopRightOnSquareIcon />
+              {walletAddress}{" "}
+              <ArrowTopRightOnSquareIcon />
             </Link>
           </Box>
         </Box>

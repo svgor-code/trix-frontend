@@ -12,8 +12,14 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import AvalancheIcon from "../../../assets/icons/networks/avalanche.svg?";
 import ArbitrumIcon from "../../../assets/icons/networks/arbitrum.svg?";
 import { useIcon } from "src/hooks/useIcon";
+import { useAuthContext } from "src/providers/AuthProvider";
+import { NetworkName } from "src/utils/networks";
 
-const networksMap = [
+const networksMap: {
+  name: NetworkName;
+  title: string;
+  icon: string;
+}[] = [
   {
     name: "avalanche",
     icon: AvalancheIcon,
@@ -27,7 +33,15 @@ const networksMap = [
 ];
 
 export const NetworkDropdown = () => {
-  const activeNetwork = networksMap[0];
+  const { switchNetwork, network: currentNetwork } = useAuthContext();
+
+  const activeNetwork = networksMap.find(
+    (network) => network.name === currentNetwork
+  ) || {
+    icon: "",
+    name: "wrong",
+    title: "Wrong network",
+  };
   const { Icon } = useIcon();
 
   return (
@@ -37,18 +51,21 @@ export const NetworkDropdown = () => {
           borderRadius: theme.radius.lg,
           height: "48px",
         })}
+        color={activeNetwork.name === "wrong" ? "danger" : "neutral"}
       >
-        <Box
-          sx={(theme) => ({
-            "& img": {
-              width: theme.spacing(2.5),
-              height: theme.spacing(2.5),
-              marginRight: theme.spacing(1),
-            },
-          })}
-        >
-          {Icon(activeNetwork.icon)}
-        </Box>
+        {activeNetwork.icon && (
+          <Box
+            sx={(theme) => ({
+              "& img": {
+                width: theme.spacing(2.5),
+                height: theme.spacing(2.5),
+                marginRight: theme.spacing(1),
+              },
+            })}
+          >
+            {Icon(activeNetwork.icon)}
+          </Box>
+        )}
         <Typography variant="plain">{activeNetwork.title}</Typography>
         <Box
           sx={(theme) => ({
@@ -65,12 +82,15 @@ export const NetworkDropdown = () => {
           borderRadius: theme.radius.lg,
         })}
         popperOptions={{
-          placement: 'bottom-start'
+          placement: "bottom-start",
         }}
+        defaultValue={currentNetwork}
       >
         {networksMap.map((network) => (
           <MenuItem
+            onClick={() => switchNetwork(network.name)}
             key={network.name}
+            selected={currentNetwork === network.name}
             sx={(theme) => ({
               minHeight: "42px",
               borderRadius: theme.radius.lg,

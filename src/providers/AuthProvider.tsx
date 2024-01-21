@@ -4,8 +4,13 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Signer, ethers, BrowserProvider, Eip1193Provider } from "ethers";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  ethers,
+  BrowserProvider,
+  Eip1193Provider,
+  JsonRpcSigner,
+} from "ethers";
+import { NetworkName, networks, getNetworkByChainId } from "src/utils/networks";
 
 declare global {
   interface Window {
@@ -16,10 +21,12 @@ declare global {
 interface IAuthContext {
   isConnected: boolean;
   isAuthenticated: boolean;
-  signer: Signer | null;
+  signer: JsonRpcSigner | null;
   provider: BrowserProvider | null;
+  network: string;
   connect(): Promise<void>;
   disconnect(): Promise<void>;
+  switchNetwork: (networkName: NetworkName) => Promise<void>;
 }
 
 const defaultAuthState = {
@@ -27,6 +34,8 @@ const defaultAuthState = {
   isConnected: false,
   provider: null,
   signer: null,
+  walletAddress: "",
+  network: "",
 };
 
 const AuthContext = React.createContext<IAuthContext | null>(null);
@@ -35,8 +44,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [state, setState] = useState<{
     isConnected: boolean;
     isAuthenticated: boolean;
-    signer: Signer | null;
+    signer: JsonRpcSigner | null;
     provider: BrowserProvider | null;
+    network: string;
   }>(defaultAuthState);
 
   console.log(state);
@@ -49,12 +59,19 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         provider: ethers.getDefaultProvider("") as BrowserProvider,
       }));
     } else {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
 
       const signer = await provider.getSigner();
+      const currentNetwork = await getCurrentNetwork();
 
-      setState((prev) => ({ ...prev, provider, signer, isConnected: true }));
+      setState((prev) => ({
+        ...prev,
+        provider,
+        signer,
+        isConnected: true,
+        network: currentNetwork?.name || "",
+      }));
     }
   };
 
@@ -66,6 +83,39 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     await state.provider.destroy();
 
     setState(defaultAuthState);
+  };
+
+  const switchNetwork = async (networkName: NetworkName) => {
+    if (!window.ethereum) return;
+
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: ethers.toBeHex(networks[networkName].chainId) }],
+      });
+
+      const currentNetwork = await getCurrentNetwork();
+
+      setState((prev) => ({ ...prev, network: currentNetwork?.name || "" }));
+    } catch (switchError) {
+      console.log(switchError);
+    }
+  };
+
+  const getCurrentNetwork = async () => {
+    if (!window.ethereum) return;
+
+    try {
+      const chainIdHex = await window.ethereum.request({
+        method: "eth_chainId",
+      });
+      const chainId = parseInt(chainIdHex, 16);
+      const currentNetwork = getNetworkByChainId(chainId);
+
+      return currentNetwork;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -89,6 +139,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         ...state,
         connect,
         disconnect,
+        switchNetwork,
       }}
     >
       {children}
