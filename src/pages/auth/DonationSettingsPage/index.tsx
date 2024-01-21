@@ -7,15 +7,13 @@ import { DonationForm } from "./DonationForm";
 
 const DonationSettingsPage = () => {
   return (
-    <AuthLayout>
-      <>
-        <SettingsPageHeader
-          title="Donation page"
-          description="Set up your donation page."
-        />
-        <DonationForm />
-      </>
-    </AuthLayout>
+    <Sheet>
+      <SettingsPageHeader
+        title="Donation page"
+        description="Set up your donation page."
+      />
+      <DonationForm />
+    </Sheet>
   );
 };
 

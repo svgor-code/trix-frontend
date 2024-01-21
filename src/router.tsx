@@ -1,31 +1,44 @@
-import React from 'react';
-import { createBrowserRouter } from "react-router-dom";
+import React from "react";
+import { createBrowserRouter, redirect } from "react-router-dom";
 
 import { DashboardPage } from "./pages/auth/DashboardPage";
-import AlertSettingsPage from './pages/auth/AlertSettingsPage';
-import DonationSettingsPage from './pages/auth/DonationSettingsPage';
-import { AlertListenerPage } from './pages/listen/AlertListenerPage';
-import { WalletConnectionPage } from './pages/unauth/WalletConnectionPage';
+import AlertSettingsPage from "./pages/auth/AlertSettingsPage";
+import DonationSettingsPage from "./pages/auth/DonationSettingsPage";
+import { AlertListenerPage } from "./pages/listen/AlertListenerPage";
+import { WalletConnectionPage } from "./pages/unauth/WalletConnectionPage";
+
+import { AuthLayout } from "./layouts/AuthLayout";
+
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <DashboardPage />
+    id: "root",
+    path: "/",
+    Component: AuthLayout,
+    children: [
+      {
+        index: true,
+        Component: DashboardPage,
+      },
+      {
+        path: "alert",
+        Component: AlertSettingsPage,
+      },
+      {
+        path: "donation",
+        Component: DonationSettingsPage,
+      },
+    ],
   },
   {
-    path: '/alert',
-    element: <AlertSettingsPage />
+    path: "/connect-wallet",
+    Component: WalletConnectionPage,
   },
   {
-    path: '/donation',
-    element: <DonationSettingsPage />
+    path: "/l",
+    Component: AlertListenerPage,
   },
   {
-    path: '/l',
-    element: <AlertListenerPage />
+    path: "/disconnect",
   },
-  {
-    path: '/connect-waller',
-    element: <WalletConnectionPage />
-  }
-])
+]);

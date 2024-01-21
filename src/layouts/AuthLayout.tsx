@@ -1,9 +1,19 @@
+import React, { useEffect } from "react";
 import { Sheet, useTheme } from "@mui/joy";
-import React, { PropsWithChildren } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { MainHeader } from "src/components/MainHeader";
+import { AuthProvider, useAuthContext } from "src/providers/AuthProvider";
 
-export const AuthLayout = ({ children }: PropsWithChildren) => {
+export const AuthLayout = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const { isConnected } = useAuthContext();
+
+  useEffect(() => {
+    if (!isConnected) {
+      navigate("/connect-wallet");
+    }
+  }, [isConnected]);
 
   return (
     <Sheet>
@@ -14,7 +24,7 @@ export const AuthLayout = ({ children }: PropsWithChildren) => {
           background: theme.palette.background.surface,
         }}
       >
-        {children}
+        <Outlet />
       </Sheet>
     </Sheet>
   );

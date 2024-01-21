@@ -5,14 +5,15 @@ import { AuthLayout } from "src/layouts/AuthLayout";
 
 export const DashboardPage = () => {
   return (
-    <AuthLayout>
-      <Sheet
-        sx={{
-          height: "100px",
-        }}
-      >
-        <SettingsPageHeader title="Dashboard" description="Watch your statistics." />
-      </Sheet>
-    </AuthLayout>
+    <Sheet
+      sx={{
+        height: "100px",
+      }}
+    >
+      <SettingsPageHeader
+        title="Dashboard"
+        description="Watch your statistics."
+      />
+    </Sheet>
   );
 };

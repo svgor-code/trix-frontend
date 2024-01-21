@@ -1,14 +1,10 @@
-import { Sheet } from '@mui/joy';
-import React from 'react';
+import { Sheet } from "@mui/joy";
+import React from "react";
 
-import { AuthLayout } from 'src/layouts/AuthLayout';
+import { AuthLayout } from "src/layouts/AuthLayout";
 
 const DonationPage = () => {
-  return (
-    <AuthLayout>
-      <Sheet></Sheet>
-    </AuthLayout>
-  )
+  return <Sheet></Sheet>;
 };
 
 export default DonationPage;

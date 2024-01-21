@@ -8,6 +8,7 @@ import GlobalStyles from "@mui/joy/GlobalStyles";
 import "@fontsource/inter";
 
 import { router } from "./router";
+import { AuthProvider } from "./providers/AuthProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -28,7 +29,9 @@ root.render(
         }}
       />
       <CssBaseline />
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </CssVarsProvider>
   </React.StrictMode>
 );
