@@ -31,7 +31,7 @@ import { reduceWalletAddress } from "src/utils/wallet";
 export const WalletDropdown = () => {
   const theme = useTheme();
   const { Icon } = useIcon();
-  const { signer } = useAuthContext();
+  const { signer, disconnect } = useAuthContext();
 
   const walletAddress = reduceWalletAddress(signer?.address);
 
@@ -153,6 +153,7 @@ export const WalletDropdown = () => {
         <Divider />
         <Box padding={theme.spacing(2)} paddingBottom={theme.spacing(1)}>
           <MenuItem
+            onClick={disconnect}
             sx={(theme) => ({
               minHeight: "38px",
               borderRadius: theme.radius.lg,

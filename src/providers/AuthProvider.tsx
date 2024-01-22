@@ -11,6 +11,8 @@ import {
   JsonRpcSigner,
 } from "ethers";
 import { NetworkName, networks, getNetworkByChainId } from "src/utils/networks";
+import { generateNonce, login } from "src/api/auth";
+import { isTokenValid } from "src/utils/auth";
 
 declare global {
   interface Window {
@@ -49,8 +51,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     network: string;
   }>(defaultAuthState);
 
-  console.log(state);
-
   const connect = async () => {
     if (!window.ethereum) {
       console.log("MetaMask not installed; using read-only defaults");
@@ -83,6 +83,25 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     await state.provider.destroy();
 
     setState(defaultAuthState);
+  };
+
+  const auth = async () => {
+    const existingToken = localStorage.getItem("access_token");
+    if (existingToken && isTokenValid(existingToken)) {
+      return setState((prev) => ({ ...prev, isAuthenticated: true }));
+    }
+
+    if (!state.signer) return;
+
+    const walletAddress = state.signer.address;
+
+    const nonce = await generateNonce(walletAddress);
+    const signature = await state.signer.signMessage(nonce);
+    const loginRes = await login(walletAddress, signature);
+
+    localStorage.setItem("access_token", loginRes.access_token);
+
+    setState((prev) => ({ ...prev, isAuthenticated: true }));
   };
 
   const switchNetwork = async (networkName: NetworkName) => {
@@ -132,6 +151,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     checkIfWalletIsConnected();
   }, []);
+
+  useEffect(() => {
+    if (!state.isConnected) return;
+
+    auth();
+  }, [state.isConnected]);
 
   return (
     <AuthContext.Provider
