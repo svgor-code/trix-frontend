@@ -1,5 +1,11 @@
+export interface IUserSettings {
+  username: string;
+  avatar: string;
+}
+
 export interface IUser {
   _id: string;
+  avatar: string;
   username: string;
   alert: IAlertSettings;
   donationPage: IDonationPageSettings;

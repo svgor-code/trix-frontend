@@ -4,12 +4,13 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { getUser, updateAlertSettings } from "src/api/user";
+import { getUser, updateAlertSettings, updateUserSettings } from "src/api/user";
 import { useAuthContext } from "./AuthProvider";
-import { IAlertSettings, IUser } from "src/types/user";
+import { IAlertSettings, IUser, IUserSettings } from "src/types/user";
 
 interface IUserContext {
   user?: IUser;
+  saveUserSettings: (userSettings: IUserSettings) => Promise<void>;
   saveAlertSettings: (alertSettings: IAlertSettings) => Promise<void>;
 }
 
@@ -39,10 +40,19 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     await fetchUser();
   };
 
+  const saveUserSettings = async (userSettings: IUserSettings) => {
+    if (!walletAddress) return;
+
+    const res = await updateUserSettings(walletAddress, userSettings);
+    console.log(res);
+    await fetchUser();
+  }
+
   return (
     <UserContext.Provider
       value={{
         user,
+        saveUserSettings,
         saveAlertSettings,
       }}
     >

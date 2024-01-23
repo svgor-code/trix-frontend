@@ -1,27 +1,38 @@
 import { Box, Button, Grid, Input, useTheme } from "@mui/joy";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColorPicker } from "src/components/ColorPicker";
 import { FormField } from "src/components/Form/FormField";
 import { ImageUploader } from "src/components/ImageUploader";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
+import { useAuthContext } from "src/providers/AuthProvider";
+import { useUserContext } from "src/providers/UserProvider";
+import { IUserSettings } from "src/types/user";
 
-export interface TDonationForm {
-  avatar: string;
-  username: string;
-}
-
-type KDonationForm = keyof TDonationForm;
+type KDonationForm = keyof IUserSettings;
 
 const DEFAULT_AVATAR =
   "https://icons.veryicon.com/png/o/business/bitcoin-icon/anonymous-4.png";
 
 export const DonationForm = () => {
   const theme = useTheme();
+  const { signer } = useAuthContext();
+  const { user, saveUserSettings } = useUserContext();
 
-  const [state, setState] = useState<TDonationForm>({
+  const [state, setState] = useState<IUserSettings>({
     avatar: DEFAULT_AVATAR,
     username: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setState({
+        avatar: user.avatar || DEFAULT_AVATAR,
+        username: user.username || "",
+      });
+    }
+  }, [user]);
+
+  const donationPageUrl = `${window.location.origin}/d/${signer?.address}`;
 
   const onChange = (field: KDonationForm, value: string) => {
     setState((prev) => ({
@@ -35,6 +46,14 @@ export const DonationForm = () => {
       ...prev,
       avatar: DEFAULT_AVATAR,
     }));
+  };
+
+  const onSave = () => {
+    saveUserSettings(state);
+  };
+
+  const onCopyDonationPageUrl = () => {
+    navigator.clipboard.writeText(donationPageUrl);
   };
 
   return (
@@ -80,7 +99,9 @@ export const DonationForm = () => {
             </FormField>
 
             <Box display="flex" flexDirection="row-reverse">
-              <Button size="lg">Save</Button>
+              <Button size="lg" onClick={onSave}>
+                Save
+              </Button>
             </Box>
           </Box>
         </SettingsFormWrapper>
@@ -90,8 +111,15 @@ export const DonationForm = () => {
         <SettingsFormWrapper>
           <FormField label="Your donation page url">
             <Input
-              value={`${window.location.origin}/d/wallet`}
-              endDecorator={<Button sx={{ cursor: "pointer" }}>Copy</Button>}
+              value={donationPageUrl}
+              endDecorator={
+                <Button
+                  sx={{ cursor: "pointer" }}
+                  onClick={onCopyDonationPageUrl}
+                >
+                  Copy
+                </Button>
+              }
             />
           </FormField>
         </SettingsFormWrapper>
