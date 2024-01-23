@@ -1,32 +1,41 @@
 import { Box, Button, Grid, useTheme } from "@mui/joy";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColorPicker } from "src/components/ColorPicker";
 import { FormField } from "src/components/Form/FormField";
 import { ImageUploader } from "src/components/ImageUploader";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
 import { AlertPreview } from "./AlertPreview";
-
-export interface TAlertForm {
-  image: string;
-  color_user: string;
-  color_text: string;
-  color_amount: string;
-}
+import { useUserContext } from "src/providers/UserProvider";
+import { IAlertSettings } from "src/types/user";
 
 export const DEFAULT_IMAGE =
   "https://media.tenor.com/cr1crWcl8KkAAAAi/reaction-funny.gif";
 
-type KAlertForm = keyof TAlertForm;
+type KAlertForm = keyof IAlertSettings;
 
 export const AlertForm = () => {
   const theme = useTheme();
+  const { user, saveAlertSettings } = useUserContext();
 
-  const [state, setState] = useState<TAlertForm>({
-    image: DEFAULT_IMAGE,
-    color_user: theme.palette.common.white,
-    color_text: theme.palette.common.white,
-    color_amount: theme.palette.common.white,
+  const [state, setState] = useState<IAlertSettings>({
+    image: user?.alert.image || DEFAULT_IMAGE,
+    color_user: user?.alert.color_user || theme.palette.common.white,
+    color_text: user?.alert.color_text || theme.palette.common.white,
+    color_amount: user?.alert.color_amount || theme.palette.common.white,
+    duration: 10,
   });
+
+  useEffect(() => {
+    if (user) {
+      setState({
+        image: user.alert.image || DEFAULT_IMAGE,
+        color_user: user.alert.color_user,
+        color_text: user.alert.color_text,
+        color_amount: user.alert.color_amount,
+        duration: 10,
+      });
+    }
+  }, [user]);
 
   const onChange = (field: KAlertForm, value: string) => {
     setState((prev) => ({
@@ -40,6 +49,10 @@ export const AlertForm = () => {
       ...prev,
       image: DEFAULT_IMAGE,
     }));
+  };
+
+  const onSave = () => {
+    saveAlertSettings(state);
   };
 
   return (
@@ -98,10 +111,12 @@ export const AlertForm = () => {
               />
             </FormField>
 
-            {/* Switcher a for donation text */}
+            {/* Switcher for donation text */}
 
             <Box display="flex" flexDirection="row-reverse">
-              <Button size="lg">Save</Button>
+              <Button size="lg" onClick={onSave}>
+                Save
+              </Button>
             </Box>
           </Box>
         </SettingsFormWrapper>

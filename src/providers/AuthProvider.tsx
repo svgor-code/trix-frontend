@@ -13,6 +13,7 @@ import {
 import { NetworkName, networks, getNetworkByChainId } from "src/utils/networks";
 import { generateNonce, login } from "src/api/auth";
 import { isTokenValid } from "src/utils/auth";
+import { UserProvider } from "./UserProvider";
 
 declare global {
   interface Window {
@@ -167,7 +168,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         switchNetwork,
       }}
     >
-      {children}
+      <UserProvider>{children}</UserProvider>
     </AuthContext.Provider>
   );
 };
