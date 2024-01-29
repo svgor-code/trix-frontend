@@ -1,6 +1,8 @@
-import { Box, Button, Grid, Input, useTheme } from "@mui/joy";
-import React, { useEffect, useState } from "react";
-import { ColorPicker } from "src/components/ColorPicker";
+import { Box, Button, Grid, Input, Sheet, useTheme } from "@mui/joy";
+import React, { useEffect, useRef, useState } from "react";
+import QRCode from "react-qr-code";
+import html2canvas from "html2canvas";
+import downloadjs from "downloadjs";
 import { FormField } from "src/components/Form/FormField";
 import { ImageUploader } from "src/components/ImageUploader";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
@@ -17,6 +19,7 @@ export const DonationForm = () => {
   const theme = useTheme();
   const { signer } = useAuthContext();
   const { user, saveUserSettings } = useUserContext();
+  const ref = useRef<HTMLDivElement>(null);
 
   const [state, setState] = useState<IUserSettings>({
     avatar: DEFAULT_AVATAR,
@@ -54,6 +57,16 @@ export const DonationForm = () => {
 
   const onCopyDonationPageUrl = () => {
     navigator.clipboard.writeText(donationPageUrl);
+  };
+
+  const onDownloadQR = async () => {
+    if (!ref.current) {
+      return;
+    }
+
+    const canvas = await html2canvas(ref.current);
+    const dataURL = canvas.toDataURL("image/png");
+    downloadjs(dataURL, "download.png", "image/png");
   };
 
   return (
@@ -107,23 +120,58 @@ export const DonationForm = () => {
         </SettingsFormWrapper>
       </Grid>
 
-      <Grid lg={6} md={12} xs={12}>
-        <SettingsFormWrapper>
-          <FormField label="Your donation page url">
-            <Input
-              value={donationPageUrl}
-              endDecorator={
-                <Button
-                  sx={{ cursor: "pointer" }}
-                  onClick={onCopyDonationPageUrl}
-                >
-                  Copy
-                </Button>
-              }
-            />
-          </FormField>
-        </SettingsFormWrapper>
-      </Grid>
+      {user && (
+        <Grid lg={6} md={12} xs={12}>
+          <SettingsFormWrapper>
+            <FormField label="Your donation page url">
+              <Input
+                value={donationPageUrl}
+                endDecorator={
+                  <Button
+                    sx={{ cursor: "pointer" }}
+                    onClick={onCopyDonationPageUrl}
+                  >
+                    Copy
+                  </Button>
+                }
+              />
+            </FormField>
+          </SettingsFormWrapper>
+
+          <SettingsFormWrapper>
+            <FormField label="Your QR code">
+              <Grid container spacing={2} mt={2}>
+                <Grid lg={4} md={6} xs={6}>
+                  <Sheet
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                    }}
+                  >
+                    <div ref={ref}>
+                      <QRCode
+                        size={256}
+                        style={{
+                          height: "auto",
+                          maxWidth: "100%",
+                          width: "100%",
+                        }}
+                        value={donationPageUrl}
+                        viewBox={`0 0 256 256`}
+                      />
+                    </div>
+                  </Sheet>
+                </Grid>
+                <Grid lg={8} md={6} xs={6}>
+                  <Button sx={{ cursor: "pointer" }} onClick={onDownloadQR}>
+                    Download QR code
+                  </Button>
+                </Grid>
+              </Grid>
+            </FormField>
+          </SettingsFormWrapper>
+        </Grid>
+      )}
     </Grid>
   );
 };

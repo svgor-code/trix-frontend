@@ -25,3 +25,8 @@ export const updateAlertSettings = async (
   });
   return res;
 };
+
+export const getUserAlertSettings = async (userId: string) => {
+  const res = await instance.get(`users/alert/${userId}`);
+  return res;
+};

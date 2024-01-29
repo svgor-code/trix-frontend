@@ -35,8 +35,14 @@ export const router = createBrowserRouter([
     Component: WalletConnectionPage,
   },
   {
+    id: 'listeners',
     path: "/l",
-    Component: AlertListenerPage,
+    children: [
+      {
+        path: ':userId',
+        Component: AlertListenerPage,
+      }
+    ]
   },
   {
     path: "/disconnect",

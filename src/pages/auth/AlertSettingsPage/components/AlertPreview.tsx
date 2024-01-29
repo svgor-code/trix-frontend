@@ -1,19 +1,21 @@
 import React from "react";
 import { Box, Sheet, Typography, useColorScheme, useTheme } from "@mui/joy";
-import { DEFAULT_IMAGE, TAlertForm } from "./AlertForm";
+import { DEFAULT_IMAGE } from "./AlertForm";
+import { IAlertSettings } from "src/types/user";
 
 export const AlertPreview = ({
   image,
   color_text,
   color_amount,
   color_user,
-}: TAlertForm) => {
+}: IAlertSettings) => {
   const theme = useTheme();
   const { mode } = useColorScheme();
 
   return (
     <Sheet
       sx={{
+        mt: theme.spacing(2),
         background: `url(src/assets/preview.jpeg)`,
         borderRadius: theme.radius.lg,
         border: "1px solid",

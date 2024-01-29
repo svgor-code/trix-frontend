@@ -1,4 +1,4 @@
-import { Box, Button, Grid, useTheme } from "@mui/joy";
+import { Box, Button, Grid, Input, useTheme } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { ColorPicker } from "src/components/ColorPicker";
 import { FormField } from "src/components/Form/FormField";
@@ -55,6 +55,12 @@ export const AlertForm = () => {
     saveAlertSettings(state);
   };
 
+  const onCopyAlertPageUrl = () => {
+    navigator.clipboard.writeText(alertPageURL);
+  };
+
+  const alertPageURL = `${window.location.origin}/l/${user?._id}`;
+
   return (
     <Grid
       container
@@ -64,7 +70,7 @@ export const AlertForm = () => {
         paddingY: theme.spacing(4),
       }}
     >
-      <Grid lg={6} md={12} xs={12}>
+      <Grid lg={4} md={12} xs={12}>
         <SettingsFormWrapper>
           <Box display="flex" flexDirection="column" gap={4}>
             <FormField label="Upload image">
@@ -121,12 +127,30 @@ export const AlertForm = () => {
           </Box>
         </SettingsFormWrapper>
       </Grid>
-      <Grid lg={6} md={12} xs={12}>
+      <Grid lg={8} md={12} xs={12}>
+        {user && (
+          <SettingsFormWrapper>
+            <FormField label="Paste this link into broadcasting software you use and display your incoming donations">
+              <Input
+                value={alertPageURL}
+                endDecorator={
+                  <Button
+                    sx={{ cursor: "pointer" }}
+                    onClick={onCopyAlertPageUrl}
+                  >
+                    Copy
+                  </Button>
+                }
+              />
+            </FormField>
+          </SettingsFormWrapper>
+        )}
         <AlertPreview
           image={state.image}
           color_user={state.color_user}
           color_text={state.color_text}
           color_amount={state.color_amount}
+          duration={0}
         />
       </Grid>
     </Grid>

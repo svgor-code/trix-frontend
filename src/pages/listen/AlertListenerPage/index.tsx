@@ -1,15 +1,27 @@
 import { Box, Sheet, Typography, useTheme } from "@mui/joy";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getUserAlertSettings } from "src/api/user";
+import { IAlertSettings } from "src/types/user";
 
 export const AlertListenerPage = () => {
   const theme = useTheme();
-
-  const settings = {
+  const { userId } = useParams<{ userId: string }>();
+  const [settings, setSettings] = useState<IAlertSettings>({
     image: "https://media.tenor.com/cr1crWcl8KkAAAAi/reaction-funny.gif",
     color_amount: "#fff",
     color_user: "#fff",
     color_text: "#fff",
-  };
+    duration: 10,
+  });
+
+  useEffect(() => {
+    if (!userId) return;
+
+    getUserAlertSettings(userId).then(({ data }) => {
+      setSettings(data);
+    });
+  }, [userId]);
 
   const { image, color_amount, color_text, color_user } = settings;
 

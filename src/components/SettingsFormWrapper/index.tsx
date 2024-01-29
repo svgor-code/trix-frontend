@@ -8,6 +8,7 @@ export const SettingsFormWrapper = ({ children }: PropsWithChildren) => {
   return (
     <Sheet
       sx={{
+        marginY: theme.spacing(2),
         paddingY: theme.spacing(4),
         paddingX: theme.spacing(6),
         background:
