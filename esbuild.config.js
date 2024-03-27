@@ -28,7 +28,7 @@ if (isProduction) {
     })
     .catch(() => process.exit(1));
 } else {
-  const ctx = await esbuild.context({
+  esbuild.context({
     entryPoints: ["src/index.jsx"],
     bundle: true,
     outfile: "dist/bundle.js",
@@ -39,8 +39,7 @@ if (isProduction) {
       }),
       svgPlugin({ exportType: "named" }),
     ],
-  });
+  }).then((ctx) => ctx.watch());
 
   console.log("start watch...");
-  await ctx.watch();
 }
