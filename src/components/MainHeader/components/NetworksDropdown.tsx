@@ -14,6 +14,7 @@ import ArbitrumIcon from "../../../assets/icons/networks/arbitrum.svg?";
 import { useIcon } from "src/hooks/useIcon";
 import { useAuthContext } from "src/providers/AuthProvider";
 import { NetworkName } from "src/utils/networks";
+import { useWalletContext } from "src/providers/WalletProvider";
 
 const networksMap: {
   name: NetworkName;
@@ -33,7 +34,7 @@ const networksMap: {
 ];
 
 export const NetworkDropdown = () => {
-  const { switchNetwork, network: currentNetwork } = useAuthContext();
+  const { switchNetwork, network: currentNetwork } = useWalletContext();
 
   const activeNetwork = networksMap.find(
     (network) => network.name === currentNetwork

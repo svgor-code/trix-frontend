@@ -1,17 +1,4 @@
-export const networks = {
-  ethereum: {
-    chainId: 1, // Ethereum Mainnet
-    name: "ethereum",
-  },
-  avalanche: {
-    chainId: 43114, // Avalanche C-Chain
-    name: "avalanche",
-  },
-  arbitrum: {
-    chainId: 42161, // Arbitrum One
-    name: "arbitrum",
-  },
-};
+import { networks } from "src/globals/networks";
 
 export const getNetworkByChainId = (chainId: number) => {
   return Object.values(networks).find(

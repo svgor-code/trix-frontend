@@ -10,9 +10,17 @@ import {
 } from "@mui/joy";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React from "react";
+import { useWalletContext } from "src/providers/WalletProvider";
+import { IToken } from "src/globals/networks";
 
-export const SelectToken = () => {
+type Props = {
+  selectedToken: IToken;
+  onSelectToken: (token: IToken) => void;
+};
+
+export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
   const theme = useTheme();
+  const { walletTokens } = useWalletContext();
 
   return (
     <>
@@ -35,9 +43,9 @@ export const SelectToken = () => {
               height: theme.spacing(2.5),
               marginRight: theme.spacing(1),
             }}
-            src="https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E/logo.png"
+            src={selectedToken.icon}
           />
-          <Typography variant="plain">USDC</Typography>
+          <Typography variant="plain">{selectedToken.name}</Typography>
           <Box
             sx={(theme) => ({
               marginLeft: theme.spacing(1),
@@ -55,26 +63,67 @@ export const SelectToken = () => {
           popperOptions={{
             placement: "bottom-start",
           }}
-          defaultValue={"USDC"}
+          defaultValue={selectedToken.name}
         >
-          <MenuItem
-            onClick={() => undefined}
-            selected={true}
-            sx={(theme) => ({
-              minHeight: "42px",
-              borderRadius: theme.radius.lg,
-            })}
-          >
-            <img
-              style={{
+          {walletTokens.map((token) => (
+            <MenuItem
+              key={token.name}
+              onClick={() => onSelectToken(token)}
+              selected={token.name === selectedToken.name}
+              sx={(theme) => ({
+                minHeight: "42px",
                 borderRadius: theme.radius.lg,
-                width: theme.spacing(2.5),
-                height: theme.spacing(2.5),
-              }}
-              src="https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E/logo.png"
-            />
-            USDC
-          </MenuItem>
+              })}
+            >
+              <Box
+                key={token.name}
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: theme.spacing(2),
+                  borderRadius: theme.radius.lg,
+                  paddingY: theme.spacing(1),
+
+                  "& img": {
+                    width: "24px",
+                    height: "24px",
+                    borderRadius: "100%",
+                  },
+                }}
+              >
+                <img src={token.icon} />
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <Typography
+                    variant="plain"
+                    sx={{
+                      fontSize: theme.fontSize.sm,
+                      fontWeight: 600,
+                      color: theme.palette.neutral.mainChannel,
+                    }}
+                  >
+                    {token.name}
+                  </Typography>
+                  <Typography
+                    variant="plain"
+                    sx={{
+                      fontSize: theme.fontSize.sm,
+                      color: theme.palette.neutral[400],
+                    }}
+                  >
+                    {token.title}
+                  </Typography>
+                </Box>
+              </Box>
+            </MenuItem>
+          ))}
         </Menu>
       </Dropdown>
     </>

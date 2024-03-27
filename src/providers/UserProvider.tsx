@@ -9,6 +9,7 @@ import { useAuthContext } from "./AuthProvider";
 import { IAlertSettings, IUser, IUserSettings } from "src/types/user";
 import { toast } from "react-toastify";
 import { useColorScheme } from "@mui/joy";
+import { useWalletContext } from "./WalletProvider";
 
 interface IUserContext {
   user?: IUser;
@@ -19,7 +20,7 @@ interface IUserContext {
 const UserContext = React.createContext<IUserContext | null>(null);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
-  const { signer } = useAuthContext();
+  const { signer } = useWalletContext();
   const { mode } = useColorScheme();
   const walletAddress = signer?.address;
 
@@ -44,7 +45,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       toast("Alert settings updated", {
         theme: mode,
         type: "success",
-        position: 'bottom-center',
+        position: "bottom-center",
       });
     }
 
@@ -55,12 +56,12 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     if (!walletAddress) return;
 
     const res = await updateUserSettings(walletAddress, userSettings);
-    
+
     if (res.status === 200) {
       toast("User settings updated", {
         theme: mode,
         type: "success",
-        position: 'bottom-center',
+        position: "bottom-center",
       });
     }
 

@@ -27,11 +27,12 @@ import { useIcon } from "src/hooks/useIcon";
 import { ToggleTheme } from "src/components/ToggleTheme";
 import { useAuthContext } from "src/providers/AuthProvider";
 import { reduceWalletAddress } from "src/utils/wallet";
+import { useWalletContext } from "src/providers/WalletProvider";
 
 export const WalletDropdown = () => {
   const theme = useTheme();
   const { Icon } = useIcon();
-  const { signer, disconnect } = useAuthContext();
+  const { signer, walletTokens, disconnect } = useWalletContext();
 
   const walletAddress = reduceWalletAddress(signer?.address);
 
@@ -103,8 +104,7 @@ export const WalletDropdown = () => {
                 },
               })}
             >
-              {walletAddress}{" "}
-              <ArrowTopRightOnSquareIcon />
+              {walletAddress} <ArrowTopRightOnSquareIcon />
             </Link>
           </Box>
         </Box>
@@ -149,6 +149,84 @@ export const WalletDropdown = () => {
               <Option value="en">English</Option>
             </Select>
           </Box>
+        </Box>
+        <Divider />
+        <Box
+          sx={{
+            padding: theme.spacing(2),
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            width: "100%",
+          }}
+        >
+          {walletTokens.map((token) => (
+            <Box
+              key={token.name}
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                gap: theme.spacing(2),
+                borderRadius: theme.radius.lg,
+                paddingY: theme.spacing(1),
+
+                "& img": {
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "100%",
+                },
+              }}
+            >
+              <img src={token.icon} />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
+                <Typography
+                  variant="plain"
+                  sx={{
+                    fontSize: theme.fontSize.sm,
+                    fontWeight: 600,
+                    color: theme.palette.neutral.mainChannel,
+                  }}
+                >
+                  {token.name}
+                </Typography>
+                <Typography
+                  variant="plain"
+                  sx={{
+                    fontSize: theme.fontSize.sm,
+                    color: theme.palette.neutral[400],
+                  }}
+                >
+                  {token.title}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginLeft: "auto",
+                }}
+              >
+                <Typography
+                  sx={{
+                    textAlign: "right",
+                    fontWeight: 600,
+                    fontSize: theme.fontSize.md,
+                    color: theme.palette.neutral.mainChannel,
+                  }}
+                >
+                  {parseFloat(token.balance).toFixed(2)}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
         </Box>
         <Divider />
         <Box padding={theme.spacing(2)} paddingBottom={theme.spacing(1)}>

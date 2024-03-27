@@ -8,7 +8,7 @@ import { AlertListenerPage } from "./pages/listen/AlertListenerPage";
 import { WalletConnectionPage } from "./pages/unauth/WalletConnectionPage";
 
 import { AuthLayout } from "./layouts/AuthLayout";
-import DonationPage from "./pages/auth/DonationPage";
+import DonationPage from "./pages/unauth/DonationPage";
 
 
 export const router = createBrowserRouter([

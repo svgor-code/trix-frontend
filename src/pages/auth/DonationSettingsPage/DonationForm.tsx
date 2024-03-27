@@ -9,6 +9,7 @@ import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
 import { useAuthContext } from "src/providers/AuthProvider";
 import { useUserContext } from "src/providers/UserProvider";
 import { IUserSettings } from "src/types/user";
+import { useWalletContext } from "src/providers/WalletProvider";
 
 type KDonationForm = keyof IUserSettings;
 
@@ -17,7 +18,7 @@ const DEFAULT_AVATAR =
 
 export const DonationForm = () => {
   const theme = useTheme();
-  const { signer } = useAuthContext();
+  const { signer } = useWalletContext();
   const { user, saveUserSettings } = useUserContext();
   const ref = useRef<HTMLDivElement>(null);
 

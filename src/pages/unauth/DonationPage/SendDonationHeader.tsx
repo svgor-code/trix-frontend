@@ -2,10 +2,13 @@ import { Box, Button, Sheet, Typography, useTheme } from "@mui/joy";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { NetworkDropdown } from "src/components/MainHeader/components/NetworksDropdown";
+import { WalletDropdown } from "src/components/MainHeader/components/WalletDropdown";
+import { useWalletContext } from "src/providers/WalletProvider";
 
 export const SendDonationHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { isConnected, connect } = useWalletContext();
 
   return (
     <Sheet
@@ -40,7 +43,8 @@ export const SendDonationHeader = () => {
         })}
       >
         <NetworkDropdown />
-        <Button onClick={() => navigate("/connect-wallet")}>Launch App</Button>
+        {!isConnected && <Button onClick={connect}>Connect wallet</Button>}
+        {isConnected && <WalletDropdown />}
       </Box>
     </Sheet>
   );

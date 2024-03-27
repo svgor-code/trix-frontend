@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import { CssVarsProvider } from "@mui/joy/styles";
+import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +11,7 @@ import "@fontsource/inter";
 
 import { router } from "./router";
 import { AuthProvider } from "./providers/AuthProvider";
+import { WalletProvider } from "./providers/WalletProvider";
 
 ReactToastifyCss();
 
@@ -18,9 +19,31 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
+const theme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        // affects all Joy components that has `color="primary"` prop.
+        primary: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          // 300, 400, ..., 800,
+          900: '#78350f',
+        },
+      },
+    },
+  },
+  fontFamily: {
+    display: 'Montserrat, var(--joy-fontFamily-fallback)',
+    body: 'Montserrat, var(--joy-fontFamily-fallback)',
+  },
+});
+
+
 root.render(
   <React.StrictMode>
-    <CssVarsProvider>
+    <CssVarsProvider theme={theme}>
       <GlobalStyles
         styles={{
           svg: {
@@ -34,9 +57,9 @@ root.render(
       />
       <CssBaseline />
       <ToastContainer />
-      <AuthProvider>
+      <WalletProvider>
         <RouterProvider router={router} />
-      </AuthProvider>
+      </WalletProvider>
     </CssVarsProvider>
   </React.StrictMode>
 );

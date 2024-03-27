@@ -2,11 +2,12 @@ import { Box, Button, Sheet, Typography, useTheme } from "@mui/joy";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "src/providers/AuthProvider";
+import { useWalletContext } from "src/providers/WalletProvider";
 
 export const WalletConnectionPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { connect, isConnected } = useAuthContext();
+  const { connect, isConnected } = useWalletContext();
 
   useEffect(() => {
     if (isConnected) {
