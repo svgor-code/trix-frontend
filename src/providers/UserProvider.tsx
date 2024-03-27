@@ -7,6 +7,8 @@ import React, {
 import { getUser, updateAlertSettings, updateUserSettings } from "src/api/user";
 import { useAuthContext } from "./AuthProvider";
 import { IAlertSettings, IUser, IUserSettings } from "src/types/user";
+import { toast } from "react-toastify";
+import { useColorScheme } from "@mui/joy";
 
 interface IUserContext {
   user?: IUser;
@@ -18,6 +20,7 @@ const UserContext = React.createContext<IUserContext | null>(null);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const { signer } = useAuthContext();
+  const { mode } = useColorScheme();
   const walletAddress = signer?.address;
 
   const [user, setUser] = useState<IUser>();
@@ -36,7 +39,15 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     if (!walletAddress) return;
 
     const res = await updateAlertSettings(walletAddress, alertSettings);
-    console.log(res);
+
+    if (res.status === 200) {
+      toast("Alert settings updated", {
+        theme: mode,
+        type: "success",
+        position: 'bottom-center',
+      });
+    }
+
     await fetchUser();
   };
 
@@ -44,9 +55,17 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     if (!walletAddress) return;
 
     const res = await updateUserSettings(walletAddress, userSettings);
-    console.log(res);
+    
+    if (res.status === 200) {
+      toast("User settings updated", {
+        theme: mode,
+        type: "success",
+        position: 'bottom-center',
+      });
+    }
+
     await fetchUser();
-  }
+  };
 
   return (
     <UserContext.Provider

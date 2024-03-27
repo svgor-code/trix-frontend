@@ -4,11 +4,15 @@ import { RouterProvider } from "react-router-dom";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import GlobalStyles from "@mui/joy/GlobalStyles";
+import { ToastContainer } from "react-toastify";
 
+import { injectStyle as ReactToastifyCss } from "react-toastify/dist/inject-style";
 import "@fontsource/inter";
 
 import { router } from "./router";
 import { AuthProvider } from "./providers/AuthProvider";
+
+ReactToastifyCss();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -29,6 +33,7 @@ root.render(
         }}
       />
       <CssBaseline />
+      <ToastContainer />
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>

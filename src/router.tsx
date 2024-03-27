@@ -8,6 +8,7 @@ import { AlertListenerPage } from "./pages/listen/AlertListenerPage";
 import { WalletConnectionPage } from "./pages/unauth/WalletConnectionPage";
 
 import { AuthLayout } from "./layouts/AuthLayout";
+import DonationPage from "./pages/auth/DonationPage";
 
 
 export const router = createBrowserRouter([
@@ -43,6 +44,11 @@ export const router = createBrowserRouter([
         Component: AlertListenerPage,
       }
     ]
+  },
+  {
+    id: "send-donation",
+    path: "/d/:walletAddress",
+    Component: DonationPage,
   },
   {
     path: "/disconnect",
