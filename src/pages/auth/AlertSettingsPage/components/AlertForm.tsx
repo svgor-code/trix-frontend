@@ -93,7 +93,11 @@ export const AlertForm = ({
         {/* Switcher for donation text */}
 
         <Box display="flex" flexDirection="row-reverse">
-          <Button size="lg" onClick={onSave}>
+          <Button
+            sx={{ borderRadius: theme.radius.lg }}
+            size="lg"
+            onClick={onSave}
+          >
             Save
           </Button>
         </Box>

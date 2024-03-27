@@ -106,13 +106,21 @@ export const DonationForm = () => {
 
             <FormField label="Your username">
               <Input
+                size="lg"
+                variant="outlined"
+                placeholder="Your username"
                 value={state.username}
+                sx={{ borderRadius: theme.radius.lg }}
                 onChange={(e) => onChange("username", e.target.value)}
               />
             </FormField>
 
             <Box display="flex" flexDirection="row-reverse">
-              <Button size="lg" onClick={onSave}>
+              <Button
+                sx={{ borderRadius: theme.radius.lg }}
+                size="lg"
+                onClick={onSave}
+              >
                 Save
               </Button>
             </Box>
@@ -126,9 +134,12 @@ export const DonationForm = () => {
             <FormField label="Your donation page url">
               <Input
                 value={donationPageUrl}
+                size="lg"
+                variant="outlined"
+                sx={{ borderRadius: theme.radius.lg }}
                 endDecorator={
                   <Button
-                    sx={{ cursor: "pointer" }}
+                    sx={{ cursor: "pointer", borderRadius: theme.radius.lg }}
                     onClick={onCopyDonationPageUrl}
                   >
                     Copy
@@ -163,7 +174,10 @@ export const DonationForm = () => {
                   </Sheet>
                 </Grid>
                 <Grid lg={8} md={6} xs={6}>
-                  <Button sx={{ cursor: "pointer" }} onClick={onDownloadQR}>
+                  <Button
+                    sx={{ cursor: "pointer", borderRadius: theme.radius.lg }}
+                    onClick={onDownloadQR}
+                  >
                     Download QR code
                   </Button>
                 </Grid>

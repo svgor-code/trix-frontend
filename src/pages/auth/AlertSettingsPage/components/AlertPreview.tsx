@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Button, Input, Sheet, Typography, useColorScheme, useTheme } from "@mui/joy";
+import {
+  Box,
+  Button,
+  Input,
+  Sheet,
+  Typography,
+  useColorScheme,
+  useTheme,
+} from "@mui/joy";
 import { IAlertSettings } from "src/types/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
@@ -23,7 +31,7 @@ export const AlertPreview = ({
     toast("Successfully copied", {
       theme: mode,
       type: "success",
-      position: 'bottom-center',
+      position: "bottom-center",
     });
   };
 
@@ -35,9 +43,14 @@ export const AlertPreview = ({
         <SettingsFormWrapper>
           <FormField label="Paste this link into broadcasting software you use and display your incoming donations">
             <Input
+              size="lg"
+              sx={{ borderRadius: theme.radius.lg }}
               value={alertPageURL}
               endDecorator={
-                <Button sx={{ cursor: "pointer" }} onClick={onCopyAlertPageUrl}>
+                <Button
+                  sx={{ cursor: "pointer", borderRadius: theme.radius.lg }}
+                  onClick={onCopyAlertPageUrl}
+                >
                   Copy
                 </Button>
               }

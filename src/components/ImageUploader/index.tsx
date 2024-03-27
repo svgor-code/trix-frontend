@@ -8,7 +8,7 @@ const fileTypes = ["JPG", "PNG", "GIF"];
 type Props = {
   image: string;
   setImage: (image: string) => void;
-}
+};
 
 export const ImageUploader = ({ image, setImage }: Props) => {
   const theme = useTheme();
@@ -33,13 +33,17 @@ export const ImageUploader = ({ image, setImage }: Props) => {
           border: "2px dashed",
           height: "200px",
           borderRadius: theme.radius.lg,
-          borderColor: theme.palette.neutral.outlinedBorder, 
+          borderColor: theme.palette.neutral.outlinedBorder,
           background: theme.palette.neutral.softBg,
           cursor: "pointer",
 
           "& svg": {
             width: "64px",
             height: "64px",
+          },
+
+          "& img": {
+            borderRadius: theme.radius.lg,
           },
         }}
       >
