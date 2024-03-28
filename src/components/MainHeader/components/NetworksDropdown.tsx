@@ -81,6 +81,7 @@ export const NetworkDropdown = () => {
           width: "260px",
           padding: theme.spacing(1),
           borderRadius: theme.radius.lg,
+          gap: theme.spacing(1),
         })}
         popperOptions={{
           placement: "bottom-start",

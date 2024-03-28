@@ -1,8 +1,8 @@
-import { IAlertSettings, IUserSettings } from "src/types/user";
+import { IAlertSettings, IUser, IUserSettings } from "src/types/user";
 import { instance } from "./config";
 
 export const getUser = async (walletAddress: string) => {
-  const res = await instance.get(`users/${walletAddress}`);
+  const res = await instance.get<IUser>(`users/${walletAddress}`);
   return res.data;
 };
 

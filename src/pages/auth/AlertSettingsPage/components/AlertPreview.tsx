@@ -48,7 +48,7 @@ export const AlertPreview = ({
               value={alertPageURL}
               endDecorator={
                 <Button
-                  sx={{ cursor: "pointer", borderRadius: theme.radius.lg }}
+                  sx={{ cursor: "pointer", borderRadius: theme.radius.lg, mr: "1px" }}
                   onClick={onCopyAlertPageUrl}
                 >
                   Copy

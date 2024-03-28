@@ -1,4 +1,12 @@
-import { Box, Button, Grid, Input, Sheet, useTheme } from "@mui/joy";
+import {
+  Box,
+  Button,
+  Grid,
+  Input,
+  Sheet,
+  useColorScheme,
+  useTheme,
+} from "@mui/joy";
 import React, { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
@@ -10,6 +18,7 @@ import { useAuthContext } from "src/providers/AuthProvider";
 import { useUserContext } from "src/providers/UserProvider";
 import { IUserSettings } from "src/types/user";
 import { useWalletContext } from "src/providers/WalletProvider";
+import { toast } from "react-toastify";
 
 type KDonationForm = keyof IUserSettings;
 
@@ -18,6 +27,7 @@ const DEFAULT_AVATAR =
 
 export const DonationForm = () => {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const { signer } = useWalletContext();
   const { user, saveUserSettings } = useUserContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -58,6 +68,11 @@ export const DonationForm = () => {
 
   const onCopyDonationPageUrl = () => {
     navigator.clipboard.writeText(donationPageUrl);
+    toast("Successfully copied", {
+      position: "bottom-center",
+      type: "success",
+      theme: mode,
+    });
   };
 
   const onDownloadQR = async () => {
@@ -122,7 +137,7 @@ export const DonationForm = () => {
                 size="lg"
                 onClick={onSave}
               >
-                Save
+                Save settings
               </Button>
             </Box>
           </Box>
@@ -140,7 +155,7 @@ export const DonationForm = () => {
                 sx={{ borderRadius: theme.radius.lg }}
                 endDecorator={
                   <Button
-                    sx={{ cursor: "pointer", borderRadius: theme.radius.lg }}
+                    sx={{ cursor: "pointer", borderRadius: theme.radius.lg, mr: "2px" }}
                     onClick={onCopyDonationPageUrl}
                   >
                     Copy

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SelectToken } from "../SelectToken";
 import { Input, useTheme } from "@mui/joy";
 import { useWalletContext } from "src/providers/WalletProvider";
@@ -8,8 +8,12 @@ export const AmountInput = () => {
   const theme = useTheme();
   const { network } = useWalletContext();
   const [selectedToken, setSelectedToken] = useState<IToken>(
-    networks[network || Object.keys(networks)[1]].tokens[0]
+    networks[network || Object.keys(networks)[0]].tokens[0]
   );
+
+  useEffect(() => {
+    setSelectedToken(networks[network || Object.keys(networks)[0]].tokens[0]);
+  }, [network]);
 
   return (
     <Input

@@ -98,7 +98,7 @@ export const AlertForm = ({
             size="lg"
             onClick={onSave}
           >
-            Save
+            Save settings
           </Button>
         </Box>
       </Box>

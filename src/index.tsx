@@ -20,26 +20,55 @@ const root = ReactDOM.createRoot(
 );
 
 const theme = extendTheme({
+  components: {
+    JoyInput: {
+      styleOverrides: {
+        root: {
+          paddingTop: "12px",
+          paddingBottom: "12px"
+        }
+      }
+    }
+  },
   colorSchemes: {
     light: {
       palette: {
-        // affects all Joy components that has `color="primary"` prop.
         primary: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          // 300, 400, ..., 800,
-          900: '#78350f',
+          "50": "#fbe9e7",
+          "100": "#ffccbc",
+          "200": "#ffab91",
+          "300": "#ff8a65",
+          "400": "#ff7043",
+          "500": "#ff5722",
+          "600": "#f4511e",
+          "700": "#e64a19",
+          "800": "#d84315",
+          "900": "#bf360c",
+        },
+      },
+    },
+    dark: {
+      palette: {
+        primary: {
+          "50": "#fbe9e7",
+          "100": "#ffccbc",
+          "200": "#ffab91",
+          "300": "#ff8a65",
+          "400": "#ff7043",
+          "500": "#ff5722",
+          "600": "#f4511e",
+          "700": "#e64a19",
+          "800": "#d84315",
+          "900": "#bf360c",
         },
       },
     },
   },
   fontFamily: {
-    display: 'Montserrat, var(--joy-fontFamily-fallback)',
-    body: 'Montserrat, var(--joy-fontFamily-fallback)',
+    display: "Montserrat, var(--joy-fontFamily-fallback)",
+    body: "Montserrat, var(--joy-fontFamily-fallback)",
   },
 });
-
 
 root.render(
   <React.StrictMode>

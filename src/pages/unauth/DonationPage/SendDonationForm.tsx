@@ -1,12 +1,29 @@
-import { Box, Button, Grid, Input, Sheet, Textarea, useTheme } from "@mui/joy";
-import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Input,
+  Sheet,
+  Textarea,
+  Typography,
+  useColorScheme,
+  useTheme,
+} from "@mui/joy";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getUser } from "src/api/user";
 import { AmountInput } from "src/components/AmountInput";
 import { FormField } from "src/components/Form/FormField";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
 import { ISendDonation } from "src/types/donation";
+import { IUser } from "src/types/user";
 
 export const SendDonationForm = () => {
   const theme = useTheme();
+  const { mode } = useColorScheme();
+  const { walletAddress } = useParams<{ walletAddress: string }>();
+
+  const [streamer, setStreamer] = useState<IUser | undefined>(undefined);
 
   const [state, setState] = useState<ISendDonation>({
     username: "",
@@ -14,6 +31,26 @@ export const SendDonationForm = () => {
     network: "",
     amount: 0,
   });
+
+  useEffect(() => {
+    const fetchUser = async (walletAddress: string) => {
+      const user = await getUser(walletAddress);
+
+      if (!user) {
+        toast("Streamer not found :(", {
+          position: "bottom-center",
+          type: "error",
+          theme: mode,
+        });
+      }
+
+      setStreamer(user);
+    };
+
+    if (walletAddress) {
+      fetchUser(walletAddress);
+    }
+  }, [walletAddress]);
 
   const onChange = (field: keyof ISendDonation, value: string | number) => {
     setState((state) => ({ ...state, [field]: value }));
@@ -32,6 +69,38 @@ export const SendDonationForm = () => {
     >
       <Sheet sx={{ minWidth: "50%" }}>
         <SettingsFormWrapper>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mb: theme.spacing(4),
+              gap: theme.spacing(2),
+
+              "& img": {
+                borderRadius: "100%",
+                width: "72px",
+                height: "72px",
+              },
+            }}
+          >
+            <img src={streamer?.avatar} />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Typography
+                sx={{ fontSize: theme.fontSize.xl2, fontWeight: 600 }}
+              >
+                {streamer?.username || "Unkown person"}
+              </Typography>
+              <Typography sx={{ fontSize: theme.fontSize.md }}>
+                {streamer?.donationPage.welcomeText}
+              </Typography>
+            </Box>
+          </Box>
+
           <Box display="flex" flexDirection="column" gap={4}>
             <FormField label="Your username">
               <Input

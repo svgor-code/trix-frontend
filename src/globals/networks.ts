@@ -18,7 +18,14 @@ export const networks: Record<string, INetwork> = {
     name: "arbitrum",
     chainId: 42161, // Arbitrum One
     rpc: "https://arb1.arbitrum.io/rpc",
-    tokens: [],
+    tokens: [
+      {
+        name: "ARB",
+        address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+        title: "Arbitrum",
+        icon: "https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0x912CE59144191C1204E64559FE8253a0e49E6548/logo.png",
+      },
+    ],
   },
   avalanche: {
     name: "avalanche",

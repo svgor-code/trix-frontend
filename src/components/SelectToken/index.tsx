@@ -39,8 +39,8 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
               display: "flex",
               alignItems: "center",
               borderRadius: theme.radius.lg,
-              width: theme.spacing(2.5),
-              height: theme.spacing(2.5),
+              width: "20px",
+              height: "20px",
               marginRight: theme.spacing(1),
             }}
             src={selectedToken.icon}
@@ -87,8 +87,8 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
                   paddingY: theme.spacing(1),
 
                   "& img": {
-                    width: "24px",
-                    height: "24px",
+                    width: "32px",
+                    height: "32px",
                     borderRadius: "100%",
                   },
                 }}

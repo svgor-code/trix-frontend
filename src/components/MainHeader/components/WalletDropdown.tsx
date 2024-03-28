@@ -173,8 +173,8 @@ export const WalletDropdown = () => {
                 paddingY: theme.spacing(1),
 
                 "& img": {
-                  width: "24px",
-                  height: "24px",
+                  width: "32px",
+                  height: "32px",
                   borderRadius: "100%",
                 },
               }}
