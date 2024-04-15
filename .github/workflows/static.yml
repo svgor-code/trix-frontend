@@ -47,7 +47,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - uses: luisboto/ngrok-tunnel-action@<VERSION>
+      - name: Ngrok Tunnel Action
+        uses: LuisBoto/ngrok-tunnel-action@v0.1.7.2
         with:
           timeout: 1h
           port: 80
