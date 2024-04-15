@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const auth = async () => {
     const existingToken = localStorage.getItem("access_token");
+
     if (existingToken && isTokenValid(existingToken)) {
       return setState((prev) => ({ ...prev, isAuthenticated: true }));
     }

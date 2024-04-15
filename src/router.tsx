@@ -1,5 +1,4 @@
-import React from "react";
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import { DashboardPage } from "./pages/auth/DashboardPage";
 import AlertSettingsPage from "./pages/auth/AlertSettingsPage";

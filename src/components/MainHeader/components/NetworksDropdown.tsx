@@ -6,29 +6,27 @@ import {
   MenuItem,
   Typography,
 } from "@mui/joy";
-import React from "react";
+import React, { ReactElement } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-import AvalancheIcon from "../../../assets/icons/networks/avalanche.svg?";
-import ArbitrumIcon from "../../../assets/icons/networks/arbitrum.svg?";
-import { useIcon } from "src/hooks/useIcon";
-import { useAuthContext } from "src/providers/AuthProvider";
+import { AvalancheIcon} from "src/assets/icons/networks/AvalancheIcon";
+import { ArbitrumIcon } from "src/assets/icons/networks/ArbitrumIcon";
 import { NetworkName } from "src/utils/networks";
 import { useWalletContext } from "src/providers/WalletProvider";
 
 const networksMap: {
   name: NetworkName;
   title: string;
-  icon: string;
+  icon: ReactElement;
 }[] = [
   {
     name: "avalanche",
-    icon: AvalancheIcon,
+    icon: <AvalancheIcon />,
     title: "Avalanche",
   },
   {
     name: "arbitrum",
-    icon: ArbitrumIcon,
+    icon: <ArbitrumIcon />,
     title: "Arbitrum",
   },
 ];
@@ -43,7 +41,6 @@ export const NetworkDropdown = () => {
     name: "wrong",
     title: "Wrong network",
   };
-  const { Icon } = useIcon();
 
   return (
     <Dropdown>
@@ -57,14 +54,15 @@ export const NetworkDropdown = () => {
         {activeNetwork.icon && (
           <Box
             sx={(theme) => ({
-              "& img": {
+              "& svg": {
                 width: theme.spacing(2.5),
                 height: theme.spacing(2.5),
                 marginRight: theme.spacing(1),
+
               },
             })}
           >
-            {Icon(activeNetwork.icon)}
+            {activeNetwork.icon}
           </Box>
         )}
         <Typography variant="plain">{activeNetwork.title}</Typography>
@@ -106,7 +104,7 @@ export const NetworkDropdown = () => {
                 },
               })}
             >
-              {Icon(network.icon)}
+              {network.icon}
             </Box>
             {network.title}
           </MenuItem>

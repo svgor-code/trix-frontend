@@ -17,21 +17,18 @@ import {
 } from "@mui/joy";
 import React from "react";
 
-import PersonIcon from "../../../assets/icons/person.svg?";
+import { PersonIcon } from "src/assets/icons/PersonIcon";
 import {
   ArrowTopRightOnSquareIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
 
-import { useIcon } from "src/hooks/useIcon";
 import { ToggleTheme } from "src/components/ToggleTheme";
-import { useAuthContext } from "src/providers/AuthProvider";
 import { reduceWalletAddress } from "src/utils/wallet";
 import { useWalletContext } from "src/providers/WalletProvider";
 
 export const WalletDropdown = () => {
   const theme = useTheme();
-  const { Icon } = useIcon();
   const { signer, walletTokens, disconnect } = useWalletContext();
 
   const walletAddress = reduceWalletAddress(signer?.address);
@@ -78,7 +75,7 @@ export const WalletDropdown = () => {
             },
           })}
         >
-          {Icon(PersonIcon)}
+          <PersonIcon />
           <Box>
             <Typography
               variant="plain"
