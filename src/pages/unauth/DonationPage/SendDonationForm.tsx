@@ -3,6 +3,7 @@ import {
   Button,
   Input,
   Sheet,
+  Skeleton,
   Textarea,
   Typography,
   useColorScheme,
@@ -63,11 +64,10 @@ export const SendDonationForm = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        marginX: theme.spacing(8),
         paddingY: theme.spacing(4),
       }}
     >
-      <Sheet sx={{ minWidth: "50%" }}>
+      <Sheet sx={{ minWidth: "50%", maxWidth: "420px" }}>
         <SettingsFormWrapper>
           <Box
             sx={{
@@ -83,7 +83,11 @@ export const SendDonationForm = () => {
               },
             }}
           >
-            <img src={streamer?.avatar} />
+            {!streamer ? (
+              <Skeleton variant="circular" width="72px" height="72px" />
+            ) : (
+              <img src={streamer.avatar} />
+            )}
             <Box
               sx={{
                 display: "flex",
@@ -93,9 +97,21 @@ export const SendDonationForm = () => {
               <Typography
                 sx={{ fontSize: theme.fontSize.xl2, fontWeight: 600 }}
               >
-                {streamer?.username || "Unkown person"}
+                {!streamer ? (
+                  <Skeleton
+                    variant="rectangular"
+                    width="100px"
+                    height="20px"
+                    sx={{ marginBottom: theme.spacing(1) }}
+                  />
+                ) : (
+                  streamer.username || "Unkown person"
+                )}
               </Typography>
               <Typography sx={{ fontSize: theme.fontSize.md }}>
+                {!streamer && (
+                  <Skeleton variant="rectangular" width="60px" height="14px" />
+                )}
                 {streamer?.donationPage.welcomeText}
               </Typography>
             </Box>
@@ -126,7 +142,10 @@ export const SendDonationForm = () => {
             </FormField>
 
             <FormField label="Amount">
-              <AmountInput />
+              <AmountInput
+                amount={state.amount}
+                setAmount={(amount) => onChange("amount", amount)}
+              />
             </FormField>
 
             <Box display="flex" flexDirection="row-reverse">

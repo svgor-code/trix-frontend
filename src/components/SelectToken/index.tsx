@@ -12,6 +12,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { IToken } from "src/globals/networks";
+import { TokenIcon } from "@token-icons/react";
 
 type Props = {
   selectedToken: IToken;
@@ -34,17 +35,20 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
           })}
           color="neutral"
         >
-          <img
+          <Box
             style={{
               display: "flex",
               alignItems: "center",
               borderRadius: theme.radius.lg,
-              width: "20px",
-              height: "20px",
               marginRight: theme.spacing(1),
             }}
-            src={selectedToken.icon}
-          />
+          >
+            <TokenIcon
+              symbol={selectedToken.symbol}
+              variant="branded"
+              size={24}
+            />
+          </Box>
           <Typography variant="plain">{selectedToken.name}</Typography>
           <Box
             sx={(theme) => ({
@@ -63,20 +67,19 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
           popperOptions={{
             placement: "bottom-start",
           }}
-          defaultValue={selectedToken.name}
+          defaultValue={selectedToken.symbol}
         >
           {walletTokens.map((token) => (
             <MenuItem
-              key={token.name}
+              key={token.symbol}
               onClick={() => onSelectToken(token)}
-              selected={token.name === selectedToken.name}
+              selected={token.symbol === selectedToken.symbol}
               sx={(theme) => ({
                 minHeight: "42px",
                 borderRadius: theme.radius.lg,
               })}
             >
               <Box
-                key={token.name}
                 sx={{
                   width: "100%",
                   display: "flex",
@@ -85,15 +88,9 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
                   gap: theme.spacing(2),
                   borderRadius: theme.radius.lg,
                   paddingY: theme.spacing(1),
-
-                  "& img": {
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "100%",
-                  },
                 }}
               >
-                <img src={token.icon} />
+                <TokenIcon symbol={token.symbol} variant="branded" size={48} />
                 <Box
                   sx={{
                     display: "flex",
@@ -109,7 +106,7 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
                       color: theme.palette.neutral.mainChannel,
                     }}
                   >
-                    {token.name}
+                    {token.symbol}
                   </Typography>
                   <Typography
                     variant="plain"
@@ -118,7 +115,7 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
                       color: theme.palette.neutral[400],
                     }}
                   >
-                    {token.title}
+                    {token.name}
                   </Typography>
                 </Box>
               </Box>

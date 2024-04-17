@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "src/providers/AuthProvider";
 import { useWalletContext } from "src/providers/WalletProvider";
+import { ConnectWalletForm } from "./ConnectWalletForm";
 
 export const WalletConnectionPage = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { connect, isConnected } = useWalletContext();
+  const { isConnected } = useWalletContext();
 
   useEffect(() => {
     if (isConnected) {
@@ -20,15 +21,14 @@ export const WalletConnectionPage = () => {
       sx={{
         width: "100%",
         height: "100%",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         background: theme.palette.background.surface,
       }}
     >
-      <Box display="flex" flexDirection="column">
-        <Button onClick={connect}>Connect wallet</Button>
-      </Box>
+      <ConnectWalletForm />
     </Sheet>
   );
 };

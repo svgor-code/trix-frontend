@@ -79,8 +79,6 @@ root.render(
             color: "var(--Icon-color)",
             margin: "var(--Icon-margin)",
             fontSize: "var(--Icon-fontSize, 20px)",
-            width: "1em",
-            height: "1em",
           },
         }}
       />

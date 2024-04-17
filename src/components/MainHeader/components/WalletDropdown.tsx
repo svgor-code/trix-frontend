@@ -26,6 +26,7 @@ import {
 import { ToggleTheme } from "src/components/ToggleTheme";
 import { reduceWalletAddress } from "src/utils/wallet";
 import { useWalletContext } from "src/providers/WalletProvider";
+import { TokenIcon } from "@token-icons/react";
 
 export const WalletDropdown = () => {
   const theme = useTheme();
@@ -159,7 +160,7 @@ export const WalletDropdown = () => {
         >
           {walletTokens.map((token) => (
             <Box
-              key={token.name}
+              key={token.symbol}
               sx={{
                 width: "100%",
                 display: "flex",
@@ -168,15 +169,9 @@ export const WalletDropdown = () => {
                 gap: theme.spacing(2),
                 borderRadius: theme.radius.lg,
                 paddingY: theme.spacing(1),
-
-                "& img": {
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "100%",
-                },
               }}
             >
-              <img src={token.icon} />
+              <TokenIcon symbol={token.symbol} variant="branded" size={36} />
               <Box
                 sx={{
                   display: "flex",
@@ -192,7 +187,7 @@ export const WalletDropdown = () => {
                     color: theme.palette.neutral.mainChannel,
                   }}
                 >
-                  {token.name}
+                  {token.symbol}
                 </Typography>
                 <Typography
                   variant="plain"
@@ -201,7 +196,7 @@ export const WalletDropdown = () => {
                     color: theme.palette.neutral[400],
                   }}
                 >
-                  {token.title}
+                  {token.name}
                 </Typography>
               </Box>
               <Box

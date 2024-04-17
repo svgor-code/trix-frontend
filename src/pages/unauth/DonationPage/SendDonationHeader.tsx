@@ -28,7 +28,7 @@ export const SendDonationHeader = () => {
       <Box>
         <Typography
           sx={{
-            fontSize: theme.fontSize.xl2,
+            fontSize: theme.fontSize.md,
             fontWeight: theme.fontWeight.lg,
           }}
         >

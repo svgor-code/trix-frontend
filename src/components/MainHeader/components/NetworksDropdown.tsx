@@ -6,35 +6,18 @@ import {
   MenuItem,
   Typography,
 } from "@mui/joy";
-import React, { ReactElement } from "react";
+import React from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-import { AvalancheIcon} from "src/assets/icons/networks/AvalancheIcon";
-import { ArbitrumIcon } from "src/assets/icons/networks/ArbitrumIcon";
 import { NetworkName } from "src/utils/networks";
 import { useWalletContext } from "src/providers/WalletProvider";
-
-const networksMap: {
-  name: NetworkName;
-  title: string;
-  icon: ReactElement;
-}[] = [
-  {
-    name: "avalanche",
-    icon: <AvalancheIcon />,
-    title: "Avalanche",
-  },
-  {
-    name: "arbitrum",
-    icon: <ArbitrumIcon />,
-    title: "Arbitrum",
-  },
-];
+import { NetworkIcon } from "@token-icons/react";
+import { networks } from "src/globals/networks";
 
 export const NetworkDropdown = () => {
   const { switchNetwork, network: currentNetwork } = useWalletContext();
 
-  const activeNetwork = networksMap.find(
+  const activeNetwork = Object.values(networks).find(
     (network) => network.name === currentNetwork
   ) || {
     icon: "",
@@ -46,26 +29,34 @@ export const NetworkDropdown = () => {
     <Dropdown>
       <MenuButton
         sx={(theme) => ({
+          display: "flex",
+          alignItems: "center",
           borderRadius: theme.radius.lg,
           height: "48px",
         })}
         color={activeNetwork.name === "wrong" ? "danger" : "neutral"}
       >
-        {activeNetwork.icon && (
+        {activeNetwork.name !== "wrong" && (
           <Box
             sx={(theme) => ({
-              "& svg": {
-                width: theme.spacing(2.5),
-                height: theme.spacing(2.5),
-                marginRight: theme.spacing(1),
+              display: "flex",
+              alignItems: "center",
 
+              "& svg": {
+                marginRight: theme.spacing(1),
               },
             })}
           >
-            {activeNetwork.icon}
+            <NetworkIcon
+              network={activeNetwork.name}
+              variant="branded"
+              size={24}
+            />
           </Box>
         )}
-        <Typography variant="plain">{activeNetwork.title}</Typography>
+        <Typography variant="plain" textTransform="capitalize">
+          {activeNetwork.name}
+        </Typography>
         <Box
           sx={(theme) => ({
             marginLeft: theme.spacing(1),
@@ -86,27 +77,27 @@ export const NetworkDropdown = () => {
         }}
         defaultValue={currentNetwork}
       >
-        {networksMap.map((network) => (
+        {Object.values(networks).map((network) => (
           <MenuItem
             onClick={() => switchNetwork(network.name)}
             key={network.name}
             selected={currentNetwork === network.name}
             sx={(theme) => ({
+              display: "flex",
+              alignItems: "center",
               minHeight: "42px",
               borderRadius: theme.radius.lg,
             })}
           >
             <Box
-              sx={(theme) => ({
-                "& img": {
-                  width: theme.spacing(2.5),
-                  height: theme.spacing(2.5),
-                },
+              sx={() => ({
+                display: "flex",
+                alignItems: "center",
               })}
             >
-              {network.icon}
+              <NetworkIcon network={network.name} variant="branded" />
             </Box>
-            {network.title}
+            <Typography textTransform="capitalize">{network.name}</Typography>
           </MenuItem>
         ))}
       </Menu>
