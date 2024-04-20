@@ -4,10 +4,16 @@ import { Box, Button, Input, Typography, useTheme } from "@mui/joy";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { IToken, networks } from "src/globals/networks";
 import { getPrices } from "src/api/prices";
+import {
+  convertStringToEther,
+  convertWeiToEther,
+  exchangeCryptoToFiat,
+  exchangeFiatToCrypto,
+} from "src/utils/currency";
 
 type Props = {
-  amount: number;
-  setAmount: (amount: number) => void;
+  amount: bigint;
+  setAmount: (amount: bigint) => void;
 };
 
 export const AmountInput = ({ amount, setAmount }: Props) => {
@@ -26,11 +32,17 @@ export const AmountInput = ({ amount, setAmount }: Props) => {
     setSelectedToken(networks[network || Object.keys(networks)[0]].tokens[0]);
   }, [network]);
 
+  const onChangeAmount = (amount: bigint) => {
+    setAmount(amount);
+  };
+
   return (
     <Box>
       <Input
-        value={amount}
-        onChange={(e) => setAmount(parseFloat(e.target.value || "0"))}
+        value={convertWeiToEther(amount)}
+        onChange={(e) =>
+          onChangeAmount(convertStringToEther(e.target.value || "0"))
+        }
         sx={{
           height: "4rem",
           fontWeight: 500,
@@ -42,7 +54,9 @@ export const AmountInput = ({ amount, setAmount }: Props) => {
         placeholder="0.0"
         endDecorator={
           <Box display="flex" alignItems="center" gap={1}>
-            <Typography>${(priceInDollars * amount).toFixed(2)}</Typography>
+            <Typography>
+              ${exchangeCryptoToFiat(priceInDollars, amount)}
+            </Typography>
             <SelectToken
               selectedToken={selectedToken}
               onSelectToken={setSelectedToken}
@@ -61,7 +75,9 @@ export const AmountInput = ({ amount, setAmount }: Props) => {
           <Button
             key={suggAmount}
             variant="outlined"
-            onClick={() => setAmount(suggAmount / priceInDollars)}
+            onClick={() =>
+              onChangeAmount(exchangeFiatToCrypto(priceInDollars, suggAmount))
+            }
           >
             <Typography>${suggAmount}</Typography>
           </Button>

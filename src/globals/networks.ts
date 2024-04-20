@@ -53,4 +53,18 @@ export const networks: Record<string, INetwork> = {
       },
     ],
   },
+  ethereum: {
+    name: "ethereum",
+    chainId: 31337, // HardHat
+    rpc: "http://127.0.0.1:8545/",
+    tokens: [
+      {
+        symbol: "ETH",
+        native: true,
+        address: "",
+        name: "Ethereum",
+        icon: "",
+      },
+    ],
+  },
 };

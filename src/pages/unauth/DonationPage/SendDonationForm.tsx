@@ -9,6 +9,7 @@ import {
   useColorScheme,
   useTheme,
 } from "@mui/joy";
+import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,6 +17,8 @@ import { getUser } from "src/api/user";
 import { AmountInput } from "src/components/AmountInput";
 import { FormField } from "src/components/Form/FormField";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
+import { useContract } from "src/hooks/useContract";
+import { useWalletContext } from "src/providers/WalletProvider";
 import { ISendDonation } from "src/types/donation";
 import { IUser } from "src/types/user";
 
@@ -23,6 +26,8 @@ export const SendDonationForm = () => {
   const theme = useTheme();
   const { mode } = useColorScheme();
   const { walletAddress } = useParams<{ walletAddress: string }>();
+  const { sendDonation } = useContract();
+  const { signer } = useWalletContext();
 
   const [streamer, setStreamer] = useState<IUser | undefined>(undefined);
 
@@ -30,7 +35,7 @@ export const SendDonationForm = () => {
     username: "",
     message: "",
     network: "",
-    amount: 0,
+    amount: BigInt(0),
   });
 
   useEffect(() => {
@@ -53,11 +58,18 @@ export const SendDonationForm = () => {
     }
   }, [walletAddress]);
 
-  const onChange = (field: keyof ISendDonation, value: string | number) => {
+  const onChange = (field: keyof ISendDonation, value: string | bigint) => {
     setState((state) => ({ ...state, [field]: value }));
   };
 
-  const onSend = () => {};
+  const onSend = () => {
+    sendDonation(
+      walletAddress as ethers.AddressLike,
+      state.username,
+      state.message,
+      state.amount
+    );
+  };
 
   return (
     <Sheet

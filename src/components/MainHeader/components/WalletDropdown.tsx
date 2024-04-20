@@ -31,7 +31,6 @@ import { TokenIcon } from "@token-icons/react";
 export const WalletDropdown = () => {
   const theme = useTheme();
   const { signer, walletTokens, disconnect } = useWalletContext();
-
   const walletAddress = reduceWalletAddress(signer?.address);
 
   return (
@@ -73,6 +72,7 @@ export const WalletDropdown = () => {
 
             "& img": {
               borderRadius: "50%",
+              width: "48px",
             },
           })}
         >

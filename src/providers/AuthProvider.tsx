@@ -13,21 +13,17 @@ interface IAuthContext {
   isAuthenticated: boolean;
 }
 
-const defaultAuthState = {
-  isAuthenticated: false,
-};
-
 const AuthContext = React.createContext<IAuthContext | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const { signer, isConnected } = useWalletContext();
-  const [state, setState] = useState(defaultAuthState);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const auth = async () => {
     const existingToken = localStorage.getItem("access_token");
 
-    if (existingToken && isTokenValid(existingToken)) {
-      return setState((prev) => ({ ...prev, isAuthenticated: true }));
+    if (existingToken && isTokenValid(existingToken, signer)) {
+      return setIsAuthenticated(true);
     }
 
     if (!signer) return;
@@ -40,7 +36,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     localStorage.setItem("access_token", loginRes.access_token);
 
-    setState((prev) => ({ ...prev, isAuthenticated: true }));
+    setIsAuthenticated(true);
   };
 
   useEffect(() => {
@@ -52,7 +48,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   return (
     <AuthContext.Provider
       value={{
-        ...state,
+        isAuthenticated,
       }}
     >
       <UserProvider>{children}</UserProvider>

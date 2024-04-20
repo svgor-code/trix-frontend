@@ -8,6 +8,7 @@
     "start": "vite dev --port 3000",
     "build": "tsc && vite build",
     "serve": "vite preview",
+    "typechain": "typechain --target=ethers-v6 --out-dir=src/types/contract **/*.abi.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,8 +27,8 @@
     "@fontsource/inter": "^5.0.15",
     "@heroicons/react": "^2.0.18",
     "@mui/joy": "^5.0.0-beta.14",
-    "@token-icons/core": "^2.3.1",
-    "@token-icons/react": "^2.3.1",
+    "@token-icons/core": "file:~/github/token-icons/packages/core",
+    "@token-icons/react": "file:~/github/token-icons/packages/react",
     "axios": "^1.6.5",
     "downloadjs": "^1.4.7",
     "esbuild": "^0.19.5",
@@ -44,6 +45,7 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
+    "@typechain/ethers-v6": "^0.5.1",
     "@types/downloadjs": "^1.4.6",
     "@types/react": "^18.2.37",
     "@types/react-color": "^3.0.10",
@@ -53,6 +55,7 @@
     "esbuild-plugin-css-modules": "^0.3.0",
     "esbuild-plugin-svgr": "^2.1.0",
     "esbuild-svg": "^1.0.3",
+    "typechain": "^8.3.2",
     "vite": "^5.2.8"
   }
 }
