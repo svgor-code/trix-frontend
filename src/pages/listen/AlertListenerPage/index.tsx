@@ -1,29 +1,74 @@
 import { Box, Sheet, Typography, useTheme } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getUserAlertSettings } from "src/api/user";
+import { io } from "socket.io-client";
+import { getUserById } from "src/api/user";
+import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
+import { networks } from "src/globals/networks";
 import { IAlertSettings } from "src/types/user";
+import { convertStringToWei, convertWeiToEther } from "src/utils/currency";
+
+type Alert = {
+  amount: string;
+  message: string;
+  network: string;
+  to: string;
+  username: string;
+};
 
 export const AlertListenerPage = () => {
   const theme = useTheme();
   const { userId } = useParams<{ userId: string }>();
+  const [walletAddress, setWalletAddress] = useState<string | null>();
   const [settings, setSettings] = useState<IAlertSettings>({
-    image: "https://media.tenor.com/cr1crWcl8KkAAAAi/reaction-funny.gif",
+    image: DEFAULT_ALERT_IMAGE,
     color_amount: "#fff",
     color_user: "#fff",
     color_text: "#fff",
     duration: 10,
   });
+  const [alert, setAlert] = useState<Alert | null>(null);
 
   useEffect(() => {
     if (!userId) return;
 
-    getUserAlertSettings(userId).then(({ data }) => {
-      setSettings(data);
+    getUserById(userId).then((user) => {
+      setWalletAddress(user.walletAddress);
+      setSettings((state) => ({
+        ...state,
+        ...user.alert,
+        image: user.alert.image || DEFAULT_ALERT_IMAGE,
+      }));
     });
   }, [userId]);
 
+  useEffect(() => {
+    if (!walletAddress) return;
+
+    const socket = io("ws://localhost:8080", {
+      query: {
+        walletAddress,
+      },
+    });
+
+    socket.on("donat", (newAlert: Alert) => {
+      setAlert(newAlert);
+    });
+  }, [walletAddress]);
+
+  useEffect(() => {
+    if (!alert) return;
+
+    setTimeout(() => {
+      setAlert(null);
+    }, settings.duration * 1000);
+  }, [alert]);
+
   const { image, color_amount, color_text, color_user } = settings;
+
+  if (!alert) {
+    return <></>;
+  }
 
   return (
     <Sheet
@@ -47,7 +92,8 @@ export const AlertListenerPage = () => {
               textAlign: "center",
             }}
           >
-            300 ETH
+            {convertWeiToEther(convertStringToWei(alert.amount))}{" "}
+            {networks[alert.network].tokens[0].symbol}
           </Typography>
 
           <Typography
@@ -58,7 +104,7 @@ export const AlertListenerPage = () => {
               textAlign: "center",
             }}
           >
-            - @username
+            - @{alert.username}
           </Typography>
         </Box>
 
@@ -70,8 +116,7 @@ export const AlertListenerPage = () => {
               color: color_text,
             }}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere iste
-            consequatur eveniet cupiditate blanditiis.
+            {alert.message}
           </Typography>
         </Box>
       </Box>

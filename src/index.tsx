@@ -71,7 +71,7 @@ const theme = extendTheme({
 });
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <CssVarsProvider theme={theme}>
       <GlobalStyles
         styles={{
@@ -88,5 +88,5 @@ root.render(
         <RouterProvider router={router} />
       </WalletProvider>
     </CssVarsProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

@@ -10,6 +10,10 @@ export const exchangeCryptoToFiat = (exchangeRate: number, amount: bigint) => {
   );
 };
 
+export const convertStringToWei = (amount: string) => {
+  return ethers.parseUnits(amount, 'wei');
+};
+
 export const convertStringToEther = (amount: string) => {
   return ethers.parseEther(amount);
 };

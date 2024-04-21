@@ -6,6 +6,11 @@ export const getUser = async (walletAddress: string) => {
   return res.data;
 };
 
+export const getUserById = async (userId: string) => {
+  const res = await instance.get<IUser>(`users/id/${userId}`);
+  return res.data;
+};
+
 export const updateUserSettings = async (
   walletAddress: string,
   userSettings: IUserSettings

@@ -5,6 +5,7 @@ export interface IUserSettings {
 
 export interface IUser {
   _id: string;
+  walletAddress: string;
   avatar: string;
   username: string;
   alert: IAlertSettings;
