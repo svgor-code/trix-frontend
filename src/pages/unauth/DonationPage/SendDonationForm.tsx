@@ -17,6 +17,7 @@ import { getUser } from "src/api/user";
 import { AmountInput } from "src/components/AmountInput";
 import { FormField } from "src/components/Form/FormField";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
+import { IToken, networks } from "src/globals/networks";
 import { useContract } from "src/hooks/useContract";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { ISendDonation } from "src/types/donation";
@@ -26,9 +27,12 @@ export const SendDonationForm = () => {
   const theme = useTheme();
   const { mode } = useColorScheme();
   const { walletAddress } = useParams<{ walletAddress: string }>();
-  const { sendDonation } = useContract();
-  const { signer } = useWalletContext();
+  const { sendDonation, sendDonationErc20 } = useContract();
+  const { network } = useWalletContext();
 
+  const [selectedToken, setSelectedToken] = useState<IToken>(
+    networks[network || Object.keys(networks)[0]].tokens[0]
+  );
   const [streamer, setStreamer] = useState<IUser | undefined>(undefined);
 
   const [state, setState] = useState<ISendDonation>({
@@ -62,13 +66,23 @@ export const SendDonationForm = () => {
     setState((state) => ({ ...state, [field]: value }));
   };
 
-  const onSend = () => {
-    sendDonation(
-      walletAddress as ethers.AddressLike,
-      state.username,
-      state.message,
-      state.amount
-    );
+  const onSend = async () => {
+    if (selectedToken.native) {
+      await sendDonation(
+        walletAddress as ethers.AddressLike,
+        state.username,
+        state.message,
+        state.amount
+      );
+    } else {
+      await sendDonationErc20(
+        walletAddress as ethers.AddressLike,
+        state.username,
+        state.message,
+        state.amount,
+        selectedToken.address
+      );
+    }
   };
 
   return (
@@ -157,6 +171,8 @@ export const SendDonationForm = () => {
               <AmountInput
                 amount={state.amount}
                 setAmount={(amount) => onChange("amount", amount)}
+                selectedToken={selectedToken}
+                setSelectedToken={setSelectedToken}
               />
             </FormField>
 

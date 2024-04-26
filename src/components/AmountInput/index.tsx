@@ -14,14 +14,18 @@ import {
 type Props = {
   amount: bigint;
   setAmount: (amount: bigint) => void;
+  selectedToken: IToken;
+  setSelectedToken: (token: IToken) => void;
 };
 
-export const AmountInput = ({ amount, setAmount }: Props) => {
+export const AmountInput = ({
+  amount,
+  setAmount,
+  selectedToken,
+  setSelectedToken,
+}: Props) => {
   const theme = useTheme();
   const { network } = useWalletContext();
-  const [selectedToken, setSelectedToken] = useState<IToken>(
-    networks[network || Object.keys(networks)[0]].tokens[0]
-  );
   const [priceInDollars, setPriceInDollars] = useState<number>(0);
 
   useEffect(() => {
