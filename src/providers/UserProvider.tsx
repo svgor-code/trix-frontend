@@ -31,8 +31,19 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   }, [walletAddress]);
 
   const fetchUser = async () => {
-    if (walletAddress) {
-      getUser(walletAddress).then((res) => setUser(res));
+    if (!walletAddress) {
+      return;
+    }
+
+    try {
+      const userRes = await getUser(walletAddress);
+      setUser(userRes);
+    } catch (error) {
+      toast(`Fetch user error: ${error}`, {
+        type: "error",
+        theme: mode,
+        position: "bottom-center",
+      });
     }
   };
 

@@ -5,6 +5,7 @@ import {
   MenuButton,
   MenuItem,
   Sheet,
+  useColorScheme,
   useTheme,
 } from "@mui/joy";
 import React, { useEffect, useState } from "react";
@@ -33,6 +34,7 @@ const PeriodStringMap: Record<Period, string> = {
 
 export const DashboardPage = () => {
   const theme = useTheme();
+  const { mode } = useColorScheme();
   const { signer } = useWalletContext();
   const [donats, setDonats] = useState<IDonatItem[]>([]);
   const [period, setPeriod] = useState<Period>(Period.LAST_24_HOURS);
@@ -52,6 +54,8 @@ export const DashboardPage = () => {
     } catch (error) {
       toast(`Fetch list error: ${error}`, {
         type: "error",
+        theme: mode,
+        position: "bottom-center",
       });
     } finally {
       setListLoading(false);
