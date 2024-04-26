@@ -1,12 +1,17 @@
 import { Box, Container, Grid, Sheet, Typography, useTheme } from "@mui/joy";
-import React from "react";
+import React, { ReactElement } from "react";
 
 type Props = {
   title: string;
   description: string;
+  rightElement?: ReactElement;
 };
 
-export const SettingsPageHeader = ({ title, description }: Props) => {
+export const SettingsPageHeader = ({
+  title,
+  description,
+  rightElement,
+}: Props) => {
   const theme = useTheme();
 
   return (
@@ -17,7 +22,12 @@ export const SettingsPageHeader = ({ title, description }: Props) => {
       }}
     >
       <Grid sx={{ height: "100%", marginX: theme.spacing(8) }}>
-        <Box display="flex" alignItems="center" height="100%">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          height="100%"
+        >
           <Box>
             <Typography
               sx={{
@@ -36,6 +46,7 @@ export const SettingsPageHeader = ({ title, description }: Props) => {
               {description}
             </Typography>
           </Box>
+          <Box>{rightElement}</Box>
         </Box>
       </Grid>
     </Sheet>

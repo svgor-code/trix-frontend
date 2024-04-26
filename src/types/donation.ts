@@ -16,6 +16,8 @@ export interface IDonatEventRecord {
   timestamp: number;
   updatedAt: string;
   username: string;
+  network: string;
+  token: string;
 }
 
 export interface IDonatItem {
@@ -24,8 +26,10 @@ export interface IDonatItem {
   from: string;
   message: string;
   to: string;
-  timestamp: string;
+  timestamp: number;
   transactionHash: string;
   updatedAt: string;
   username: string;
+  network: string;
+  token: string;
 }

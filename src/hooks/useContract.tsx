@@ -1,5 +1,7 @@
+import { useColorScheme } from "@mui/joy";
 import { Contract, ethers, formatUnits, parseEther, parseUnits } from "ethers";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import TrixABI from "src/abi/Trix.abi.json";
 import ERC20ABI from "src/abi/erc20.abi.json";
 import { useWalletContext } from "src/providers/WalletProvider";
@@ -10,6 +12,7 @@ const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
 export const useContract = () => {
   const { provider, signer } = useWalletContext();
   const [contract, setContract] = useState<TrixAbi | null>(null);
+  const { mode } = useColorScheme();
 
   useEffect(() => {
     const contractInstance = new ethers.Contract(
@@ -31,15 +34,29 @@ export const useContract = () => {
       return;
     }
 
-    const wei = formatUnits(amount, "wei");
+    try {
+      const wei = formatUnits(amount, "wei");
 
-    const sendTx = await contract.sendDonation(to, username, message, {
-      value: wei,
-    });
+      const sendTx = await contract
+        .connect(signer)
+        .sendDonation(to, username, message, {
+          value: wei,
+        });
 
-    await sendTx.wait();
+      await sendTx.wait();
 
-    console.log(sendTx.data);
+      toast(`Your donation was sent to streamer`, {
+        type: "success",
+        theme: mode,
+        position: "bottom-center",
+      });
+    } catch (error) {
+      toast(`Transaction reverted. Reason: ${error}`, {
+        type: "error",
+        theme: mode,
+        position: "bottom-center",
+      });
+    }
   };
 
   const sendDonationErc20 = async (
@@ -53,25 +70,30 @@ export const useContract = () => {
       return;
     }
 
-    const wei = formatUnits(amount, "wei");
+    try {
+      const wei = formatUnits(amount, "wei");
+      await approveErc20(token, wei);
 
-    const approveResult = await approveErc20(token, wei);
+      const sendTx = await contract
+        .connect(signer)
+        .sendTokenDonation(to, username, message, token, {
+          value: wei,
+        });
 
-    console.log(approveResult);
+      await sendTx.wait();
 
-    const sendTx = await contract.sendTokenDonation(
-      to,
-      username,
-      message,
-      token,
-      {
-        value: wei,
-      }
-    );
-
-    await sendTx.wait();
-
-    console.log(sendTx.data);
+      toast(`Your donation was sent to streamer`, {
+        type: "success",
+        theme: mode,
+        position: "bottom-center",
+      });
+    } catch (error) {
+      toast(`Transaction reverted. Reason: ${error}`, {
+        type: "error",
+        theme: mode,
+        position: "bottom-center",
+      });
+    }
   };
 
   const approveErc20 = async (token: string, amount: string) => {
@@ -83,7 +105,7 @@ export const useContract = () => {
       signer
     )) as unknown as Erc20Abi;
     const approveTx = await tokenContract.approve(contractAddress, amount);
-    return await approveTx.wait();
+    await approveTx.wait();
   };
 
   return {

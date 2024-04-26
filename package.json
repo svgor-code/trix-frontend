@@ -43,6 +43,7 @@
     "react-qr-code": "^2.0.12",
     "react-router-dom": "^6.18.0",
     "react-toastify": "^10.0.5",
+    "recharts": "^2.12.6",
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
