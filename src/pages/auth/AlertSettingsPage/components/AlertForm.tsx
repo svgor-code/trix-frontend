@@ -1,4 +1,13 @@
-import { Box, Button, Grid, Input, useTheme } from "@mui/joy";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Grid,
+  Input,
+  Sheet,
+  Slider,
+  useTheme,
+} from "@mui/joy";
 import React from "react";
 import { ColorPicker } from "src/components/ColorPicker";
 import { FormField } from "src/components/Form/FormField";
@@ -25,7 +34,10 @@ export const AlertForm = ({
 }: Props) => {
   const theme = useTheme();
 
-  const onChange = (field: KAlertForm, value: string) => {
+  const onChange = (
+    field: KAlertForm,
+    value: string | boolean | number | number[]
+  ) => {
     setState((prev) => ({
       ...prev,
       [field]: value,
@@ -69,28 +81,132 @@ export const AlertForm = ({
           </Box>
         </FormField>
 
-        <FormField label="Username color">
-          <ColorPicker
-            color={state.color_user}
-            setColor={(color) => onChange("color_user", color)}
-          />
-        </FormField>
+        <Sheet
+          sx={{
+            display: "flex",
+            background: "transparent",
+            justifyContent: "space-between",
+          }}
+        >
+          <Sheet
+            sx={{
+              width: "50%",
+              padding: theme.spacing(2),
+              background: "transparent",
+              borderRadius: theme.radius.lg,
+              border: "1px solid",
+              borderColor: theme.palette.neutral.outlinedBorder,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            <FormField
+              label="Show image"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <Checkbox
+                checked={state.showImage}
+                onChange={(e) => onChange("showImage", e.target.checked)}
+                sx={{ marginLeft: "auto" }}
+              />
+            </FormField>
+            <FormField
+              label="Show username"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <Checkbox
+                checked={state.showUsername}
+                onChange={(e) => onChange("showUsername", e.target.checked)}
+                sx={{ marginLeft: "auto" }}
+              />
+            </FormField>
+            <FormField
+              label="Show amount"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <Checkbox
+                checked={state.showAmount}
+                onChange={(e) => onChange("showAmount", e.target.checked)}
+                sx={{ marginLeft: "auto" }}
+              />
+            </FormField>
+            <FormField
+              label="Show message"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <Checkbox
+                checked={state.showMessage}
+                onChange={(e) => onChange("showMessage", e.target.checked)}
+                sx={{ marginLeft: "auto" }}
+              />
+            </FormField>
 
-        <FormField label="Amount color">
-          <ColorPicker
-            color={state.color_amount}
-            setColor={(color) => onChange("color_amount", color)}
-          />
-        </FormField>
+            <Box my={1}></Box>
 
-        <FormField label="Text color">
-          <ColorPicker
-            color={state.color_text}
-            setColor={(color) => onChange("color_text", color)}
-          />
-        </FormField>
+            <FormField label="Duration (in seconds)" flexDirection="column">
+              <Slider
+                value={state.duration}
+                onChange={(_, value) => onChange("duration", value)}
+                max={10}
+                valueLabelDisplay="on"
+              />
+            </FormField>
+          </Sheet>
+          <Sheet
+            sx={{
+              width: "45%",
+              padding: theme.spacing(2),
+              background: "transparent",
+              borderRadius: theme.radius.lg,
+              border: "1px solid",
+              borderColor: theme.palette.neutral.outlinedBorder,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            <FormField
+              label="Username color"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <ColorPicker
+                color={state.color_user}
+                setColor={(color) => onChange("color_user", color)}
+                style={{ marginLeft: "auto" }}
+              />
+            </FormField>
 
-        {/* Switcher for donation text */}
+            <FormField
+              label="Amount color"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <ColorPicker
+                color={state.color_amount}
+                setColor={(color) => onChange("color_amount", color)}
+                style={{ marginLeft: "auto" }}
+              />
+            </FormField>
+
+            <FormField
+              label="Text color"
+              flexDirection="row"
+              alignItems="center"
+            >
+              <ColorPicker
+                color={state.color_text}
+                setColor={(color) => onChange("color_text", color)}
+                style={{ marginLeft: "auto" }}
+              />
+            </FormField>
+          </Sheet>
+        </Sheet>
 
         <Box display="flex" flexDirection="row-reverse">
           <Button

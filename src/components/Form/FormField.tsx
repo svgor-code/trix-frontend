@@ -3,13 +3,25 @@ import React, { PropsWithChildren } from "react";
 
 type Props = {
   label: string;
+  flexDirection?: "row" | "column";
+  alignItems?: "center";
 };
 
-export const FormField = ({ children, label }: PropsWithChildren<Props>) => {
+export const FormField = ({
+  children,
+  label,
+  flexDirection = "column",
+  alignItems,
+}: PropsWithChildren<Props>) => {
   const theme = useTheme();
 
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box
+      display="flex"
+      flexDirection={flexDirection}
+      gap={2}
+      alignItems={alignItems}
+    >
       <Typography
         sx={{
           fontSize: theme.fontSize.lg,

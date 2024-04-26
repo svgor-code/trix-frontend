@@ -20,6 +20,11 @@ export const AlertPreview = ({
   color_text,
   color_amount,
   color_user,
+  duration,
+  showImage,
+  showAmount,
+  showMessage,
+  showUsername,
 }: IAlertSettings) => {
   const theme = useTheme();
   const { user } = useUserContext();
@@ -48,7 +53,11 @@ export const AlertPreview = ({
               value={alertPageURL}
               endDecorator={
                 <Button
-                  sx={{ cursor: "pointer", borderRadius: theme.radius.lg, mr: "1px" }}
+                  sx={{
+                    cursor: "pointer",
+                    borderRadius: theme.radius.lg,
+                    mr: "1px",
+                  }}
                   onClick={onCopyAlertPageUrl}
                 >
                   Copy
@@ -75,45 +84,53 @@ export const AlertPreview = ({
           gap: 1,
         }}
       >
-        <img
-          style={{ width: "100px", height: "100px" }}
-          src={image || DEFAULT_ALERT_IMAGE}
-        />
+        {showImage && (
+          <img
+            style={{ width: "100px", height: "100px" }}
+            src={image || DEFAULT_ALERT_IMAGE}
+          />
+        )}
 
         <Box display="flex" gap={1} alignItems="center">
-          <Typography
-            sx={{
-              fontSize: theme.fontSize.xl2,
-              fontWeight: theme.fontWeight.xl,
-              color: color_amount,
-            }}
-          >
-            300 ETH
-          </Typography>
+          {showAmount && (
+            <Typography
+              sx={{
+                fontSize: theme.fontSize.xl2,
+                fontWeight: theme.fontWeight.xl,
+                color: color_amount,
+              }}
+            >
+              1.3 ETH
+            </Typography>
+          )}
 
-          <Typography
-            sx={{
-              fontSize: theme.fontSize.xl2,
-              fontWeight: theme.fontWeight.xl,
-              color: color_user,
-            }}
-          >
-            - @username
-          </Typography>
+          {showUsername && (
+            <Typography
+              sx={{
+                fontSize: theme.fontSize.xl2,
+                fontWeight: theme.fontWeight.xl,
+                color: color_user,
+              }}
+            >
+              {showAmount && "-"} @username
+            </Typography>
+          )}
         </Box>
 
-        <Box sx={{ width: "300px" }}>
-          <Typography
-            sx={{
-              textAlign: "center",
-              fontWeight: theme.fontWeight.md,
-              color: color_text,
-            }}
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere iste
-            consequatur eveniet cupiditate blanditiis.
-          </Typography>
-        </Box>
+        {showMessage && (
+          <Box sx={{ width: "300px" }}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontWeight: theme.fontWeight.md,
+                color: color_text,
+              }}
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
+              iste consequatur eveniet cupiditate blanditiis.
+            </Typography>
+          </Box>
+        )}
       </Sheet>
     </>
   );

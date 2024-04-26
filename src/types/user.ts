@@ -18,6 +18,10 @@ export interface IAlertSettings {
   color_amount: string;
   color_text: string;
   duration: number;
+  showImage: boolean;
+  showUsername: boolean;
+  showAmount: boolean;
+  showMessage: boolean;
 }
 
 export interface IDonationPageSettings {

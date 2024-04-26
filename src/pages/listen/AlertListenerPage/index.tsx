@@ -26,6 +26,10 @@ export const AlertListenerPage = () => {
     color_user: "#fff",
     color_text: "#fff",
     duration: 10,
+    showAmount: false,
+    showImage: false,
+    showMessage: false,
+    showUsername: false,
   });
   const [alert, setAlert] = useState<Alert | null>(null);
 
@@ -82,43 +86,51 @@ export const AlertListenerPage = () => {
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <img style={{ width: "300px", height: "300px" }} src={image} />
+        {settings.showImage && (
+          <img style={{ width: "300px", height: "300px" }} src={image} />
+        )}
         <Box display="flex" gap={1} alignItems="center" justifyContent="center">
-          <Typography
-            sx={{
-              fontSize: theme.fontSize.xl2,
-              fontWeight: theme.fontWeight.xl,
-              color: color_amount,
-              textAlign: "center",
-            }}
-          >
-            {convertWeiToEther(convertStringToWei(alert.amount))}{" "}
-            {networks[alert.network].tokens[0].symbol}
-          </Typography>
+          {settings.showAmount && (
+            <Typography
+              sx={{
+                fontSize: theme.fontSize.xl2,
+                fontWeight: theme.fontWeight.xl,
+                color: color_amount,
+                textAlign: "center",
+              }}
+            >
+              {convertWeiToEther(convertStringToWei(alert.amount))}{" "}
+              {networks[alert.network].tokens[0].symbol}
+            </Typography>
+          )}
 
-          <Typography
-            sx={{
-              fontSize: theme.fontSize.xl2,
-              fontWeight: theme.fontWeight.xl,
-              color: color_user,
-              textAlign: "center",
-            }}
-          >
-            - @{alert.username}
-          </Typography>
+          {settings.showUsername && (
+            <Typography
+              sx={{
+                fontSize: theme.fontSize.xl2,
+                fontWeight: theme.fontWeight.xl,
+                color: color_user,
+                textAlign: "center",
+              }}
+            >
+              {settings.showAmount && "-"} @{alert.username}
+            </Typography>
+          )}
         </Box>
 
-        <Box sx={{ width: "300px" }}>
-          <Typography
-            sx={{
-              textAlign: "center",
-              fontWeight: theme.fontWeight.md,
-              color: color_text,
-            }}
-          >
-            {alert.message}
-          </Typography>
-        </Box>
+        {settings.showMessage && (
+          <Box sx={{ width: "300px" }}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontWeight: theme.fontWeight.md,
+                color: color_text,
+              }}
+            >
+              {alert.message}
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Sheet>
   );

@@ -18,7 +18,11 @@ const AlertSettingsPage = () => {
     color_user: user?.alert.color_user || theme.palette.common.white,
     color_text: user?.alert.color_text || theme.palette.common.white,
     color_amount: user?.alert.color_amount || theme.palette.common.white,
-    duration: 10,
+    duration: user?.alert.duration || 10,
+    showImage: user?.alert.showImage || true,
+    showUsername: user?.alert.showUsername || true,
+    showAmount: user?.alert.showAmount || true,
+    showMessage: user?.alert.showMessage || true,
   });
 
   useEffect(() => {
@@ -28,7 +32,11 @@ const AlertSettingsPage = () => {
         color_user: user.alert.color_user,
         color_text: user.alert.color_text,
         color_amount: user.alert.color_amount,
-        duration: 10,
+        duration: user.alert.duration || 10,
+        showImage: user.alert.showImage,
+        showUsername: user.alert.showUsername,
+        showAmount: user.alert.showAmount,
+        showMessage: user.alert.showMessage,
       });
     }
   }, [user]);
@@ -44,7 +52,7 @@ const AlertSettingsPage = () => {
           paddingY: theme.spacing(4),
         }}
       >
-        <Grid lg={5} md={12} xs={12}>
+        <Grid lg={6} md={12} xs={12}>
           <AlertForm
             user={user}
             state={state}
@@ -52,13 +60,17 @@ const AlertSettingsPage = () => {
             saveAlertSettings={saveAlertSettings}
           />
         </Grid>
-        <Grid lg={7} md={12} xs={12}>
+        <Grid lg={6} md={12} xs={12}>
           <AlertPreview
             image={state.image}
             color_user={state.color_user}
             color_text={state.color_text}
             color_amount={state.color_amount}
-            duration={0}
+            duration={state.duration}
+            showImage={state.showImage}
+            showUsername={state.showUsername}
+            showMessage={state.showMessage}
+            showAmount={state.showAmount}
           />
         </Grid>
       </Grid>
