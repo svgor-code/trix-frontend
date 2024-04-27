@@ -37,16 +37,11 @@ export const router = createBrowserRouter([
   {
     id: 'listeners',
     path: "/l",
-    children: [
-      {
-        path: ':userId',
-        Component: AlertListenerPage,
-      }
-    ]
+    Component: AlertListenerPage
   },
   {
     id: "send-donation",
-    path: "/d/:walletAddress",
+    path: "/d",
     Component: DonationPage,
   },
   {

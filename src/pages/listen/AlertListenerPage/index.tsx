@@ -1,6 +1,6 @@
 import { Box, Sheet, Typography, useTheme } from "@mui/joy";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getUserById } from "src/api/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
@@ -18,7 +18,8 @@ type Alert = {
 
 export const AlertListenerPage = () => {
   const theme = useTheme();
-  const { userId } = useParams<{ userId: string }>();
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get('user_id');
   const [walletAddress, setWalletAddress] = useState<string | null>();
   const [settings, setSettings] = useState<IAlertSettings>({
     image: DEFAULT_ALERT_IMAGE,

@@ -11,7 +11,7 @@ import {
 } from "@mui/joy";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getUser } from "src/api/user";
 import { AmountInput } from "src/components/AmountInput";
@@ -26,7 +26,8 @@ import { IUser } from "src/types/user";
 export const SendDonationForm = () => {
   const theme = useTheme();
   const { mode } = useColorScheme();
-  const { walletAddress } = useParams<{ walletAddress: string }>();
+  const [searchParams] = useSearchParams();
+  const walletAddress = searchParams.get('wallet');
   const { sendDonation, sendDonationErc20 } = useContract();
   const { network } = useWalletContext();
 

@@ -40,7 +40,7 @@ export const AlertPreview = ({
     });
   };
 
-  const alertPageURL = `${window.location.origin}/l/${user?._id}`;
+  const alertPageURL = `${window.location.origin}/l/?user_id=${user?._id}`;
 
   return (
     <>

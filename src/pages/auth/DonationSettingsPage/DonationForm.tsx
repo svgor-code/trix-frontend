@@ -46,7 +46,7 @@ export const DonationForm = () => {
     }
   }, [user]);
 
-  const donationPageUrl = `${window.location.origin}/d/${signer?.address}`;
+  const donationPageUrl = `${window.location.origin}/d?wallet=${signer?.address}`;
 
   const onChange = (field: KDonationForm, value: string) => {
     setState((prev) => ({
