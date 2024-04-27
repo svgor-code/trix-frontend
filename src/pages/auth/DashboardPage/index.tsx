@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { DonatsDiagram } from "./DonatsDiagram";
 import { getCoinPrice, getPrices } from "src/api/prices";
 import { networks } from "src/globals/networks";
+import { useAuthContext } from "src/providers/AuthProvider";
 
 export enum Period {
   LAST_HOUR,
@@ -56,6 +57,7 @@ export const DashboardPage = () => {
   const theme = useTheme();
   const { mode } = useColorScheme();
   const { signer } = useWalletContext();
+  const { isAuthenticated } = useAuthContext();
   const [donats, setDonats] = useState<IDonatItem[]>([]);
   const [period, setPeriod] = useState<Period>(Period.LAST_24_HOURS);
   const [listLoading, setListLoading] = useState(false);
@@ -98,7 +100,7 @@ export const DashboardPage = () => {
   };
 
   useEffect(() => {
-    if (!signer?.address) {
+    if (!signer?.address || !isAuthenticated) {
       return;
     }
 

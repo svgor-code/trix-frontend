@@ -22,6 +22,7 @@ const UserContext = React.createContext<IUserContext | null>(null);
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const { signer } = useWalletContext();
   const { mode } = useColorScheme();
+  const { isAuthenticated } = useAuthContext();
   const walletAddress = signer?.address;
 
   const [user, setUser] = useState<IUser>();
@@ -39,6 +40,10 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       const userRes = await getUser(walletAddress);
       setUser(userRes);
     } catch (error) {
+      if (!isAuthenticated) {
+        return;
+      }
+
       toast(`Fetch user error: ${error}`, {
         type: "error",
         theme: mode,
