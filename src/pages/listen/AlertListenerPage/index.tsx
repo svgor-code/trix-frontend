@@ -2,6 +2,7 @@ import { Box, Sheet, Typography, useTheme } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
+import { config } from "src/api/config";
 import { getUserById } from "src/api/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
 import { networks } from "src/globals/networks";
@@ -50,7 +51,7 @@ export const AlertListenerPage = () => {
   useEffect(() => {
     if (!walletAddress) return;
 
-    const socket = io("ws://localhost:8080", {
+    const socket = io(config.WS_API, {
       query: {
         walletAddress,
       },
