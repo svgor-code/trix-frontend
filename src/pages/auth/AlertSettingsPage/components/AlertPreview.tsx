@@ -70,7 +70,7 @@ export const AlertPreview = ({
       <Sheet
         sx={{
           mt: theme.spacing(2),
-          background: `url(src/assets/preview.jpeg)`,
+          background: `url(https://i.pcmag.com/imagery/articles/049zi8OCKMGMf1zQYUoDBII-4.fit_lim.size_1600x900.v1679505245.jpg)`,
           borderRadius: theme.radius.lg,
           border: "1px solid",
           borderColor: theme.palette.neutral.outlinedBorder,
