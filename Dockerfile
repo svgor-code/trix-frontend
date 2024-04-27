@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . /app
 
 RUN npm install
+RUN npm run typechain
 RUN npm run build
 
 FROM nginx

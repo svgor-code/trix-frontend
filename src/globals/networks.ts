@@ -46,7 +46,7 @@ export const networks: Record<string, INetwork> = {
     name: "avalanche",
     chainId: 43113, // Avalanche C-Chain Fuji
     rpc: "https://api.avax-test.network/ext/bc/C/rpc",
-    contract: "0x8D22F2c4B719A8C61625aFc40FDb2a3F5df67308",
+    contract: "0x729e88fF51CeC74853c13230084E6FCEa8efEeD2",
     tokens: [
       {
         symbol: "AVAX",

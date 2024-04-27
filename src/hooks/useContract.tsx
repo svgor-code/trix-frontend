@@ -12,8 +12,8 @@ export const useContract = () => {
   const { provider, signer, network } = useWalletContext();
   const [contract, setContract] = useState<TrixAbi | null>(null);
   const { mode } = useColorScheme();
-  const contractAddress = networks[network].contract;
 
+  const contractAddress = (networks[network] || networks.arbitrum).contract;
   useEffect(() => {
     const contractInstance = new ethers.Contract(
       contractAddress,
@@ -36,11 +36,12 @@ export const useContract = () => {
 
     try {
       const wei = formatUnits(amount, "wei");
-
+      console.log(contract);
       const sendTx = await contract
         .connect(signer)
         .sendDonation(to, username, message, {
           value: wei,
+          gasLimit: 5000000
         });
 
       await sendTx.wait();
@@ -78,6 +79,7 @@ export const useContract = () => {
         .connect(signer)
         .sendTokenDonation(to, username, message, token, {
           value: wei,
+          gasLimit: 500000000,
         });
 
       await sendTx.wait();
