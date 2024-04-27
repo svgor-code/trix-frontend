@@ -16,7 +16,7 @@ export interface IToken {
 
 export const networks: Record<string, INetwork> = {
   arbitrum: {
-    name: "Arbitrum Sepolia",
+    name: "arbitrum",
     chainId: 421614, // Arbitrum Sepolia
     rpc: "https://arbitrum-sepolia.blockpi.network/v1/rpc/public ",
     contract: "0xe8743ad77669904446bFb49c577Ce89a970CB7D2",
@@ -43,7 +43,7 @@ export const networks: Record<string, INetwork> = {
     ],
   },
   avalanche: {
-    name: "Avalanche C-Chain Fuji",
+    name: "avalanche",
     chainId: 43113, // Avalanche C-Chain Fuji
     rpc: "https://api.avax-test.network/ext/bc/C/rpc",
     contract: "0x8D22F2c4B719A8C61625aFc40FDb2a3F5df67308",
