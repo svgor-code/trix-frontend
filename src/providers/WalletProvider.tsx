@@ -178,7 +178,6 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
         )
       );
 
-      console.log(tokensWithBalance, "fetch tokens");
       setState((state) => ({ ...state, walletTokens: tokensWithBalance }));
     } catch (error) {
       console.log(error);
