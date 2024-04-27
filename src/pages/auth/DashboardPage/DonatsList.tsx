@@ -1,4 +1,4 @@
-import { Box, Skeleton, Table } from "@mui/joy";
+import { Box, Skeleton, Table, Typography, useTheme } from "@mui/joy";
 import { TokenIcon } from "@token-icons/react";
 import { ethers } from "ethers";
 import React from "react";
@@ -11,6 +11,8 @@ type Props = {
 };
 
 export const DonatsList = ({ donats, listLoading }: Props) => {
+  const theme = useTheme();
+
   const getSymbol = (network: string, token: string) => {
     if (token === ethers.ZeroAddress) {
       return networks[network].tokens[0].symbol;
@@ -30,32 +32,81 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
     <Table borderAxis="both">
       <thead>
         <tr>
-          <th>From</th>
-          <th>Message</th>
+          <th>From / Message</th>
           <th>Amount</th>
           <th>Network</th>
-          <th>Time</th>
-          <th>Date</th>
+          <th>Date / Time</th>
         </tr>
       </thead>
       <tbody>
         {donats.map((donat) => (
           <tr key={donat.transactionHash}>
-            <td>{donat.username || "-"}</td>
-            <td>{donat.message || "-"}</td>
+            <td>
+              <Box display="flex" flexDirection="column">
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: theme.fontSize.md,
+                      fontWeight: theme.fontWeight.md,
+                    }}
+                  >
+                    From:{" "}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: theme.fontSize.md,
+                      fontWeight: theme.fontWeight.sm,
+                    }}
+                  >
+                    {donat.username || "-"}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: theme.fontSize.md,
+                      fontWeight: theme.fontWeight.md,
+                    }}
+                  >
+                    Message:{" "}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: theme.fontSize.md,
+                      fontWeight: theme.fontWeight.sm,
+                    }}
+                  >
+                    {donat.message || "-"}
+                  </Typography>
+                </Box>
+              </Box>
+            </td>
             <td>
               <Box display="flex" alignItems="center">
-                {donat.amount}
                 <TokenIcon
                   symbol={getSymbol(donat.network, donat.token)}
                   variant="branded"
                   size={24}
                 />
+                {donat.amount}
+                <Typography
+                  sx={{ marginLeft: 1, color: theme.palette.neutral[100] }}
+                >
+                  (${donat.amountInDollars})
+                </Typography>
               </Box>
             </td>
             <td style={{ textTransform: "capitalize" }}>{donat.network}</td>
-            <td>{new Date(donat.timestamp * 1000).toLocaleTimeString()}</td>
-            <td>{new Date(donat.timestamp * 1000).toLocaleDateString()}</td>
+            <td>
+              <Box>
+                <Typography>
+                  {new Date(donat.timestamp * 1000).toLocaleTimeString()}
+                </Typography>
+                <Typography>
+                  {new Date(donat.timestamp * 1000).toLocaleDateString()}
+                </Typography>
+              </Box>
+            </td>
           </tr>
         ))}
       </tbody>

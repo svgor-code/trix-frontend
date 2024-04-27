@@ -3,7 +3,7 @@ import { SelectToken } from "../SelectToken";
 import { Box, Button, Input, Typography, useTheme } from "@mui/joy";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { IToken, networks } from "src/globals/networks";
-import { getPrices } from "src/api/prices";
+import { getCoinPrice } from "src/api/prices";
 import {
   convertStringToEther,
   convertWeiToEther,
@@ -29,7 +29,7 @@ export const AmountInput = ({
   const [priceInDollars, setPriceInDollars] = useState<number>(0);
 
   useEffect(() => {
-    getPrices(selectedToken.symbol).then((value) => setPriceInDollars(value));
+    getCoinPrice(selectedToken.symbol).then((value) => setPriceInDollars(value));
   }, [selectedToken]);
 
   useEffect(() => {

@@ -32,4 +32,5 @@ export interface IDonatItem {
   username: string;
   network: string;
   token: string;
+  amountInDollars: number;
 }

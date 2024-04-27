@@ -1,4 +1,5 @@
 import {
+  Box,
   Dropdown,
   Grid,
   Menu,
@@ -13,10 +14,17 @@ import { getDonats } from "src/api/dashboard";
 import { SettingsPageHeader } from "src/components/SettingsPageHeader";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { IDonatItem } from "src/types/donation";
-import { convertStringToWei, convertWeiToEther } from "src/utils/currency";
+import {
+  convertStringToWei,
+  convertWeiToEther,
+  exchangeCryptoToFiat,
+} from "src/utils/currency";
 import { DonatsList } from "./DonatsList";
-import { JsonRpcSigner, Signer } from "ethers";
+import { JsonRpcSigner, Signer, ethers } from "ethers";
 import { toast } from "react-toastify";
+import { DonatsDiagram } from "./DonatsDiagram";
+import { getCoinPrice, getPrices } from "src/api/prices";
+import { networks } from "src/globals/networks";
 
 export enum Period {
   LAST_HOUR,
@@ -32,6 +40,18 @@ const PeriodStringMap: Record<Period, string> = {
   [Period.ALL]: "All",
 };
 
+const getAmountInDollars = (
+  symbol: string | undefined,
+  amount: string,
+  prices: { price: number; symbol: string }[]
+) => {
+  const priceInDollars = prices.find((i) => i.symbol === symbol)?.price;
+
+  if (!priceInDollars) return "0.00";
+
+  return exchangeCryptoToFiat(priceInDollars, convertStringToWei(amount));
+};
+
 export const DashboardPage = () => {
   const theme = useTheme();
   const { mode } = useColorScheme();
@@ -42,14 +62,29 @@ export const DashboardPage = () => {
 
   const fetchDonatsList = async (signer: JsonRpcSigner) => {
     try {
-      const records = await getDonats(signer.address, period);
+      const [records, coinsPrices] = await Promise.all([
+        getDonats(signer.address, period),
+        getPrices(),
+      ]);
 
       setDonats(
-        records.map((record) => ({
-          ...record,
-          amount: convertWeiToEther(convertStringToWei(record.amount)),
-          timestamp: record.timestamp,
-        }))
+        records.map((record) => {
+          const symbol =
+            record.token !== ethers.ZeroAddress
+              ? networks[record.network].tokens.find(
+                  (i) => i.address === record.token
+                )?.symbol
+              : networks[record.network].tokens[0].symbol;
+
+          return {
+            ...record,
+            amount: convertWeiToEther(convertStringToWei(record.amount)),
+            timestamp: record.timestamp,
+            amountInDollars: Number(
+              getAmountInDollars(symbol, record.amount, coinsPrices)
+            ),
+          };
+        })
       );
     } catch (error) {
       toast(`Fetch list error: ${error}`, {
@@ -101,22 +136,44 @@ export const DashboardPage = () => {
               <MenuItem onClick={() => setPeriod(Period.LAST_WEEK)}>
                 {PeriodStringMap[Period.LAST_WEEK]}
               </MenuItem>
-              <MenuItem onClick={() => setPeriod(Period.ALL)}>
+              {/* <MenuItem onClick={() => setPeriod(Period.ALL)}>
                 {PeriodStringMap[Period.ALL]}
-              </MenuItem>
+              </MenuItem> */}
             </Menu>
           </Dropdown>
         }
       />
-      <Sheet
-        sx={{
-          marginY: theme.spacing(4),
-          marginX: theme.spacing(8),
-          borderRadius: theme.spacing(2),
-        }}
-      >
-        <DonatsList donats={donats} listLoading={listLoading} />
-      </Sheet>
+      <Box display="flex">
+        <Sheet
+          sx={{
+            width: "50%",
+            marginY: theme.spacing(4),
+            marginLeft: theme.spacing(8),
+            marginRight: theme.spacing(2),
+            borderRadius: theme.spacing(2),
+          }}
+        >
+          <DonatsList donats={donats} listLoading={listLoading} />
+        </Sheet>
+        <Sheet
+          sx={{
+            width: "50%",
+            height: "350px",
+            marginY: theme.spacing(4),
+            marginRight: theme.spacing(8),
+            marginLeft: theme.spacing(2),
+            borderRadius: theme.spacing(2),
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <DonatsDiagram
+            donats={donats}
+            period={period}
+            listLoading={listLoading}
+          />
+        </Sheet>
+      </Box>
     </Sheet>
   );
 };
