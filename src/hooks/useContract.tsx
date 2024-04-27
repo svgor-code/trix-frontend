@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import TrixABI from "src/abi/Trix.abi.json";
 import ERC20ABI from "src/abi/erc20.abi.json";
+import { networks } from "src/globals/networks";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { Erc20Abi, TrixAbi, TrixAbi__factory } from "src/types/contract";
 
-const contractAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
-
 export const useContract = () => {
-  const { provider, signer } = useWalletContext();
+  const { provider, signer, network } = useWalletContext();
   const [contract, setContract] = useState<TrixAbi | null>(null);
   const { mode } = useColorScheme();
+  const contractAddress = networks[network].contract;
 
   useEffect(() => {
     const contractInstance = new ethers.Contract(
