@@ -3,6 +3,7 @@ export interface INetwork {
   chainId: number;
   rpc: string;
   tokens: IToken[];
+  contract?: string;
 }
 
 export interface IToken {
@@ -29,8 +30,9 @@ export const networks: Record<string, INetwork> = {
   },
   avalanche: {
     name: "avalanche",
-    chainId: 43114, // Avalanche C-Chain
-    rpc: "https://api.avax.network/ext/bc/C/rpc",
+    chainId: 43113, // Avalanche C-Chain Fuji
+    rpc: "https://api.avax-test.network/ext/bc/C/rpc",
+    contract: "0x8D22F2c4B719A8C61625aFc40FDb2a3F5df67308",
     tokens: [
       {
         symbol: "AVAX",
