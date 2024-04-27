@@ -37,7 +37,7 @@ export const networks: Record<string, INetwork> = {
       {
         symbol: "USDT",
         address: "0x9aA40Cc99973d8407a2AE7B2237d26E615EcaFd2",
-        name: "Tether",
+        name: "Tether USD",
         icon: "",
       },
     ],
@@ -57,14 +57,14 @@ export const networks: Record<string, INetwork> = {
       },
       {
         symbol: "BTC",
-        address: "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+        address: "0x0f2071079315Ba5a1c6d5b532a01a132c157AC83",
         name: "Bitcoin",
         icon: "https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0x152b9d0FdC40C096757F570A51E494bd4b943E50/logo.png",
       },
       {
-        symbol: "USDC",
-        address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-        name: "USD Coin",
+        symbol: "USDT",
+        address: "0xAFDa926d549a67229D8DB529638E0BAFCDb66458",
+        name: "Tether USD",
         icon: "https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E/logo.png",
       },
     ],

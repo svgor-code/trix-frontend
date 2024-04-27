@@ -1,5 +1,6 @@
 import React, {
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -13,6 +14,7 @@ import {
 import { NetworkName, getNetworkByChainId } from "src/utils/networks";
 import { UserProvider } from "./UserProvider";
 import { INetwork, IToken, networks } from "src/globals/networks";
+import { Erc20Abi } from "src/types/contract";
 
 declare global {
   interface Window {
@@ -94,7 +96,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: ethers.toBeHex(networks[networkName].chainId) }],
+        params: [{ chainId: ethers.toQuantity(networks[networkName].chainId) }],
       });
 
       const currentNetwork = await getCurrentNetwork();
@@ -150,7 +152,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
         token.address,
         tokenABI,
         provider
-      );
+      ) as unknown as Erc20Abi;
 
       balance = await tokenContract.balanceOf(userAddress);
     }
@@ -161,23 +163,27 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     };
   };
 
-  const setTokensBalances = async () => {
+  const setTokensBalances = useCallback(async () => {
     if (!state.signer?.address || !networks[state.network]) {
       return;
     }
+    try {
+      const currentNetwork = networks[state.network];
+      const tokens = currentNetwork.tokens;
+      const walletAddress = state.signer.address;
 
-    const currentNetwork = networks[state.network];
-    const tokens = currentNetwork.tokens;
-    const walletAddress = state.signer.address;
+      const tokensWithBalance = await Promise.all(
+        tokens.map((token) =>
+          fetchTokenBalance(token, walletAddress, currentNetwork)
+        )
+      );
 
-    const tokensWithBalance = await Promise.all(
-      tokens.map((token) =>
-        fetchTokenBalance(token, walletAddress, currentNetwork)
-      )
-    );
-
-    setState((state) => ({ ...state, walletTokens: tokensWithBalance }));
-  };
+      console.log(tokensWithBalance, "fetch tokens");
+      setState((state) => ({ ...state, walletTokens: tokensWithBalance }));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [state.network]);
 
   useEffect(() => {
     checkIfWalletIsConnected();
@@ -210,4 +216,3 @@ export const useWalletContext = () => {
 
   return context;
 };
-
