@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const config = {
   API: "https://trix-server.onrender.com/",
-  WS_API: "ws://trix-server.onrender.com",
+  WS_API: "ws://trix-server.onrender.com/",
 };
 
 export const instance = axios.create({
