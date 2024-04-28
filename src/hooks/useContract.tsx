@@ -24,6 +24,13 @@ export const useContract = () => {
     setContract(contractInstance);
   }, [contractAddress, TrixABI]);
 
+  const calculateGasLimit = async (_tx: ethers.TransactionRequest) => {
+    if (!provider) return BigInt(100000);
+
+    const gasLimit = await provider.estimateGas(_tx);
+    return (gasLimit * BigInt(110)) / BigInt(100);
+  };
+
   const sendDonation = async (
     to: ethers.AddressLike,
     username: string,
@@ -36,12 +43,18 @@ export const useContract = () => {
 
     try {
       const wei = formatUnits(amount, "wei");
-      console.log(contract);
+
+      const gasLimit = await calculateGasLimit({
+        to: to,
+        value: wei,
+        from: signer?.address,
+      });
+
       const sendTx = await contract
         .connect(signer)
         .sendDonation(to, username, message, {
           value: wei,
-          gasLimit: 5000000
+          gasLimit: gasLimit * BigInt(100),
         });
 
       await sendTx.wait();
@@ -75,11 +88,16 @@ export const useContract = () => {
       const wei = formatUnits(amount, "wei");
       await approveErc20(token, wei);
 
+      const gasLimit = await calculateGasLimit({
+        to: contractAddress,
+        value: wei,
+      });
+
       const sendTx = await contract
         .connect(signer)
         .sendTokenDonation(to, username, message, token, {
           value: wei,
-          gasLimit: 500000000,
+          gasLimit: gasLimit * BigInt(100),
         });
 
       await sendTx.wait();

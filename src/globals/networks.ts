@@ -62,6 +62,12 @@ export const networks: Record<string, INetwork> = {
         icon: "https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0x152b9d0FdC40C096757F570A51E494bd4b943E50/logo.png",
       },
       {
+        symbol: "USDC",
+        address: "0xB6076C93701D6a07266c31066B298AeC6dd65c2d",
+        name: "USD Coin",
+        icon: "",
+      },
+      {
         symbol: "USDT",
         address: "0xAFDa926d549a67229D8DB529638E0BAFCDb66458",
         name: "Tether USD",
