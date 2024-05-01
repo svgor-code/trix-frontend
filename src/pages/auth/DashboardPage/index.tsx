@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Dropdown,
   Grid,
   Menu,
@@ -114,7 +115,7 @@ export const DashboardPage = () => {
     return () => {
       clearInterval(loopingInterval);
     };
-  }, [signer, period]);
+  }, [signer, period, isAuthenticated]);
 
   return (
     <Sheet
@@ -153,9 +154,16 @@ export const DashboardPage = () => {
             marginLeft: theme.spacing(8),
             marginRight: theme.spacing(2),
             borderRadius: theme.spacing(2),
+            display: listLoading ? "flex" : "block",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <DonatsList donats={donats} listLoading={listLoading} />
+          {listLoading ? (
+            <CircularProgress />
+          ) : (
+            <DonatsList donats={donats} listLoading={listLoading} />
+          )}
         </Sheet>
         <Sheet
           sx={{
@@ -167,13 +175,18 @@ export const DashboardPage = () => {
             borderRadius: theme.spacing(2),
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <DonatsDiagram
-            donats={donats}
-            period={period}
-            listLoading={listLoading}
-          />
+          {listLoading ? (
+            <CircularProgress />
+          ) : (
+            <DonatsDiagram
+              donats={donats}
+              period={period}
+              listLoading={listLoading}
+            />
+          )}
         </Sheet>
       </Box>
     </Sheet>

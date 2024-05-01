@@ -1,4 +1,4 @@
-import { Box, Skeleton, useTheme } from "@mui/joy";
+import { Box, CircularProgress, Skeleton, useTheme } from "@mui/joy";
 import React, { useMemo } from "react";
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { IDonatItem } from "src/types/donation";
@@ -46,12 +46,14 @@ export const DonatsDiagram = ({ donats, period, listLoading }: Props) => {
     );
   }, [donats, period]);
 
-  if (!lineChartData?.length && listLoading) {
-    return <Skeleton variant="rectangular" width="100%" height="300px" />;
-  }
-
   return (
     <Box width="100%" height="300px">
+      {donats.length === 0 && (
+        <Box display="flex" alignItems="center" justifyContent="center" height="100%">
+          NO DATA
+        </Box>
+      )}
+
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={lineChartData}

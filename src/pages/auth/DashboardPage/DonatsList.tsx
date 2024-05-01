@@ -24,12 +24,8 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
     );
   };
 
-  if (!donats?.length && listLoading) {
-    return <Skeleton variant="rectangular" width="100%" height="300px" />;
-  }
-
   return (
-    <Table borderAxis="both">
+    <Table borderAxis="bothBetween">
       <thead>
         <tr>
           <th>From / Message</th>
@@ -39,6 +35,23 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
         </tr>
       </thead>
       <tbody>
+        {donats.length === 0 && (
+          <>
+            <tr>
+              <td colSpan={4} rowSpan={2}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  width="100%"
+                  height="300px"
+                >
+                  NO DATA
+                </Box>
+              </td>
+            </tr>
+          </>
+        )}
         {donats
           .sort((a, b) => b.timestamp - a.timestamp)
           .map((donat) => (
