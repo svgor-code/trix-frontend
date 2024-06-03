@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "vite dev --port 3000",
-    "build": "tsc && vite build",
+    "start": "vite dev --port 3000 --mode staging",
+    "build": "tsc && vite build --mode staging",
     "serve": "vite preview",
     "typechain": "typechain --target=ethers-v6 --out-dir=src/types/contract **/*.abi.json",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,8 +27,8 @@
     "@fontsource/inter": "^5.0.15",
     "@heroicons/react": "^2.0.18",
     "@mui/joy": "^5.0.0-beta.14",
-    "@token-icons/core": "^2.5.0",
-    "@token-icons/react": "^2.5.0",
+    "@token-icons/core": "^2.9.1",
+    "@token-icons/react": "^2.9.1",
     "axios": "^1.6.5",
     "downloadjs": "^1.4.7",
     "esbuild": "^0.19.5",

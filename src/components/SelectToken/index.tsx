@@ -49,7 +49,7 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
               size={24}
             />
           </Box>
-          <Typography variant="plain">{selectedToken.name}</Typography>
+          <Typography variant="plain">{selectedToken.symbol}</Typography>
           <Box
             sx={(theme) => ({
               marginLeft: theme.spacing(1),

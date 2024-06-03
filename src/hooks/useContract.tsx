@@ -88,6 +88,8 @@ export const useContract = () => {
       const wei = formatUnits(amount, "wei");
       await approveErc20(token, wei);
 
+      console.log(contractAddress, wei, "send");
+
       const gasLimit = await calculateGasLimit({
         to: contractAddress,
         value: wei,
@@ -117,15 +119,19 @@ export const useContract = () => {
   };
 
   const approveErc20 = async (token: string, amount: string) => {
-    if (!signer?.address) return;
+    try {
+      if (!signer?.address) return;
 
-    const tokenContract = (await new ethers.Contract(
-      token,
-      ERC20ABI,
-      signer
-    )) as unknown as Erc20Abi;
-    const approveTx = await tokenContract.approve(contractAddress, amount);
-    await approveTx.wait();
+      const tokenContract = (await new ethers.Contract(
+        token,
+        ERC20ABI,
+        signer
+      )) as unknown as Erc20Abi;
+      const approveTx = await tokenContract.connect(signer).approve(contractAddress, amount);
+      await approveTx.wait();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

@@ -10,7 +10,6 @@ import { injectStyle as ReactToastifyCss } from "react-toastify/dist/inject-styl
 import "@fontsource/inter";
 
 import { router } from "./router";
-import { AuthProvider } from "./providers/AuthProvider";
 import { WalletProvider } from "./providers/WalletProvider";
 
 ReactToastifyCss();
@@ -25,10 +24,10 @@ const theme = extendTheme({
       styleOverrides: {
         root: {
           paddingTop: "12px",
-          paddingBottom: "12px"
-        }
-      }
-    }
+          paddingBottom: "12px",
+        },
+      },
+    },
   },
   colorSchemes: {
     light: {
@@ -72,21 +71,21 @@ const theme = extendTheme({
 
 root.render(
   // <React.StrictMode>
-    <CssVarsProvider theme={theme}>
-      <GlobalStyles
-        styles={{
-          svg: {
-            color: "var(--Icon-color)",
-            margin: "var(--Icon-margin)",
-            fontSize: "var(--Icon-fontSize, 20px)",
-          },
-        }}
-      />
-      <CssBaseline />
-      <ToastContainer />
-      <WalletProvider>
-        <RouterProvider router={router} />
-      </WalletProvider>
-    </CssVarsProvider>
+  <CssVarsProvider theme={theme} defaultMode="dark">
+    <GlobalStyles
+      styles={{
+        svg: {
+          color: "var(--Icon-color)",
+          margin: "var(--Icon-margin)",
+          fontSize: "var(--Icon-fontSize, 20px)",
+        },
+      }}
+    />
+    <CssBaseline />
+    <ToastContainer />
+    <WalletProvider>
+      <RouterProvider router={router} />
+    </WalletProvider>
+  </CssVarsProvider>
   // </React.StrictMode>
 );
