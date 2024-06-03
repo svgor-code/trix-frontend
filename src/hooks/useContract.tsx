@@ -87,16 +87,31 @@ export const useContract = () => {
 
     try {
       const wei = formatUnits(amount, "wei");
-      await approveErc20(token, wei);
+      console.log("Formatted amount in wei:", wei);
+
+      // Approve the transaction
+      const approvalResult = await approveErc20(token, wei);
+      if (!approvalResult) {
+        console.error("Approval failed");
+        return;
+      }
 
       const gasLimit = BigInt(45000);
 
+      console.log("Sending transaction with parameters:");
+      console.log("To:", to);
+      console.log("Username:", username);
+      console.log("Message:", message);
+      console.log("Token:", token);
+      console.log("Wei:", wei.toString());
+      console.log("GasLimit:", gasLimit.toString());
+
+      // Sending the transaction
       const sendTx = await contract
         .connect(signer)
-        .sendTokenDonation(to, username, message, token, {
-          value: wei,
-          gasLimit: gasLimit * BigInt(2),
-        });
+        .sendTokenDonation(to, username, message, token, wei);
+
+      console.log("Transaction sent:", sendTx);
 
       await sendTx.wait();
 
@@ -116,17 +131,28 @@ export const useContract = () => {
 
   const approveErc20 = async (token: string, amount: string) => {
     try {
-      if (!signer?.address) return;
+      if (!signer?.address) {
+        console.error("Signer address is not defined");
+        return false;
+      }
 
       const tokenContract = (await new ethers.Contract(
         token,
         ERC20ABI,
-        signer
+        provider
       )) as unknown as Erc20Abi;
-      const approveTx = await tokenContract.connect(signer).approve(contractAddress, amount);
+      const approveTx = await tokenContract
+        .connect(signer)
+        .approve(contractAddress, amount);
+
+      console.log("Approve transaction sent:", approveTx);
+
       await approveTx.wait();
+
+      return true;
     } catch (error) {
-      console.log(error);
+      console.error("Error during approve:", error);
+      return false;
     }
   };
 
