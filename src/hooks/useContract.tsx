@@ -14,6 +14,7 @@ export const useContract = () => {
   const { mode } = useColorScheme();
 
   const contractAddress = (networks[network] || networks.arbitrum).contract;
+
   useEffect(() => {
     const contractInstance = new ethers.Contract(
       contractAddress,
@@ -88,18 +89,13 @@ export const useContract = () => {
       const wei = formatUnits(amount, "wei");
       await approveErc20(token, wei);
 
-      console.log(contractAddress, wei, "send");
-
-      const gasLimit = await calculateGasLimit({
-        to: contractAddress,
-        value: wei,
-      });
+      const gasLimit = BigInt(45000);
 
       const sendTx = await contract
         .connect(signer)
         .sendTokenDonation(to, username, message, token, {
           value: wei,
-          gasLimit: gasLimit * BigInt(100),
+          gasLimit: gasLimit * BigInt(2),
         });
 
       await sendTx.wait();
