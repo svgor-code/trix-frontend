@@ -13,7 +13,7 @@ export interface IToken {
   name: string;
 }
 
-const stagingNetworks: Record<string, INetwork> = {
+export const networks: Record<string, INetwork> = {
   arbitrum: {
     name: "arbitrum",
     chainId: 42161, // Arbitrum
@@ -39,9 +39,3 @@ const stagingNetworks: Record<string, INetwork> = {
     ],
   },
 };
-
-const productionNetworks: Record<string, INetwork> = {};
-
-export const networks = import.meta.env.PROD
-  ? productionNetworks
-  : stagingNetworks;
