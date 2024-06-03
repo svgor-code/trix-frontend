@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const config = {
-  API: import.meta.env.VITE_API,
-  WS_API: import.meta.env.VITE_API,
+  API: "https://trix-server.onrender.com/",
+  WS_API: "https://trix-server.onrender.com/",
 };
 
 export const instance = axios.create({
