@@ -12,7 +12,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { IToken } from "src/globals/networks";
-import { TokenIcon } from "@token-icons/react";
+import { NetworkArbitrumOne, TokenIcon } from "@token-icons/react";
 
 type Props = {
   selectedToken: IToken;
@@ -43,11 +43,15 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
               marginRight: theme.spacing(1),
             }}
           >
-            <TokenIcon
-              symbol={selectedToken.symbol}
-              variant="branded"
-              size={24}
-            />
+            {selectedToken.symbol === "ARB" ? (
+              <NetworkArbitrumOne variant="branded" size={24} />
+            ) : (
+              <TokenIcon
+                symbol={selectedToken.symbol}
+                variant="branded"
+                size={24}
+              />
+            )}
           </Box>
           <Typography variant="plain">{selectedToken.symbol}</Typography>
           <Box
@@ -90,7 +94,16 @@ export const SelectToken = ({ selectedToken, onSelectToken }: Props) => {
                   paddingY: theme.spacing(1),
                 }}
               >
-                <TokenIcon symbol={token.symbol} variant="branded" size={48} />
+                {token.symbol === "ARB" ? (
+                  <NetworkArbitrumOne variant="branded" size={48} />
+                ) : (
+                  <TokenIcon
+                    symbol={token.symbol}
+                    variant="branded"
+                    size={48}
+                  />
+                )}
+
                 <Box
                   sx={{
                     display: "flex",
