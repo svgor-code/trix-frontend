@@ -123,7 +123,7 @@ export const WalletDropdown = () => {
             <Typography fontWeight={theme.fontWeight.lg}>Theme:</Typography>
             <ToggleTheme />
           </Box>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               alignItems: "center",
@@ -146,7 +146,7 @@ export const WalletDropdown = () => {
             >
               <Option value="en">English</Option>
             </Select>
-          </Box>
+          </Box> */}
         </Box>
         <Divider />
         <Box

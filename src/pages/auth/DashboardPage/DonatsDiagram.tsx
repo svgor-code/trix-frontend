@@ -18,9 +18,10 @@ export const DonatsDiagram = ({ donats, period, listLoading }: Props) => {
   const getDateByPeriod = (timestamp: number) => {
     if (period === Period.LAST_HOUR || period === Period.LAST_24_HOURS) {
       const time = new Date(timestamp * 1000).toLocaleTimeString();
+
       const [hour, minuts] = time.split(":");
       const [_, dayPeriod] = time.split(" ");
-      return `${hour}:${minuts} ${dayPeriod}`;
+      return dayPeriod ? `${hour}:${minuts} ${dayPeriod}` : `${hour}:${minuts}`;
     }
 
     return new Date(timestamp * 1000).toLocaleDateString();
@@ -49,7 +50,12 @@ export const DonatsDiagram = ({ donats, period, listLoading }: Props) => {
   return (
     <Box width="100%" height="300px">
       {donats.length === 0 && (
-        <Box display="flex" alignItems="center" justifyContent="center" height="100%">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="100%"
+        >
           NO DATA
         </Box>
       )}
