@@ -20,7 +20,7 @@ export const networks: Record<string, INetwork> = {
     slug: "arbitrum-one",
     chainId: 42161, // Arbitrum
     rpc: "https://arbitrum.llamarpc.com",
-    contract: "0x58902d75E12a47E3EB7aC6bc328e88098916ddC9",
+    contract: "0x48F3224beF5f2b0f6f708a13F3fD30214a7aDeCf",
     tokens: [
       {
         symbol: "ETH",
