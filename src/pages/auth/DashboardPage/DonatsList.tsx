@@ -13,13 +13,13 @@ type Props = {
 export const DonatsList = ({ donats, listLoading }: Props) => {
   const theme = useTheme();
 
-  const getSymbol = (network: string, token: string) => {
+  const getSymbol = (chainId: number, token: string) => {
     if (token === ethers.ZeroAddress) {
-      return networks[network].tokens[0].symbol;
+      return networks[chainId].tokens[0].symbol;
     }
 
     return (
-      networks[network].tokens.find((item) => item.address === token)?.symbol ||
+      networks[chainId].tokens.find((item) => item.address === token)?.symbol ||
       ""
     );
   };
@@ -99,7 +99,7 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
               <td>
                 <Box display="flex" alignItems="center">
                   <TokenIcon
-                    symbol={getSymbol(donat.network, donat.token)}
+                    symbol={getSymbol(donat.chainId, donat.token)}
                     variant="branded"
                     size={24}
                   />

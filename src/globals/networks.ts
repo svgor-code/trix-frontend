@@ -1,5 +1,6 @@
 export interface INetwork {
   name: string;
+  slug: string;
   chainId: number;
   rpc: string;
   tokens: IToken[];
@@ -14,8 +15,9 @@ export interface IToken {
 }
 
 export const networks: Record<string, INetwork> = {
-  arbitrum: {
-    name: "arbitrum",
+  42161: {
+    name: "Arbitrum One",
+    slug: "arbitrum-one",
     chainId: 42161, // Arbitrum
     rpc: "https://arbitrum.llamarpc.com",
     contract: "0x58902d75E12a47E3EB7aC6bc328e88098916ddC9",

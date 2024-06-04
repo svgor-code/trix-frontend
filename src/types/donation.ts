@@ -2,7 +2,7 @@ export interface ISendDonation {
   username: string;
   message: string;
   amount: bigint;
-  network: string;
+  network: number;
 }
 
 export interface IDonatEventRecord {
@@ -18,6 +18,7 @@ export interface IDonatEventRecord {
   username: string;
   network: string;
   token: string;
+  chainId: number;
 }
 
 export interface IDonatItem {
@@ -31,6 +32,7 @@ export interface IDonatItem {
   updatedAt: string;
   username: string;
   network: string;
+  chainId: number;
   token: string;
   amountInDollars: number;
 }

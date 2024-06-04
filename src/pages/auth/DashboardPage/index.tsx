@@ -74,10 +74,10 @@ export const DashboardPage = () => {
         records.map((record) => {
           const symbol =
             record.token !== ethers.ZeroAddress
-              ? networks[record.network].tokens.find(
+              ? networks[record.chainId].tokens.find(
                   (i) => i.address === record.token
                 )?.symbol
-              : networks[record.network].tokens[0].symbol;
+              : networks[record.chainId].tokens[0].symbol;
 
           return {
             ...record,

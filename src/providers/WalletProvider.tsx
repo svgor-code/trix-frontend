@@ -11,8 +11,6 @@ import {
   Eip1193Provider,
   JsonRpcSigner,
 } from "ethers";
-import { NetworkName, getNetworkByChainId } from "src/utils/networks";
-import { UserProvider } from "./UserProvider";
 import { INetwork, IToken, networks } from "src/globals/networks";
 import { Erc20Abi } from "src/types/contract";
 
@@ -30,11 +28,11 @@ interface IWalletContext {
   isConnected: boolean;
   signer: JsonRpcSigner | null;
   provider: BrowserProvider | null;
-  network: string;
+  network: number;
   walletTokens: ITokenWithBalance[];
   connect(): Promise<void>;
   disconnect(): Promise<void>;
-  switchNetwork: (networkName: NetworkName) => Promise<void>;
+  switchNetwork: (networkChainId: number) => Promise<void>;
 }
 
 const defaultWalletState = {
@@ -42,7 +40,7 @@ const defaultWalletState = {
   provider: null,
   signer: null,
   walletAddress: "",
-  network: "",
+  network: 0,
   walletTokens: [],
 };
 
@@ -53,7 +51,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     isConnected: boolean;
     signer: JsonRpcSigner | null;
     provider: BrowserProvider | null;
-    network: string;
+    network: number;
     walletTokens: ITokenWithBalance[];
   }>(defaultWalletState);
 
@@ -75,7 +73,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
         provider,
         signer,
         isConnected: true,
-        network: currentNetwork?.name || "",
+        network: currentNetwork?.chainId || 0,
       }));
     }
   };
@@ -90,18 +88,18 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     setState(defaultWalletState);
   };
 
-  const switchNetwork = async (networkName: NetworkName) => {
+  const switchNetwork = async (networkChainId: number) => {
     if (!window.ethereum) return;
 
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: ethers.toQuantity(networks[networkName].chainId) }],
+        params: [{ chainId: ethers.toQuantity(networkChainId) }],
       });
 
       const currentNetwork = await getCurrentNetwork();
 
-      setState((prev) => ({ ...prev, network: currentNetwork?.name || "" }));
+      setState((prev) => ({ ...prev, network: currentNetwork?.chainId || 0 }));
     } catch (switchError) {
       console.log(switchError);
     }
@@ -115,7 +113,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
         method: "eth_chainId",
       });
       const chainId = parseInt(chainIdHex, 16);
-      const currentNetwork = getNetworkByChainId(chainId);
+      const currentNetwork = networks[chainId];
 
       return currentNetwork;
     } catch (error) {

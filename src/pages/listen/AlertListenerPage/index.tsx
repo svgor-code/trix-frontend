@@ -1,6 +1,6 @@
 import { Box, Sheet, Typography, useTheme } from "@mui/joy";
 import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { config } from "src/api/config";
 import { getUserById } from "src/api/user";
@@ -8,19 +8,21 @@ import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
 import { networks } from "src/globals/networks";
 import { IAlertSettings } from "src/types/user";
 import { convertStringToWei, convertWeiToEther } from "src/utils/currency";
+import { getTokenByTokenAddress } from "src/utils/networks";
 
 type Alert = {
   amount: string;
   message: string;
-  network: string;
   to: string;
   username: string;
+  chainId: number;
+  token: string;
 };
 
 export const AlertListenerPage = () => {
   const theme = useTheme();
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get('user_id');
+  const userId = searchParams.get("user_id");
   const [walletAddress, setWalletAddress] = useState<string | null>();
   const [settings, setSettings] = useState<IAlertSettings>({
     image: DEFAULT_ALERT_IMAGE,
@@ -102,7 +104,10 @@ export const AlertListenerPage = () => {
               }}
             >
               {convertWeiToEther(convertStringToWei(alert.amount))}{" "}
-              {networks[alert.network].tokens[0].symbol}
+              {
+                getTokenByTokenAddress(networks[alert.chainId], alert.token)
+                  ?.symbol
+              }
             </Typography>
           )}
 

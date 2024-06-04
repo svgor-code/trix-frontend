@@ -18,7 +18,7 @@ export const NetworkDropdown = () => {
   const { switchNetwork, network: currentNetwork } = useWalletContext();
 
   const activeNetwork = Object.values(networks).find(
-    (network) => network.name === currentNetwork
+    (network) => network.chainId === currentNetwork
   ) || {
     icon: "",
     name: "wrong",
@@ -79,9 +79,9 @@ export const NetworkDropdown = () => {
       >
         {Object.values(networks).map((network) => (
           <MenuItem
-            onClick={() => switchNetwork(network.name)}
+            onClick={() => switchNetwork(network.chainId)}
             key={network.name}
-            selected={currentNetwork === network.name}
+            selected={currentNetwork === network.chainId}
             sx={(theme) => ({
               display: "flex",
               alignItems: "center",

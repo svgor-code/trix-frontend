@@ -39,7 +39,7 @@ export const SendDonationForm = () => {
   const [state, setState] = useState<ISendDonation>({
     username: "",
     message: "",
-    network: "",
+    network: 0,
     amount: BigInt(0),
   });
 

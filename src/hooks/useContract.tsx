@@ -1,19 +1,20 @@
 import { useColorScheme } from "@mui/joy";
-import { Contract, ethers, formatUnits, parseEther, parseUnits } from "ethers";
-import React, { useEffect, useState } from "react";
+import { ethers, formatUnits } from "ethers";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import TrixABI from "src/abi/Trix.abi.json";
 import ERC20ABI from "src/abi/erc20.abi.json";
 import { networks } from "src/globals/networks";
 import { useWalletContext } from "src/providers/WalletProvider";
-import { Erc20Abi, TrixAbi, TrixAbi__factory } from "src/types/contract";
+import { Erc20Abi, TrixAbi } from "src/types/contract";
 
 export const useContract = () => {
   const { provider, signer, network } = useWalletContext();
   const [contract, setContract] = useState<TrixAbi | null>(null);
   const { mode } = useColorScheme();
 
-  const contractAddress = (networks[network] || networks.arbitrum).contract;
+  const contractAddress =
+    networks[network]?.contract || Object.values(networks)[0]?.contract;
 
   useEffect(() => {
     const contractInstance = new ethers.Contract(
