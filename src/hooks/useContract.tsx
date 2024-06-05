@@ -8,10 +8,14 @@ import { networks } from "src/globals/networks";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { Erc20Abi, TrixAbi } from "src/types/contract";
 
+export type TxStep = "none" | "approving" | "sending" | "done";
+
 export const useContract = () => {
   const { provider, signer, network } = useWalletContext();
   const [contract, setContract] = useState<TrixAbi | null>(null);
   const { mode } = useColorScheme();
+  const [transactionStep, setTransactionStep] = useState<TxStep>("none");
+  const [isError, setIsError] = useState(false);
 
   const contractAddress =
     networks[network]?.contract || Object.values(networks)[0]?.contract;
@@ -26,7 +30,6 @@ export const useContract = () => {
     setContract(contractInstance);
   }, [contractAddress, TrixABI]);
 
-
   const sendDonation = async (
     to: ethers.AddressLike,
     username: string,
@@ -40,6 +43,10 @@ export const useContract = () => {
     try {
       const wei = formatUnits(amount, "wei");
 
+      setTransactionStep("approving");
+
+      setTransactionStep("sending");
+
       const sendTx = await contract
         .connect(signer)
         .sendDonation(to, username, message, {
@@ -48,16 +55,26 @@ export const useContract = () => {
 
       await sendTx.wait();
 
+      setTransactionStep("done");
+
       toast(`Your donation was sent to streamer`, {
         type: "success",
         theme: mode,
         position: "bottom-center",
+        onClose: () => {
+          setTransactionStep("none");
+        },
       });
     } catch (error) {
+      setIsError(true);
       toast(`Transaction reverted. Reason: ${error}`, {
         type: "error",
         theme: mode,
         position: "bottom-center",
+        onClose: () => {
+          setTransactionStep("none");
+          setIsError(false);
+        },
       });
     }
   };
@@ -77,12 +94,16 @@ export const useContract = () => {
       const wei = formatUnits(amount, "wei");
       console.log("Formatted amount in wei:", wei);
 
+      setTransactionStep("approving");
+
       // Approve the transaction
       const approvalResult = await approveErc20(token, wei);
       if (!approvalResult) {
         console.error("Approval failed");
         return;
       }
+
+      setTransactionStep("sending");
 
       const gasLimit = BigInt(45000);
 
@@ -99,20 +120,29 @@ export const useContract = () => {
         .connect(signer)
         .sendTokenDonation(to, username, message, token, wei);
 
-      console.log("Transaction sent:", sendTx);
-
       await sendTx.wait();
+
+      setTransactionStep("done");
 
       toast(`Your donation was sent to streamer`, {
         type: "success",
         theme: mode,
         position: "bottom-center",
+        onClose: () => {
+          setTransactionStep("none");
+        },
       });
     } catch (error) {
+      setIsError(true);
+
       toast(`Transaction reverted. Reason: ${error}`, {
         type: "error",
         theme: mode,
         position: "bottom-center",
+        onClose: () => {
+          setTransactionStep("none");
+          setIsError(false);
+        },
       });
     }
   };
@@ -139,12 +169,24 @@ export const useContract = () => {
 
       return true;
     } catch (error) {
-      console.error("Error during approve:", error);
+      setIsError(true);
+
+      toast(`Transaction reverted. Reason: ${error}`, {
+        type: "error",
+        theme: mode,
+        position: "bottom-center",
+        onClose: () => {
+          setTransactionStep("none");
+          setIsError(false);
+        },
+      });
       return false;
     }
   };
 
   return {
+    transactionStep,
+    isError,
     sendDonation,
     sendDonationErc20,
   };

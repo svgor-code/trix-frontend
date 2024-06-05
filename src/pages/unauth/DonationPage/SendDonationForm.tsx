@@ -22,13 +22,15 @@ import { useContract } from "src/hooks/useContract";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { ISendDonation } from "src/types/donation";
 import { IUser } from "src/types/user";
+import { TransactionProgress } from "./components/TransactionProgress";
 
 export const SendDonationForm = () => {
   const theme = useTheme();
   const { mode } = useColorScheme();
   const [searchParams] = useSearchParams();
-  const walletAddress = searchParams.get('wallet');
-  const { sendDonation, sendDonationErc20 } = useContract();
+  const walletAddress = searchParams.get("wallet");
+  const { transactionStep, isError, sendDonation, sendDonationErc20 } =
+    useContract();
   const { network } = useWalletContext();
 
   const [selectedToken, setSelectedToken] = useState<IToken>(
@@ -178,10 +180,21 @@ export const SendDonationForm = () => {
             </FormField>
 
             <Box display="flex" flexDirection="row-reverse">
-              <Button size="lg" onClick={onSend}>
+              <Button
+                size="lg"
+                onClick={onSend}
+                disabled={transactionStep !== "none"}
+              >
                 Donate
               </Button>
             </Box>
+
+            <Box m={2}>
+                <TransactionProgress
+                  transactionStep={transactionStep}
+                  isError={isError}
+                />
+              </Box>
           </Box>
         </SettingsFormWrapper>
       </Sheet>
