@@ -188,7 +188,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     setTokensBalances();
-  }, [state.network]);
+  }, [state.network, state.isConnected]);
 
   return (
     <WalletContext.Provider

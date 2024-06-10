@@ -32,7 +32,12 @@ export const SendDonationHeader = () => {
             fontWeight: theme.fontWeight.lg,
           }}
         >
-          Support the streamer
+          <a
+            href="https://trix-donations.xyz"
+            style={{ textDecoration: "none", color: theme.palette.text.primary }}
+          >
+            TRIX DONATIONS
+          </a>
         </Typography>
       </Box>
       <Box
