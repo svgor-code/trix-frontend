@@ -10,3 +10,4 @@ services:
       - 80:80
     volumes:
       - .:/app
+      - ./build:/usr/share/nginx/html
