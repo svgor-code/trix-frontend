@@ -3,8 +3,6 @@ FROM node:18 as build
 WORKDIR /app
 COPY . /app
 
-RUN npm i -g yarn
-
 RUN yarn
 RUN yarn run typechain
 RUN yarn run build
