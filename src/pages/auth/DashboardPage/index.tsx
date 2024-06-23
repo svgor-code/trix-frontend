@@ -158,12 +158,18 @@ export const DashboardPage = () => {
             width: "100%",
             height: "350px",
             marginY: theme.spacing(4),
-            borderRadius: theme.spacing(2),
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: '20px',
+            padding: "20px",
+            background:
+              mode === "light"
+                ? theme.palette.background.body
+                : theme.palette.background.level1,
+            borderRadius: theme.radius.lg,
+            border: "1px solid",
+            borderColor: theme.palette.neutral.outlinedBorder,
           }}
         >
           <Box
@@ -176,7 +182,9 @@ export const DashboardPage = () => {
               marginBottom: "15px",
             }}
           >
-            <Typography sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}>
+            <Typography
+              sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}
+            >
               Dynamics
             </Typography>
           </Box>
@@ -203,21 +211,43 @@ export const DashboardPage = () => {
           sx={{
             width: "100%",
             marginY: theme.spacing(4),
-            borderRadius: theme.spacing(2),
-            display: listLoading ? "flex" : "block",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: '20px',
-            minHeight: '800px',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: "20px",
+            minHeight: "800px",
+            background:
+              mode === "light"
+                ? theme.palette.background.body
+                : theme.palette.background.level1,
+            borderRadius: theme.radius.lg,
+            border: "1px solid",
+            borderColor: theme.palette.neutral.outlinedBorder,
           }}
         >
+          <Box
+            sx={{
+              width: "100%",
+              padding: "15px",
+              paddingTop: 0,
+              borderBottom: `1px solid ${theme.palette.neutral.outlinedColor}`,
+              borderColor: theme.palette.neutral.outlinedBorder,
+              marginBottom: "15px",
+            }}
+          >
+            <Typography
+              sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}
+            >
+              Last alerts
+            </Typography>
+          </Box>
           {listLoading ? (
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                height: "300px",
+                height: "800px",
+                width: '100%',
               }}
             >
               <CircularProgress />

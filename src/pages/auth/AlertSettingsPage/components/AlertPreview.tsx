@@ -46,7 +46,7 @@ export const AlertPreview = ({
     <>
       {user && (
         <SettingsFormWrapper>
-          <FormField label="Paste this link into broadcasting software you use and display your incoming donations">
+          <FormField label="Paste this link into OBS">
             <Input
               size="lg"
               sx={{ borderRadius: theme.radius.lg }}

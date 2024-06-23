@@ -26,29 +26,13 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
 
   return (
     <Box>
-      <Box
-        sx={{
-          width: "100%",
-          padding: "15px",
-          paddingTop: 0,
-          borderBottom: `1px solid ${theme.palette.neutral.outlinedColor}`,
-          borderColor: theme.palette.neutral.outlinedBorder,
-          marginBottom: "15px",
-        }}
-      >
-        <Typography
-          sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}
-        >
-          Last alerts
-        </Typography>
-      </Box>
       {donats.map((donat) => (
         <Box
           key={donat.transactionHash}
           sx={{
             padding: "20px",
             borderRadius: "10px",
-            background: theme.palette.neutral[800],
+            background: theme.palette.neutral[900],
             marginBottom: "10px",
             position: "relative",
           }}
