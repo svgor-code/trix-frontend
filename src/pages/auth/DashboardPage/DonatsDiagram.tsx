@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Skeleton, useTheme } from "@mui/joy";
 import React, { useMemo } from "react";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { IDonatItem } from "src/types/donation";
 import { Period } from ".";
 
@@ -67,9 +67,10 @@ export const DonatsDiagram = ({ donats, period, listLoading }: Props) => {
             top: 0,
             right: 0,
             left: -12,
-            bottom: 5,
+            bottom: 0,
           }}
         >
+          <CartesianGrid stroke={theme.palette.divider} strokeDasharray="3 3"/>
           <XAxis
             dataKey="date"
             strokeWidth={0}

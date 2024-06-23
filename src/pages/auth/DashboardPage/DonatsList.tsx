@@ -19,112 +19,69 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
     }
 
     return (
-      cNetworks[chainId].tokens.find((item) => item.address === token)?.symbol ||
-      ""
+      cNetworks[chainId].tokens.find((item) => item.address === token)
+        ?.symbol || ""
     );
   };
 
   return (
-    <Table borderAxis="bothBetween">
-      <thead>
-        <tr>
-          <th>From / Message</th>
-          <th>Amount</th>
-          <th>Network</th>
-          <th>Date / Time</th>
-        </tr>
-      </thead>
-      <tbody>
-        {donats.length === 0 && (
-          <>
-            <tr>
-              <td colSpan={4} rowSpan={2}>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  width="100%"
-                  height="300px"
-                >
-                  NO DATA
-                </Box>
-              </td>
-            </tr>
-          </>
-        )}
-        {donats
-          .sort((a, b) => b.timestamp - a.timestamp)
-          .map((donat) => (
-            <tr key={donat.transactionHash}>
-              <td>
-                <Box display="flex" flexDirection="column">
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontSize: theme.fontSize.md,
-                        fontWeight: theme.fontWeight.md,
-                      }}
-                    >
-                      From:{" "}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: theme.fontSize.md,
-                        fontWeight: theme.fontWeight.sm,
-                      }}
-                    >
-                      {donat.username || "-"}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontSize: theme.fontSize.md,
-                        fontWeight: theme.fontWeight.md,
-                      }}
-                    >
-                      Message:{" "}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: theme.fontSize.md,
-                        fontWeight: theme.fontWeight.sm,
-                      }}
-                    >
-                      {donat.message || "-"}
-                    </Typography>
-                  </Box>
-                </Box>
-              </td>
-              <td>
-                <Box display="flex" alignItems="center">
-                  <TokenIcon
-                    symbol={getSymbol(donat.chainId, donat.token)}
-                    variant="branded"
-                    size={24}
-                  />
-                  {donat.amount}
-                  <Typography
-                    sx={{ marginLeft: 1, color: theme.palette.neutral[100] }}
-                  >
-                    (${donat.amountInDollars})
-                  </Typography>
-                </Box>
-              </td>
-              <td style={{ textTransform: "capitalize" }}>{donat.network}</td>
-              <td>
-                <Box>
-                  <Typography>
-                    {new Date(donat.timestamp * 1000).toLocaleTimeString()}
-                  </Typography>
-                  <Typography>
-                    {new Date(donat.timestamp * 1000).toLocaleDateString()}
-                  </Typography>
-                </Box>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </Table>
+    <Box>
+      <Box
+        sx={{
+          width: "100%",
+          padding: "15px",
+          paddingTop: 0,
+          borderBottom: `1px solid ${theme.palette.neutral.outlinedColor}`,
+          borderColor: theme.palette.neutral.outlinedBorder,
+          marginBottom: "15px",
+        }}
+      >
+        <Typography
+          sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}
+        >
+          Last alerts
+        </Typography>
+      </Box>
+      {donats.map((donat) => (
+        <Box
+          key={donat.transactionHash}
+          sx={{
+            padding: "20px",
+            borderRadius: "10px",
+            background: theme.palette.neutral[800],
+            marginBottom: "10px",
+            position: "relative",
+          }}
+        >
+          <Typography>
+            <b>{donat.username || "Anonim"}</b> donated{" "}
+            <b>
+              {donat.amount} {getSymbol(donat.chainId, donat.token)}
+            </b>{" "}
+            ($
+            {donat.amountInDollars})
+          </Typography>
+          {donat.message && (
+            <Typography sx={{ fontSize: "14px", marginTop: "10px" }}>
+              {donat.message}
+            </Typography>
+          )}
+
+          <Box
+            sx={{
+              gap: "5px",
+              position: "absolute",
+              top: "5px",
+              right: "10px",
+            }}
+          >
+            <Typography sx={{ fontSize: "12px" }}>
+              {new Date(donat.timestamp * 1000).toLocaleTimeString()}{" "}
+              {new Date(donat.timestamp * 1000).toLocaleDateString()}
+            </Typography>
+          </Box>
+        </Box>
+      ))}
+    </Box>
   );
 };

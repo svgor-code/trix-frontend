@@ -9,7 +9,6 @@ import {
 import React from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-import { NetworkName } from "src/utils/networks";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { NetworkIcon } from "@token-icons/react";
 import { networks } from "src/globals/networks";

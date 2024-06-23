@@ -143,61 +143,85 @@ export const DashboardPage = () => {
           </Dropdown>
         }
       />
-      <Box display="flex">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          paddingX: "20px",
+          alignItems: "center",
+          marginX: theme.spacing(4),
+        }}
+      >
         <Sheet
           sx={{
-            width: "50%",
-            marginY: theme.spacing(4),
-            marginLeft: theme.spacing(8),
-            marginRight: theme.spacing(2),
-            borderRadius: theme.spacing(2),
-            display: listLoading ? "flex" : "block",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {listLoading ? (
-            <CircularProgress />
-          ) : (
-            <DonatsList donats={donats} listLoading={listLoading} />
-          )}
-        </Sheet>
-        <Sheet
-          sx={{
-            width: "50%",
+            width: "100%",
             height: "350px",
             marginY: theme.spacing(4),
-            marginRight: theme.spacing(8),
-            marginLeft: theme.spacing(2),
             borderRadius: theme.spacing(2),
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            padding: "15px",
+            padding: '20px',
           }}
         >
           <Box
             sx={{
               width: "100%",
-              paddingBottom: "15px",
+              padding: "15px",
+              paddingTop: 0,
               borderBottom: `1px solid ${theme.palette.neutral.outlinedColor}`,
               borderColor: theme.palette.neutral.outlinedBorder,
-              marginBottom: '15px',
+              marginBottom: "15px",
             }}
           >
-            <Typography sx={{ color: "#ffffff", fontSize: "16px" }}>
-              Last donations
+            <Typography sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}>
+              Dynamics
             </Typography>
           </Box>
           {listLoading ? (
-            <CircularProgress />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "300px",
+              }}
+            >
+              <CircularProgress />
+            </Box>
           ) : (
             <DonatsDiagram
               donats={donats}
               period={period}
               listLoading={listLoading}
             />
+          )}
+        </Sheet>
+        <Sheet
+          sx={{
+            width: "100%",
+            marginY: theme.spacing(4),
+            borderRadius: theme.spacing(2),
+            display: listLoading ? "flex" : "block",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: '20px',
+          }}
+        >
+          {listLoading ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "300px",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <DonatsList donats={donats} listLoading={listLoading} />
           )}
         </Sheet>
       </Box>
