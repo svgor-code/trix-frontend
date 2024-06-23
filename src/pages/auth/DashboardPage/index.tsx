@@ -214,7 +214,7 @@ export const DashboardPage = () => {
             display: 'flex',
             flexDirection: 'column',
             padding: "20px",
-            minHeight: "800px",
+            maxHeight: "800px",
             background:
               mode === "light"
                 ? theme.palette.background.body

@@ -25,7 +25,7 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ overflowY: "scroll" }}>
       {donats.map((donat) => (
         <Box
           key={donat.transactionHash}
