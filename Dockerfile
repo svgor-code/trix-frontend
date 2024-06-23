@@ -3,9 +3,11 @@ FROM node:18 as build
 WORKDIR /app
 COPY . /app
 
-RUN npm install
-RUN npm run typechain
-RUN npm run build
+RUN npm i -g yarn
+
+RUN yarn
+RUN yarn run typechain
+RUN yarn run build
 
 FROM nginx
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
