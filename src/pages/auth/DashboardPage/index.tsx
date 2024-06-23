@@ -2,11 +2,11 @@ import {
   Box,
   CircularProgress,
   Dropdown,
-  Grid,
   Menu,
   MenuButton,
   MenuItem,
   Sheet,
+  Typography,
   useColorScheme,
   useTheme,
 } from "@mui/joy";
@@ -21,11 +21,11 @@ import {
   exchangeCryptoToFiat,
 } from "src/utils/currency";
 import { DonatsList } from "./DonatsList";
-import { JsonRpcSigner, Signer, ethers } from "ethers";
-import { toast } from "react-toastify";
+import { JsonRpcSigner, ethers } from "ethers";
+import { toast as Toast } from "react-toastify";
 import { DonatsDiagram } from "./DonatsDiagram";
-import { getCoinPrice, getPrices } from "src/api/prices";
-import { networks } from "src/globals/networks";
+import { getPrices } from "src/api/prices";
+import { networks as cNetworks } from "src/globals/networks";
 import { useAuthContext } from "src/providers/AuthProvider";
 
 export enum Period {
@@ -74,10 +74,10 @@ export const DashboardPage = () => {
         records.map((record) => {
           const symbol =
             record.token !== ethers.ZeroAddress
-              ? networks[record.chainId].tokens.find(
+              ? cNetworks[record.chainId].tokens.find(
                   (i) => i.address === record.token
                 )?.symbol
-              : networks[record.chainId].tokens[0].symbol;
+              : cNetworks[record.chainId].tokens[0].symbol;
 
           return {
             ...record,
@@ -90,7 +90,7 @@ export const DashboardPage = () => {
         })
       );
     } catch (error) {
-      toast(`Fetch list error: ${error}`, {
+      Toast(`Fetch list error: ${error}`, {
         type: "error",
         theme: mode,
         position: "bottom-center",
@@ -139,9 +139,6 @@ export const DashboardPage = () => {
               <MenuItem onClick={() => setPeriod(Period.LAST_WEEK)}>
                 {PeriodStringMap[Period.LAST_WEEK]}
               </MenuItem>
-              {/* <MenuItem onClick={() => setPeriod(Period.ALL)}>
-                {PeriodStringMap[Period.ALL]}
-              </MenuItem> */}
             </Menu>
           </Dropdown>
         }
@@ -174,10 +171,25 @@ export const DashboardPage = () => {
             marginLeft: theme.spacing(2),
             borderRadius: theme.spacing(2),
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            padding: "15px",
           }}
         >
+          <Box
+            sx={{
+              width: "100%",
+              paddingBottom: "15px",
+              borderBottom: `1px solid ${theme.palette.neutral.outlinedColor}`,
+              borderColor: theme.palette.neutral.outlinedBorder,
+              marginBottom: '15px',
+            }}
+          >
+            <Typography sx={{ color: "#ffffff", fontSize: "16px" }}>
+              Last donations
+            </Typography>
+          </Box>
           {listLoading ? (
             <CircularProgress />
           ) : (

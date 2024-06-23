@@ -2,7 +2,7 @@ import { Box, Skeleton, Table, Typography, useTheme } from "@mui/joy";
 import { TokenIcon } from "@token-icons/react";
 import { ethers } from "ethers";
 import React from "react";
-import { networks } from "src/globals/networks";
+import { networks as cNetworks } from "src/globals/networks";
 import { IDonatItem } from "src/types/donation";
 
 type Props = {
@@ -15,11 +15,11 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
 
   const getSymbol = (chainId: number, token: string) => {
     if (token === ethers.ZeroAddress) {
-      return networks[chainId].tokens[0].symbol;
+      return cNetworks[chainId].tokens[0].symbol;
     }
 
     return (
-      networks[chainId].tokens.find((item) => item.address === token)?.symbol ||
+      cNetworks[chainId].tokens.find((item) => item.address === token)?.symbol ||
       ""
     );
   };

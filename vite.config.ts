@@ -8,9 +8,7 @@ export default defineConfig({
     alias: [{ find: 'src', replacement: join(__dirname, 'src') }],
   },
   plugins: [
-    react({
-      include: '**/*.tsx',
-    }),
+    react(),
   ],
   define: {
     'globalThis.process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
