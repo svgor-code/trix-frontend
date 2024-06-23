@@ -146,9 +146,10 @@ export const DashboardPage = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           paddingX: "20px",
-          alignItems: "center",
+          alignItems: "flex-start",
+          gap: "20px",
           marginX: theme.spacing(4),
         }}
       >
@@ -207,6 +208,7 @@ export const DashboardPage = () => {
             alignItems: "center",
             justifyContent: "center",
             padding: '20px',
+            minHeight: '800px',
           }}
         >
           {listLoading ? (
