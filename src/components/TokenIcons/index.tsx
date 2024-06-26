@@ -4,6 +4,7 @@ import ETH from "./tokens/ETH.svg";
 import ARB from "./tokens/ARB.svg";
 import USDC from "./tokens/USDC.svg";
 import USDT from "./tokens/USDT.svg";
+import BNB from "./tokens/BNB.svg";
 
 import Arbitrum from "./networks/Arbitrum.svg";
 import Binance from "./networks/Binance.svg";
@@ -13,6 +14,7 @@ const tokenIconsMap: Record<string, string> = {
   ARB,
   USDC,
   USDT,
+  BNB,
 };
 
 const networkIconMap: Record<number, string> = {

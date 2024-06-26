@@ -48,7 +48,7 @@ export const NetworkDropdown = () => {
               },
             })}
           >
-            <NetworkIcon chainId={activeNetwork.chainId} size={24} />
+            <NetworkIcon chainId={activeNetwork.chainId} size={20} />
           </Box>
         )}
         <Typography variant="plain" textTransform="capitalize">
@@ -56,6 +56,8 @@ export const NetworkDropdown = () => {
         </Typography>
         <Box
           sx={(theme) => ({
+            width: '20px',
+            display: 'flex',
             marginLeft: theme.spacing(1),
           })}
         >
@@ -92,7 +94,7 @@ export const NetworkDropdown = () => {
                 alignItems: "center",
               })}
             >
-              <NetworkIcon chainId={network.chainId} size={16} />
+              <NetworkIcon chainId={network.chainId} size={20} />
             </Box>
             <Typography textTransform="capitalize">{network.name}</Typography>
           </MenuItem>

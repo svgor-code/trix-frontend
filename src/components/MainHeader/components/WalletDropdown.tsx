@@ -46,6 +46,8 @@ export const WalletDropdown = () => {
         <Typography variant="plain">{walletAddress}</Typography>
         <Box
           sx={(theme) => ({
+            width: '20px',
+            display: 'flex',
             marginLeft: theme.spacing(1),
           })}
         >
