@@ -1,5 +1,5 @@
 import { Box, Skeleton, Table, Typography, useTheme } from "@mui/joy";
-import { TokenIcon } from "@token-icons/react";
+// import { TokenIcon } from "@token-icons/react";
 import { ethers } from "ethers";
 import React from "react";
 import { networks as cNetworks } from "src/globals/networks";

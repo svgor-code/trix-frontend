@@ -10,8 +10,9 @@ import React from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 import { useWalletContext } from "src/providers/WalletProvider";
-import { NetworkIcon } from "@token-icons/react";
+// import { NetworkIcon } from "@token-icons/react";
 import { networks } from "src/globals/networks";
+import { NetworkIcon } from "src/components/TokenIcons";
 
 export const NetworkDropdown = () => {
   const { switchNetwork, network: currentNetwork } = useWalletContext();
@@ -19,6 +20,7 @@ export const NetworkDropdown = () => {
   const activeNetwork = Object.values(networks).find(
     (network) => network.chainId === currentNetwork
   ) || {
+    chainId: 0,
     icon: "",
     name: "wrong",
     title: "Wrong network",
@@ -41,16 +43,12 @@ export const NetworkDropdown = () => {
               display: "flex",
               alignItems: "center",
 
-              "& svg": {
+              "& img": {
                 marginRight: theme.spacing(1),
               },
             })}
           >
-            <NetworkIcon
-              network={activeNetwork.name}
-              variant="branded"
-              size={24}
-            />
+            <NetworkIcon chainId={activeNetwork.chainId} size={24} />
           </Box>
         )}
         <Typography variant="plain" textTransform="capitalize">
@@ -94,7 +92,7 @@ export const NetworkDropdown = () => {
                 alignItems: "center",
               })}
             >
-              <NetworkIcon network={network.name} variant="branded" />
+              <NetworkIcon chainId={network.chainId} size={16} />
             </Box>
             <Typography textTransform="capitalize">{network.name}</Typography>
           </MenuItem>

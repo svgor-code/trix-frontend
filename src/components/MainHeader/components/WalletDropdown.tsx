@@ -26,8 +26,9 @@ import {
 import { ToggleTheme } from "src/components/ToggleTheme";
 import { reduceWalletAddress } from "src/utils/wallet";
 import { useWalletContext } from "src/providers/WalletProvider";
-import { NetworkArbitrumOne, TokenIcon } from "@token-icons/react";
+// import { NetworkArbitrumOne, TokenIcon } from "@token-icons/react";
 import { networks } from "src/globals/networks";
+import { TokenIcon } from "src/components/TokenIcons";
 
 export const WalletDropdown = () => {
   const theme = useTheme();
@@ -172,12 +173,7 @@ export const WalletDropdown = () => {
                 paddingY: theme.spacing(1),
               }}
             >
-              {token.symbol === "ARB" ? (
-                <NetworkArbitrumOne variant="branded" size={36} />
-              ) : (
-                <TokenIcon symbol={token.symbol} variant="branded" size={36} />
-              )}
-
+              <TokenIcon symbol={token.symbol} size={36} />
               <Box
                 sx={{
                   display: "flex",
