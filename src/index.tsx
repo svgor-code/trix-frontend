@@ -12,6 +12,8 @@ import "@fontsource/inter";
 import { router } from "./router";
 import { WalletProvider } from "./providers/WalletProvider";
 
+import './i18n';
+
 ReactToastifyCss();
 
 const root = ReactDOM.createRoot(

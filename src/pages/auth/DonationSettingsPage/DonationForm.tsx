@@ -19,6 +19,7 @@ import { useUserContext } from "src/providers/UserProvider";
 import { IUserSettings } from "src/types/user";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 type KDonationForm = keyof IUserSettings;
 
@@ -27,6 +28,7 @@ const DEFAULT_AVATAR =
 
 export const DonationForm = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { mode } = useColorScheme();
   const { signer } = useWalletContext();
   const { user, saveUserSettings } = useUserContext();
@@ -97,7 +99,7 @@ export const DonationForm = () => {
       <Grid lg={6} md={12} xs={12}>
         <SettingsFormWrapper>
           <Box display="flex" flexDirection="column" gap={4}>
-            <FormField label="Your avatar">
+            <FormField label={t("Your avatar")}>
               <Box display="flex" width={1} gap={2}>
                 <Box width="200px">
                   <ImageUploader
@@ -106,7 +108,7 @@ export const DonationForm = () => {
                   />
                 </Box>
                 <Box width={1 / 2}>
-                  Use{" "}
+                  {t("Use")}{" "}
                   <a
                     style={{
                       color: theme.palette.primary[500],
@@ -114,17 +116,17 @@ export const DonationForm = () => {
                     }}
                     onClick={onUseDefaultImage}
                   >
-                    default image
+                    {t("default image")}
                   </a>
                 </Box>
               </Box>
             </FormField>
 
-            <FormField label="Your username">
+            <FormField label={t("Your username")}>
               <Input
                 size="lg"
                 variant="outlined"
-                placeholder="Your username"
+                placeholder={t("Your username")}
                 value={state.username}
                 sx={{ borderRadius: theme.radius.lg }}
                 onChange={(e) => onChange("username", e.target.value)}
@@ -137,7 +139,7 @@ export const DonationForm = () => {
                 size="lg"
                 onClick={onSave}
               >
-                Save settings
+                {t("Save settings")}
               </Button>
             </Box>
           </Box>
@@ -147,7 +149,7 @@ export const DonationForm = () => {
       {user && (
         <Grid lg={6} md={12} xs={12}>
           <SettingsFormWrapper>
-            <FormField label="Your donation page url">
+            <FormField label={t("Your donation page url")}>
               <Input
                 value={donationPageUrl}
                 size="lg"
@@ -155,10 +157,14 @@ export const DonationForm = () => {
                 sx={{ borderRadius: theme.radius.lg }}
                 endDecorator={
                   <Button
-                    sx={{ cursor: "pointer", borderRadius: theme.radius.lg, mr: "2px" }}
+                    sx={{
+                      cursor: "pointer",
+                      borderRadius: theme.radius.lg,
+                      mr: "2px",
+                    }}
                     onClick={onCopyDonationPageUrl}
                   >
-                    Copy
+                    {t("Copy")}
                   </Button>
                 }
               />
@@ -166,7 +172,7 @@ export const DonationForm = () => {
           </SettingsFormWrapper>
 
           <SettingsFormWrapper>
-            <FormField label="Your QR code">
+            <FormField label={t("Your QR code")}>
               <Grid container spacing={2} mt={2}>
                 <Grid lg={4} md={6} xs={6}>
                   <Sheet
@@ -194,7 +200,7 @@ export const DonationForm = () => {
                     sx={{ cursor: "pointer", borderRadius: theme.radius.lg }}
                     onClick={onDownloadQR}
                   >
-                    Download QR code
+                    {t("Download QR code")}
                   </Button>
                 </Grid>
               </Grid>

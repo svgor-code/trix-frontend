@@ -15,7 +15,7 @@ import {
   useTheme,
   Option,
 } from "@mui/joy";
-import React from "react";
+import React, { useState } from "react";
 
 import { PersonIcon } from "src/assets/icons/PersonIcon";
 import {
@@ -29,14 +29,37 @@ import { useWalletContext } from "src/providers/WalletProvider";
 // import { NetworkArbitrumOne, TokenIcon } from "@token-icons/react";
 import { networks } from "src/globals/networks";
 import { TokenIcon } from "src/components/TokenIcons";
+import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
-export const WalletDropdown = () => {
+type Props = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
+
+export const WalletDropdown = ({ open, setOpen }: Props) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { signer, walletTokens, network, disconnect } = useWalletContext();
   const walletAddress = reduceWalletAddress(signer?.address);
 
   return (
-    <Dropdown>
+    <Dropdown
+      open={open}
+      onOpenChange={(e, open) => {
+        if (!open) {
+          if (
+            (e?.target as HTMLElement).getAttribute("aria-expanded") === "true"
+          ) {
+            e?.preventDefault();
+          } else {
+            setOpen(false);
+          }
+        } else {
+          setOpen(true);
+        }
+      }}
+    >
       <MenuButton
         sx={(theme) => ({
           borderRadius: theme.radius.lg,
@@ -46,8 +69,8 @@ export const WalletDropdown = () => {
         <Typography variant="plain">{walletAddress}</Typography>
         <Box
           sx={(theme) => ({
-            width: '20px',
-            display: 'flex',
+            width: "20px",
+            display: "flex",
             marginLeft: theme.spacing(1),
           })}
         >
@@ -89,7 +112,7 @@ export const WalletDropdown = () => {
                 color: theme.palette.neutral[400],
               })}
             >
-              Connected Account:
+              {t("Connected Account")}:
             </Typography>
             <Link
               sx={(theme) => ({
@@ -124,20 +147,28 @@ export const WalletDropdown = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography fontWeight={theme.fontWeight.lg}>Theme:</Typography>
+            <Typography fontWeight={theme.fontWeight.lg}>
+              {t("Theme")}:
+            </Typography>
             <ToggleTheme />
           </Box>
-          {/* <Box
+          <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
-            <Typography fontWeight={theme.fontWeight.lg}>Language:</Typography>
+            <Typography fontWeight={theme.fontWeight.lg}>
+              {t("Language")}:
+            </Typography>
             <Select
-              value="en"
+              i18nIsDynamicList
+              value={i18next.language}
               indicator={<ChevronDownIcon />}
+              onChange={(_, value) =>
+                i18next.changeLanguage(value || undefined)
+              }
               sx={{
                 width: 240,
                 [`& .${selectClasses.indicator}`]: {
@@ -149,8 +180,10 @@ export const WalletDropdown = () => {
               }}
             >
               <Option value="en">English</Option>
+              <Option value="ru">Русский</Option>
+              <Option value="es">Español</Option>
             </Select>
-          </Box> */}
+          </Box>
         </Box>
         <Divider />
         <Box
@@ -245,7 +278,9 @@ export const WalletDropdown = () => {
             >
               <PowerIcon strokeWidth={3} />
             </Box>
-            <Typography fontWeight={theme.fontWeight.lg}>Disconnect</Typography>
+            <Typography fontWeight={theme.fontWeight.lg}>
+              {t("Disconnect")}
+            </Typography>
           </MenuItem>
         </Box>
       </Menu>

@@ -27,6 +27,7 @@ import { DonatsDiagram } from "./DonatsDiagram";
 import { getPrices } from "src/api/prices";
 import { networks as cNetworks } from "src/globals/networks";
 import { useAuthContext } from "src/providers/AuthProvider";
+import { useTranslation } from "react-i18next";
 
 export enum Period {
   LAST_HOUR,
@@ -34,13 +35,6 @@ export enum Period {
   LAST_WEEK,
   ALL,
 }
-
-const PeriodStringMap: Record<Period, string> = {
-  [Period.LAST_HOUR]: "Last hour",
-  [Period.LAST_24_HOURS]: "Last 24 hours",
-  [Period.LAST_WEEK]: "Last week",
-  [Period.ALL]: "All",
-};
 
 const getAmountInDollars = (
   symbol: string | undefined,
@@ -56,12 +50,20 @@ const getAmountInDollars = (
 
 export const DashboardPage = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { mode } = useColorScheme();
   const { signer } = useWalletContext();
   const { isAuthenticated } = useAuthContext();
   const [donats, setDonats] = useState<IDonatItem[]>([]);
   const [period, setPeriod] = useState<Period>(Period.LAST_24_HOURS);
   const [listLoading, setListLoading] = useState(false);
+
+  const PeriodStringMap: Record<Period, string> = {
+    [Period.LAST_HOUR]: t("Last hour"),
+    [Period.LAST_24_HOURS]: t("Last 24 hours"),
+    [Period.LAST_WEEK]: t("Last week"),
+    [Period.ALL]: "All",
+  };
 
   const fetchDonatsList = async (signer: JsonRpcSigner) => {
     try {
@@ -124,8 +126,8 @@ export const DashboardPage = () => {
       }}
     >
       <SettingsPageHeader
-        title="Dashboard"
-        description="Watch your statistics."
+        title={t("Dashboard")}
+        description={t("Watch your statistics")}
         rightElement={
           <Dropdown>
             <MenuButton>{PeriodStringMap[period]}</MenuButton>
@@ -185,7 +187,7 @@ export const DashboardPage = () => {
             <Typography
               sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}
             >
-              Dynamics
+              {t("Dynamics")}
             </Typography>
           </Box>
           {listLoading ? (
@@ -211,8 +213,8 @@ export const DashboardPage = () => {
           sx={{
             width: "100%",
             marginY: theme.spacing(4),
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
             padding: "20px",
             maxHeight: "800px",
             background:
@@ -237,7 +239,7 @@ export const DashboardPage = () => {
             <Typography
               sx={{ color: "#ffffff", fontSize: "16px", fontWeight: 500 }}
             >
-              Last alerts
+              {t("Last alerts")}
             </Typography>
           </Box>
           {listLoading ? (
@@ -247,7 +249,7 @@ export const DashboardPage = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 height: "800px",
-                width: '100%',
+                width: "100%",
               }}
             >
               <CircularProgress />

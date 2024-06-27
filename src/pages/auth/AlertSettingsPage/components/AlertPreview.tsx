@@ -14,6 +14,7 @@ import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
 import { FormField } from "src/components/Form/FormField";
 import { useUserContext } from "src/providers/UserProvider";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export const AlertPreview = ({
   image,
@@ -29,6 +30,7 @@ export const AlertPreview = ({
   const theme = useTheme();
   const { user } = useUserContext();
   const { mode } = useColorScheme();
+  const { t } = useTranslation();
 
   const onCopyAlertPageUrl = () => {
     navigator.clipboard.writeText(alertPageURL);
@@ -46,7 +48,7 @@ export const AlertPreview = ({
     <>
       {user && (
         <SettingsFormWrapper>
-          <FormField label="Paste this link into OBS">
+          <FormField label={t("Paste this link into OBS")}>
             <Input
               size="lg"
               sx={{ borderRadius: theme.radius.lg }}
@@ -60,7 +62,7 @@ export const AlertPreview = ({
                   }}
                   onClick={onCopyAlertPageUrl}
                 >
-                  Copy
+                  {t("Copy")}
                 </Button>
               }
             />

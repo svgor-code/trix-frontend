@@ -8,9 +8,11 @@ import { useUserContext } from "src/providers/UserProvider";
 import { IAlertSettings } from "src/types/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
 import { AlertPreview } from "./components/AlertPreview";
+import { useTranslation } from "react-i18next";
 
 const AlertSettingsPage = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { user, saveAlertSettings } = useUserContext();
 
   const [state, setState] = useState<IAlertSettings>({
@@ -43,7 +45,10 @@ const AlertSettingsPage = () => {
 
   return (
     <Sheet>
-      <SettingsPageHeader title="Alert" description="Set up your alert." />
+      <SettingsPageHeader
+        title={t("Alert")}
+        description={t("Set up your alert")}
+      />
       <Grid
         container
         spacing={4}

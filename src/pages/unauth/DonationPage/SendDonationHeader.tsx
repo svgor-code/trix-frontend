@@ -1,5 +1,5 @@
 import { Box, Button, Sheet, Typography, useTheme } from "@mui/joy";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NetworkDropdown } from "src/components/MainHeader/components/NetworksDropdown";
 import { WalletDropdown } from "src/components/MainHeader/components/WalletDropdown";
@@ -9,6 +9,7 @@ export const SendDonationHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { isConnected, connect } = useWalletContext();
+  const [open, setOpen] = useState(false);
 
   return (
     <Sheet
@@ -34,7 +35,10 @@ export const SendDonationHeader = () => {
         >
           <a
             href="https://trix-donations.xyz"
-            style={{ textDecoration: "none", color: theme.palette.text.primary }}
+            style={{
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+            }}
           >
             TRIX DONATIONS
           </a>
@@ -49,7 +53,7 @@ export const SendDonationHeader = () => {
       >
         <NetworkDropdown />
         {!isConnected && <Button onClick={connect}>Connect wallet</Button>}
-        {isConnected && <WalletDropdown />}
+        {isConnected && <WalletDropdown open={open} setOpen={setOpen} />}
       </Box>
     </Sheet>
   );

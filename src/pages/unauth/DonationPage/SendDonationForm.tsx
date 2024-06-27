@@ -23,9 +23,11 @@ import { useWalletContext } from "src/providers/WalletProvider";
 import { ISendDonation } from "src/types/donation";
 import { IUser } from "src/types/user";
 import { TransactionProgress } from "./components/TransactionProgress";
+import { useTranslation } from "react-i18next";
 
 export const SendDonationForm = () => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { mode } = useColorScheme();
   const [searchParams] = useSearchParams();
   const walletAddress = searchParams.get("wallet");
@@ -147,22 +149,22 @@ export const SendDonationForm = () => {
           </Box>
 
           <Box display="flex" flexDirection="column" gap={4}>
-            <FormField label="Your username">
+            <FormField label={t("Your username")}>
               <Input
                 size="lg"
                 variant="outlined"
-                placeholder="Username"
+                placeholder={t("Username")}
                 sx={{ borderRadius: theme.radius.lg }}
                 value={state.username}
                 onChange={(e) => onChange("username", e.target.value)}
               />
             </FormField>
 
-            <FormField label="Donation message">
+            <FormField label={t("Your message")}>
               <Textarea
                 minRows={5}
                 variant="outlined"
-                placeholder="Message"
+                placeholder={t("Message")}
                 size="lg"
                 sx={{ borderRadius: theme.radius.lg }}
                 value={state.message}
@@ -170,7 +172,7 @@ export const SendDonationForm = () => {
               />
             </FormField>
 
-            <FormField label="Amount">
+            <FormField label={t("Amount")}>
               <AmountInput
                 amount={state.amount}
                 setAmount={(amount) => onChange("amount", amount)}
@@ -185,16 +187,16 @@ export const SendDonationForm = () => {
                 onClick={onSend}
                 disabled={transactionStep !== "none"}
               >
-                Donate
+                {t("Donate")}
               </Button>
             </Box>
 
             <Box m={2}>
-                <TransactionProgress
-                  transactionStep={transactionStep}
-                  isError={isError}
-                />
-              </Box>
+              <TransactionProgress
+                transactionStep={transactionStep}
+                isError={isError}
+              />
+            </Box>
           </Box>
         </SettingsFormWrapper>
       </Sheet>

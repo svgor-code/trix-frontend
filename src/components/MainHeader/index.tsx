@@ -1,10 +1,14 @@
-import { Box, Button, Sheet } from "@mui/joy";
-import React from "react";
+import { Box, Sheet } from "@mui/joy";
+import React, { useState } from "react";
 import { HeaderLink } from "./components/HeaderButton";
 import { NetworkDropdown } from "./components/NetworksDropdown";
 import { WalletDropdown } from "./components/WalletDropdown";
+import { useTranslation } from "react-i18next";
 
 export const MainHeader = () => {
+  const { t } = useTranslation();
+  const [isWalletDropdownOpen, setIsWalletDropdownOpen] = useState(false);
+
   return (
     <Sheet
       sx={(theme) => ({
@@ -21,9 +25,9 @@ export const MainHeader = () => {
       })}
     >
       <Box>
-        <HeaderLink title="Dashboard" href="/" />
-        <HeaderLink title="Alert" href="/alert" />
-        <HeaderLink title="Donation page" href="/donation" />
+        <HeaderLink title={t("Dashboard")} href="/" />
+        <HeaderLink title={t("Alert")} href="/alert" />
+        <HeaderLink title={t("Donation page")} href="/donation" />
       </Box>
       <Box
         sx={(theme) => ({
@@ -33,7 +37,7 @@ export const MainHeader = () => {
         })}
       >
         <NetworkDropdown />
-        <WalletDropdown />
+        <WalletDropdown open={isWalletDropdownOpen} setOpen={setIsWalletDropdownOpen} />
       </Box>
     </Sheet>
   );

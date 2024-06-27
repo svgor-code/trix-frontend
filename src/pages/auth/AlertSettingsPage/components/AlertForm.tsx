@@ -16,6 +16,7 @@ import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
 import { AlertPreview } from "./AlertPreview";
 import { IAlertSettings, IUser } from "src/types/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
+import { useTranslation } from "react-i18next";
 
 type KAlertForm = keyof IAlertSettings;
 
@@ -33,6 +34,7 @@ export const AlertForm = ({
   saveAlertSettings,
 }: Props) => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const onChange = (
     field: KAlertForm,
@@ -58,7 +60,7 @@ export const AlertForm = ({
   return (
     <SettingsFormWrapper>
       <Box display="flex" flexDirection="column" gap={4}>
-        <FormField label="Upload image">
+        <FormField label={t("Upload image")}>
           <Box display="flex" width={1} gap={2}>
             <Box width="200px">
               <ImageUploader
@@ -67,7 +69,7 @@ export const AlertForm = ({
               />
             </Box>
             <Box width={1 / 2}>
-              Use{" "}
+              {t("Use")}{" "}
               <a
                 style={{
                   color: theme.palette.primary[500],
@@ -75,7 +77,7 @@ export const AlertForm = ({
                 }}
                 onClick={onUseDefaultImage}
               >
-                default image
+                {t("default image")}
               </a>
             </Box>
           </Box>
@@ -102,7 +104,7 @@ export const AlertForm = ({
             }}
           >
             <FormField
-              label="Show image"
+              label={t("Show image")}
               flexDirection="row"
               alignItems="center"
             >
@@ -113,7 +115,7 @@ export const AlertForm = ({
               />
             </FormField>
             <FormField
-              label="Show username"
+              label={t("Show username")}
               flexDirection="row"
               alignItems="center"
             >
@@ -124,7 +126,7 @@ export const AlertForm = ({
               />
             </FormField>
             <FormField
-              label="Show amount"
+              label={t("Show amount")}
               flexDirection="row"
               alignItems="center"
             >
@@ -135,7 +137,7 @@ export const AlertForm = ({
               />
             </FormField>
             <FormField
-              label="Show message"
+              label={t("Show message")}
               flexDirection="row"
               alignItems="center"
             >
@@ -148,7 +150,10 @@ export const AlertForm = ({
 
             <Box my={1}></Box>
 
-            <FormField label="Duration (in seconds)" flexDirection="column">
+            <FormField
+              label={t("Duration (in seconds)")}
+              flexDirection="column"
+            >
               <Slider
                 value={state.duration}
                 onChange={(_, value) => onChange("duration", value)}
@@ -171,7 +176,7 @@ export const AlertForm = ({
             }}
           >
             <FormField
-              label="Username color"
+              label={t("Username color")}
               flexDirection="row"
               alignItems="center"
             >
@@ -183,7 +188,7 @@ export const AlertForm = ({
             </FormField>
 
             <FormField
-              label="Amount color"
+              label={t("Amount color")}
               flexDirection="row"
               alignItems="center"
             >
@@ -195,7 +200,7 @@ export const AlertForm = ({
             </FormField>
 
             <FormField
-              label="Text color"
+              label={t("Text color")}
               flexDirection="row"
               alignItems="center"
             >
@@ -214,7 +219,7 @@ export const AlertForm = ({
             size="lg"
             onClick={onSave}
           >
-            Save settings
+            {t("Save settings")}
           </Button>
         </Box>
       </Box>
