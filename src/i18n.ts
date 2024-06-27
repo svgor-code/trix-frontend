@@ -141,8 +141,8 @@ const resources = {
 
 i18next.use(initReactI18next).init({
   resources,
-  fallbackLng: "ru",
-  lng: "ru",
+  fallbackLng: "en",
+  lng: window.localStorage.getItem("default_language") || "en",
   interpolation: {
     escapeValue: false,
   },

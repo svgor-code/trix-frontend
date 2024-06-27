@@ -167,7 +167,14 @@ export const WalletDropdown = ({ open, setOpen }: Props) => {
               value={i18next.language}
               indicator={<ChevronDownIcon />}
               onChange={(_, value) =>
-                i18next.changeLanguage(value || undefined)
+                i18next.changeLanguage(value || undefined, (err) => {
+                  if (!err) {
+                    window.localStorage.setItem(
+                      "default_language",
+                      value || "en"
+                    );
+                  }
+                })
               }
               sx={{
                 width: 240,
