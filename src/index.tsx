@@ -14,6 +14,8 @@ import { WalletProvider } from "./providers/WalletProvider";
 
 import './i18n';
 
+import './index.scss';
+
 ReactToastifyCss();
 
 const root = ReactDOM.createRoot(

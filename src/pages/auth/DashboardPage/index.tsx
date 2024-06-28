@@ -55,7 +55,7 @@ export const DashboardPage = () => {
   const { signer } = useWalletContext();
   const { isAuthenticated } = useAuthContext();
   const [donats, setDonats] = useState<IDonatItem[]>([]);
-  const [period, setPeriod] = useState<Period>(Period.LAST_24_HOURS);
+  const [period, setPeriod] = useState<Period>(Period.LAST_WEEK);
   const [listLoading, setListLoading] = useState(false);
 
   const PeriodStringMap: Record<Period, string> = {

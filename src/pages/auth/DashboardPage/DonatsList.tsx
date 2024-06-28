@@ -60,8 +60,8 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
             }}
           >
             <Typography sx={{ fontSize: "12px" }}>
-              {new Date(donat.timestamp * 1000).toLocaleTimeString()}{" "}
-              {new Date(donat.timestamp * 1000).toLocaleDateString()}
+              {new Date(donat.timestamp * 1000).toLocaleTimeString('es')}{" "}
+              {new Date(donat.timestamp * 1000).toLocaleDateString('es')}
             </Typography>
           </Box>
         </Box>
