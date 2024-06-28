@@ -13,6 +13,7 @@ import { useWalletContext } from "./WalletProvider";
 
 interface IUserContext {
   user?: IUser;
+  loading: boolean;
   saveUserSettings: (userSettings: IUserSettings) => Promise<void>;
   saveAlertSettings: (alertSettings: IAlertSettings) => Promise<void>;
 }
@@ -26,6 +27,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const walletAddress = signer?.address;
 
   const [user, setUser] = useState<IUser>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchUser();
@@ -37,6 +39,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
 
     try {
+      setLoading(true);
+
       const userRes = await getUser(walletAddress);
       setUser(userRes);
     } catch (error) {
@@ -49,6 +53,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         theme: mode,
         position: "bottom-center",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,6 +94,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     <UserContext.Provider
       value={{
         user,
+        loading,
         saveUserSettings,
         saveAlertSettings,
       }}

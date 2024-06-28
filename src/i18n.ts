@@ -45,6 +45,8 @@ const resources = {
       "Connected Account": "Connected Account",
       "Connect a wallet": "Connect a wallet",
       "Browser wallet": "Browser wallet",
+      "Click on the Save settings button to create a profile":
+        "Click on the Save settings button to create a profile",
     },
   },
   ru: {
@@ -90,6 +92,8 @@ const resources = {
       "Connected Account": "Подключенный аккаунт",
       "Connect a wallet": "Подключить кошелек",
       "Browser wallet": "Браузерный кошелек",
+      "Click on the Save settings button to create a profile":
+        "Нажмите на кнопку 'Сохранить настройки', чтобы создать профиль",
     },
   },
   es: {
@@ -135,6 +139,8 @@ const resources = {
       "Connected Account": "Cuenta conectada",
       "Connect a wallet": "Conectar una cartera",
       "Browser wallet": "Cartera del navegador",
+      "Click on the Save settings button to create a profile":
+        "Haz clic en el botón 'Guardar configuraciónes' para crear un perfil",
     },
   },
 };
