@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const config = {
-  API: "http://localhost:8080",
-  WS_API: "http://localhost:8080",
+  API: "https://trix-server.onrender.com/",
+  WS_API: "https://trix-server.onrender.com/",
 };
 
 export const instance = axios.create({
