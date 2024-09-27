@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { config } from "src/api/config";
-import { getUserById } from "src/api/user";
+import { getAlertPageSettings, getUser, getUserById } from "src/api/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
 import { networks } from "src/globals/networks";
-import { IAlertSettings } from "src/types/user";
+import { IAlertSettings, IUser } from "src/types/user";
 import { convertStringToWei, convertWeiToEther } from "src/utils/currency";
 import { getTokenByTokenAddress } from "src/utils/networks";
 
@@ -19,16 +19,27 @@ type Alert = {
   token: string;
 };
 
+const fetchAlertSettings = async (
+  walletAddress: string,
+  cb: (user: IUser, alertSettings: IAlertSettings) => void
+) => {
+  const userRes = await getUser(walletAddress);
+  const alertSettings = await getAlertPageSettings(userRes.id);
+
+  cb(userRes, alertSettings);
+};
+
 export const AlertListenerPage = () => {
   const theme = useTheme();
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get("user_id");
+  const userWallet = searchParams.get("user_wallet");
   const [walletAddress, setWalletAddress] = useState<string | null>();
   const [settings, setSettings] = useState<IAlertSettings>({
+    id: 0,
     image: DEFAULT_ALERT_IMAGE,
-    color_amount: "#fff",
-    color_user: "#fff",
-    color_text: "#fff",
+    colorAmount: "#fff",
+    colorUser: "#fff",
+    colorText: "#fff",
     duration: 10,
     showAmount: false,
     showImage: false,
@@ -38,17 +49,17 @@ export const AlertListenerPage = () => {
   const [alert, setAlert] = useState<Alert | null>(null);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userWallet) return;
 
-    getUserById(userId).then((user) => {
+    fetchAlertSettings(userWallet, (user, alertSettings) => {
       setWalletAddress(user.walletAddress);
       setSettings((state) => ({
         ...state,
-        ...user.alert,
-        image: user.alert.image || DEFAULT_ALERT_IMAGE,
+        ...alertSettings,
+        image: alertSettings.image || DEFAULT_ALERT_IMAGE,
       }));
     });
-  }, [userId]);
+  }, [userWallet]);
 
   useEffect(() => {
     if (!walletAddress) return;
@@ -72,7 +83,7 @@ export const AlertListenerPage = () => {
     }, settings.duration * 1000);
   }, [alert]);
 
-  const { image, color_amount, color_text, color_user } = settings;
+  const { image, colorAmount, colorText, colorUser } = settings;
 
   if (!alert) {
     return <></>;
@@ -99,7 +110,7 @@ export const AlertListenerPage = () => {
               sx={{
                 fontSize: theme.fontSize.xl2,
                 fontWeight: theme.fontWeight.xl,
-                color: color_amount,
+                color: colorAmount,
                 textAlign: "center",
               }}
             >
@@ -116,7 +127,7 @@ export const AlertListenerPage = () => {
               sx={{
                 fontSize: theme.fontSize.xl2,
                 fontWeight: theme.fontWeight.xl,
-                color: color_user,
+                color: colorUser,
                 textAlign: "center",
               }}
             >
@@ -131,7 +142,7 @@ export const AlertListenerPage = () => {
               sx={{
                 textAlign: "center",
                 fontWeight: theme.fontWeight.md,
-                color: color_text,
+                color: colorText,
               }}
             >
               {alert.message}

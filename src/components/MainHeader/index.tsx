@@ -4,6 +4,11 @@ import { HeaderLink } from "./components/HeaderButton";
 import { NetworkDropdown } from "./components/NetworksDropdown";
 import { WalletDropdown } from "./components/WalletDropdown";
 import { useTranslation } from "react-i18next";
+import {
+  AdjustmentsHorizontalIcon,
+  BellAlertIcon,
+  UserIcon,
+} from "@heroicons/react/20/solid";
 
 export const MainHeader = () => {
   const { t } = useTranslation();
@@ -24,10 +29,24 @@ export const MainHeader = () => {
         zIndex: 1000,
       })}
     >
-      <Box>
-        <HeaderLink title={t("Dashboard")} href="/" />
-        <HeaderLink title={t("Alert")} href="/alert" />
-        <HeaderLink title={t("Donation page")} href="/donation" />
+      <Box
+        sx={(theme) => ({
+          [theme.breakpoints.down("md")]: {
+            display: "flex",
+          },
+        })}
+      >
+        <HeaderLink
+          title={t("Dashboard")}
+          href="/"
+          Icon={AdjustmentsHorizontalIcon}
+        />
+        <HeaderLink title={t("Alert")} href="/alert" Icon={BellAlertIcon} />
+        <HeaderLink
+          title={t("Donation page")}
+          href="/donation"
+          Icon={UserIcon}
+        />
       </Box>
       <Box
         sx={(theme) => ({
@@ -37,7 +56,10 @@ export const MainHeader = () => {
         })}
       >
         <NetworkDropdown />
-        <WalletDropdown open={isWalletDropdownOpen} setOpen={setIsWalletDropdownOpen} />
+        <WalletDropdown
+          open={isWalletDropdownOpen}
+          setOpen={setIsWalletDropdownOpen}
+        />
       </Box>
     </Sheet>
   );

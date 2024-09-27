@@ -61,7 +61,14 @@ export const AlertForm = ({
     <SettingsFormWrapper>
       <Box display="flex" flexDirection="column" gap={4}>
         <FormField label={t("Upload image")}>
-          <Box display="flex" width={1} gap={2}>
+          <Box
+            sx={{
+              width: "100%",
+              gap: 2,
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
             <Box width="200px">
               <ImageUploader
                 image={state.image}
@@ -88,6 +95,11 @@ export const AlertForm = ({
             display: "flex",
             background: "transparent",
             justifyContent: "space-between",
+            flexWrap: "wrap",
+
+            [theme.breakpoints.down("md")]: {
+              gap: 1,
+            },
           }}
         >
           <Sheet
@@ -101,6 +113,10 @@ export const AlertForm = ({
               display: "flex",
               flexDirection: "column",
               gap: 2,
+
+              [theme.breakpoints.down("md")]: {
+                width: "100%",
+              },
             }}
           >
             <FormField
@@ -173,6 +189,10 @@ export const AlertForm = ({
               display: "flex",
               flexDirection: "column",
               gap: 2,
+
+              [theme.breakpoints.down("md")]: {
+                width: "100%",
+              },
             }}
           >
             <FormField
@@ -181,8 +201,8 @@ export const AlertForm = ({
               alignItems="center"
             >
               <ColorPicker
-                color={state.color_user}
-                setColor={(color) => onChange("color_user", color)}
+                color={state.colorUser}
+                setColor={(color) => onChange("colorUser", color)}
                 style={{ marginLeft: "auto" }}
               />
             </FormField>
@@ -193,8 +213,8 @@ export const AlertForm = ({
               alignItems="center"
             >
               <ColorPicker
-                color={state.color_amount}
-                setColor={(color) => onChange("color_amount", color)}
+                color={state.colorAmount}
+                setColor={(color) => onChange("colorAmount", color)}
                 style={{ marginLeft: "auto" }}
               />
             </FormField>
@@ -205,8 +225,8 @@ export const AlertForm = ({
               alignItems="center"
             >
               <ColorPicker
-                color={state.color_text}
-                setColor={(color) => onChange("color_text", color)}
+                color={state.colorText}
+                setColor={(color) => onChange("colorText", color)}
                 style={{ marginLeft: "auto" }}
               />
             </FormField>

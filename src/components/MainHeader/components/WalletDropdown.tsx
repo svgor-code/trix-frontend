@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, WalletIcon } from "@heroicons/react/20/solid";
 import {
   Box,
   Button,
@@ -66,15 +66,44 @@ export const WalletDropdown = ({ open, setOpen }: Props) => {
           height: "48px",
         })}
       >
-        <Typography variant="plain">{walletAddress}</Typography>
+        <Typography
+          variant="plain"
+          sx={(theme) => ({
+            [theme.breakpoints.down("md")]: {
+              display: "none",
+            },
+          })}
+        >
+          {walletAddress}
+        </Typography>
         <Box
           sx={(theme) => ({
             width: "20px",
             display: "flex",
             marginLeft: theme.spacing(1),
+
+            [theme.breakpoints.down("md")]: {
+              display: "none",
+            },
           })}
         >
           <ChevronDownIcon />
+        </Box>
+        <Box
+          sx={(theme) => ({
+            display: "flex",
+            width: "20px",
+
+            "& svg": {
+              color: theme.palette.neutral.outlinedColor,
+            },
+
+            [theme.breakpoints.up("md")]: {
+              display: "none",
+            },
+          })}
+        >
+          <WalletIcon />
         </Box>
       </MenuButton>
       <Menu
@@ -82,6 +111,10 @@ export const WalletDropdown = ({ open, setOpen }: Props) => {
           width: "450px",
           padding: theme.spacing(1),
           borderRadius: theme.radius.lg,
+
+          [theme.breakpoints.down("md")]: {
+            width: "300px",
+          },
         })}
         popperOptions={{
           placement: "bottom-end",
@@ -140,7 +173,7 @@ export const WalletDropdown = ({ open, setOpen }: Props) => {
           gap={theme.spacing(3)}
           flexDirection="column"
         >
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               alignItems: "center",
@@ -151,7 +184,7 @@ export const WalletDropdown = ({ open, setOpen }: Props) => {
               {t("Theme")}:
             </Typography>
             <ToggleTheme />
-          </Box>
+          </Box> */}
           <Box
             sx={{
               display: "flex",
@@ -187,7 +220,7 @@ export const WalletDropdown = ({ open, setOpen }: Props) => {
               }}
             >
               <Option value="en">English</Option>
-              <Option value="ru">Русский</Option>
+              {/* <Option value="ru">Русский</Option> */}
               <Option value="es">Español</Option>
             </Select>
           </Box>

@@ -20,9 +20,9 @@ import { useTranslation } from "react-i18next";
 
 export const AlertPreview = ({
   image,
-  color_text,
-  color_amount,
-  color_user,
+  colorText,
+  colorAmount,
+  colorUser,
   duration,
   showImage,
   showAmount,
@@ -44,7 +44,7 @@ export const AlertPreview = ({
     });
   };
 
-  const alertPageURL = `${window.location.origin}/l/?user_id=${user?._id}`;
+  const alertPageURL = `${window.location.origin}/l/?user_wallet=${user?.walletAddress}`;
 
   return (
     <>
@@ -122,7 +122,7 @@ export const AlertPreview = ({
                 sx={{
                   fontSize: theme.fontSize.xl2,
                   fontWeight: theme.fontWeight.xl,
-                  color: color_amount,
+                  color: colorAmount,
                 }}
               >
                 1.3 ETH
@@ -134,7 +134,7 @@ export const AlertPreview = ({
                 sx={{
                   fontSize: theme.fontSize.xl2,
                   fontWeight: theme.fontWeight.xl,
-                  color: color_user,
+                  color: colorUser,
                 }}
               >
                 {showAmount && "-"} @username
@@ -148,7 +148,7 @@ export const AlertPreview = ({
                 sx={{
                   textAlign: "center",
                   fontWeight: theme.fontWeight.md,
-                  color: color_text,
+                  color: colorText,
                 }}
               >
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere

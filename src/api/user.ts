@@ -1,8 +1,25 @@
-import { IAlertSettings, IUser, IUserSettings } from "src/types/user";
+import {
+  IAlertSettings,
+  IDonationPageSettings,
+  IUser,
+  IUserSettings,
+} from "src/types/user";
 import { instance } from "./config";
 
 export const getUser = async (walletAddress: string) => {
   const res = await instance.get<IUser>(`users/${walletAddress}`);
+  return res.data;
+};
+
+export const getAlertPageSettings = async (userId: number) => {
+  const res = await instance.get<IAlertSettings>(`users/alert/${userId}`);
+  return res.data;
+};
+
+export const getDonationPageSettings = async (userId: number) => {
+  const res = await instance.get<IDonationPageSettings>(
+    `users/donation-page/${userId}`
+  );
   return res.data;
 };
 

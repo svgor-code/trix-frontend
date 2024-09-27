@@ -10,13 +10,13 @@ const DonationSettingsPage = () => {
   const { t } = useTranslation();
 
   return (
-    <Sheet>
+    <>
       <SettingsPageHeader
         title={t("Donation page")}
         description={t("Set up your donation page")}
       />
       <DonationForm />
-    </Sheet>
+    </>
   );
 };
 

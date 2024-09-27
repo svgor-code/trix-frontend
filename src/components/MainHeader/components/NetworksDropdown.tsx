@@ -46,19 +46,34 @@ export const NetworkDropdown = () => {
               "& img": {
                 marginRight: theme.spacing(1),
               },
+
+              [theme.breakpoints.down("md")]: {
+                display: "none",
+              },
             })}
           >
             <NetworkIcon chainId={activeNetwork.chainId} size={20} />
           </Box>
         )}
-        <Typography variant="plain" textTransform="capitalize">
+        <Typography
+          variant="plain"
+          textTransform="capitalize"
+          sx={(theme) => ({
+            [theme.breakpoints.down("md")]: {
+              fontSize: "12px",
+            },
+          })}
+        >
           {activeNetwork.name}
         </Typography>
         <Box
           sx={(theme) => ({
-            width: '20px',
-            display: 'flex',
+            width: "20px",
+            display: "flex",
             marginLeft: theme.spacing(1),
+            [theme.breakpoints.down("md")]: {
+              display: "none",
+            },
           })}
         >
           <ChevronDownIcon />
@@ -70,6 +85,7 @@ export const NetworkDropdown = () => {
           padding: theme.spacing(1),
           borderRadius: theme.radius.lg,
           gap: theme.spacing(1),
+          background: theme.palette.background.popup,
         })}
         popperOptions={{
           placement: "bottom-start",
@@ -96,7 +112,16 @@ export const NetworkDropdown = () => {
             >
               <NetworkIcon chainId={network.chainId} size={20} />
             </Box>
-            <Typography textTransform="capitalize">{network.name}</Typography>
+            <Typography
+              textTransform="capitalize"
+              sx={(theme) => ({
+                [theme.breakpoints.down("md")]: {
+                  fontSize: "14px",
+                },
+              })}
+            >
+              {network.name}
+            </Typography>
           </MenuItem>
         ))}
       </Menu>
