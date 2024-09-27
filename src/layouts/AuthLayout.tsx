@@ -23,7 +23,8 @@ export const AuthLayout = () => {
         <Sheet
           sx={{
             marginTop: "80px",
-            background: theme.palette.background.surface,
+            height: '100%',
+            background: theme.palette.background.body,
           }}
         >
           <Outlet />

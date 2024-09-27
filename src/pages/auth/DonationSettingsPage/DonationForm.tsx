@@ -94,13 +94,24 @@ export const DonationForm = () => {
       sx={{
         marginX: theme.spacing(8),
         paddingY: theme.spacing(4),
+
+        [theme.breakpoints.down("md")]: {
+          marginX: theme.spacing(0),
+        },
       }}
     >
       <Grid lg={6} md={12} xs={12}>
         <SettingsFormWrapper>
           <Box display="flex" flexDirection="column" gap={4}>
             <FormField label={t("Your avatar")}>
-              <Box display="flex" width={1} gap={2}>
+              <Box
+                sx={{
+                  width: "100%",
+                  gap: 2,
+                  display: "flex",
+                  flexWrap: "wrap",
+                }}
+              >
                 <Box width="200px">
                   <ImageUploader
                     image={state.avatar}

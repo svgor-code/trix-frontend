@@ -4,9 +4,20 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { getUser, updateAlertSettings, updateUserSettings } from "src/api/user";
+import {
+  getAlertPageSettings,
+  getDonationPageSettings,
+  getUser,
+  updateAlertSettings,
+  updateUserSettings,
+} from "src/api/user";
 import { useAuthContext } from "./AuthProvider";
-import { IAlertSettings, IUser, IUserSettings } from "src/types/user";
+import {
+  IAlertSettings,
+  IDonationPageSettings,
+  IUser,
+  IUserSettings,
+} from "src/types/user";
 import { toast } from "react-toastify";
 import { useColorScheme } from "@mui/joy";
 import { useWalletContext } from "./WalletProvider";
@@ -14,6 +25,8 @@ import { useWalletContext } from "./WalletProvider";
 interface IUserContext {
   user?: IUser;
   loading: boolean;
+  alertSettings?: IAlertSettings;
+  donationPageSettigs?: IDonationPageSettings;
   saveUserSettings: (userSettings: IUserSettings) => Promise<void>;
   saveAlertSettings: (alertSettings: IAlertSettings) => Promise<void>;
 }
@@ -27,6 +40,9 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const walletAddress = signer?.address;
 
   const [user, setUser] = useState<IUser>();
+  const [alertSettings, setAlertSettings] = useState<IAlertSettings>();
+  const [donationPageSettigs, setDonationPageSettings] =
+    useState<IDonationPageSettings>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,7 +58,11 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       setLoading(true);
 
       const userRes = await getUser(walletAddress);
+      const alertSettings = await getAlertPageSettings(userRes.id);
+      const donationPageSettigs = await getDonationPageSettings(userRes.id);
       setUser(userRes);
+      setAlertSettings(alertSettings);
+      setDonationPageSettings(donationPageSettigs);
     } catch (error) {
       if (!isAuthenticated) {
         return;
@@ -95,6 +115,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       value={{
         user,
         loading,
+        alertSettings,
+        donationPageSettigs,
         saveUserSettings,
         saveAlertSettings,
       }}

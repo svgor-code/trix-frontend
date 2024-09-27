@@ -123,6 +123,7 @@ export const DashboardPage = () => {
     <Sheet
       sx={{
         height: "100px",
+        background: theme.palette.background.body,
       }}
     >
       <SettingsPageHeader
@@ -153,6 +154,12 @@ export const DashboardPage = () => {
           alignItems: "flex-start",
           gap: "20px",
           marginX: theme.spacing(4),
+
+          [theme.breakpoints.down("md")]: {
+            flexDirection: "column-reverse",
+            paddingX: 0,
+            gap: "5px",
+          },
         }}
       >
         <Sheet

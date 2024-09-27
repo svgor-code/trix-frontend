@@ -13,7 +13,7 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getUser } from "src/api/user";
+import { getDonationPageSettings, getUser } from "src/api/user";
 import { AmountInput } from "src/components/AmountInput";
 import { FormField } from "src/components/Form/FormField";
 import { SettingsFormWrapper } from "src/components/SettingsFormWrapper";
@@ -21,7 +21,7 @@ import { IToken, networks } from "src/globals/networks";
 import { useContract } from "src/hooks/useContract";
 import { useWalletContext } from "src/providers/WalletProvider";
 import { ISendDonation } from "src/types/donation";
-import { IUser } from "src/types/user";
+import { IDonationPageSettings, IUser } from "src/types/user";
 import { TransactionProgress } from "./components/TransactionProgress";
 import { useTranslation } from "react-i18next";
 
@@ -39,6 +39,9 @@ export const SendDonationForm = () => {
     networks[network || Object.keys(networks)[0]].tokens[0]
   );
   const [streamer, setStreamer] = useState<IUser | undefined>(undefined);
+  const [donationPageSettings, setDonationPageSettings] = useState<
+    IDonationPageSettings | undefined
+  >();
 
   const [state, setState] = useState<ISendDonation>({
     username: "",
@@ -50,6 +53,7 @@ export const SendDonationForm = () => {
   useEffect(() => {
     const fetchUser = async (walletAddress: string) => {
       const user = await getUser(walletAddress);
+      const donationSettings = await getDonationPageSettings(user.id);
 
       if (!user) {
         toast("Streamer not found :(", {
@@ -60,6 +64,7 @@ export const SendDonationForm = () => {
       }
 
       setStreamer(user);
+      setDonationPageSettings(donationSettings);
     };
 
     if (walletAddress) {
@@ -143,12 +148,12 @@ export const SendDonationForm = () => {
                 {!streamer && (
                   <Skeleton variant="rectangular" width="60px" height="14px" />
                 )}
-                {streamer?.donationPage.welcomeText}
+                {donationPageSettings?.welcomeText}
               </Typography>
             </Box>
           </Box>
 
-          <Box display="flex" flexDirection="column" gap={4}>
+          <Box display="flex" flexDirection="column" gap={1}>
             <FormField label={t("Your username")}>
               <Input
                 size="lg"
@@ -162,7 +167,7 @@ export const SendDonationForm = () => {
 
             <FormField label={t("Your message")}>
               <Textarea
-                minRows={5}
+                minRows={3}
                 variant="outlined"
                 placeholder={t("Message")}
                 size="lg"
@@ -191,7 +196,7 @@ export const SendDonationForm = () => {
               </Button>
             </Box>
 
-            <Box m={2}>
+            <Box m={1}>
               <TransactionProgress
                 transactionStep={transactionStep}
                 isError={isError}

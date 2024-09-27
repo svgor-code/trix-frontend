@@ -21,7 +21,15 @@ export const SettingsPageHeader = ({
         background: theme.palette.background.level1,
       }}
     >
-      <Grid sx={{ height: "100%", marginX: theme.spacing(8) }}>
+      <Grid
+        sx={(theme) => ({
+          height: "100%",
+          marginX: theme.spacing(8),
+          [theme.breakpoints.down("md")]: {
+            marginX: theme.spacing(2),
+          },
+        })}
+      >
         <Box
           display="flex"
           alignItems="center"
@@ -30,10 +38,14 @@ export const SettingsPageHeader = ({
         >
           <Box>
             <Typography
-              sx={{
+              sx={(theme) => ({
                 fontSize: theme.fontSize.xl4,
                 fontWeight: theme.fontWeight.lg,
-              }}
+
+                [theme.breakpoints.down("md")]: {
+                  fontSize: theme.fontSize.md,
+                },
+              })}
             >
               {title}
             </Typography>

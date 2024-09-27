@@ -4,19 +4,18 @@ export interface IUserSettings {
 }
 
 export interface IUser {
-  _id: string;
+  id: number;
   walletAddress: string;
   avatar: string;
   username: string;
-  alert: IAlertSettings;
-  donationPage: IDonationPageSettings;
 }
 
 export interface IAlertSettings {
+  id: number;
   image: string;
-  color_user: string;
-  color_amount: string;
-  color_text: string;
+  colorUser: string;
+  colorAmount: string;
+  colorText: string;
   duration: number;
   showImage: boolean;
   showUsername: boolean;
@@ -25,6 +24,7 @@ export interface IAlertSettings {
 }
 
 export interface IDonationPageSettings {
+  id: number;
   headerBanner: string;
   backgroundBanner: string;
   welcomeText: string;

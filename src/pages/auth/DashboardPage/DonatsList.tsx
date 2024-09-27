@@ -1,3 +1,4 @@
+import { InboxIcon } from "@heroicons/react/24/outline";
 import { Box, Skeleton, Table, Typography, useTheme } from "@mui/joy";
 // import { TokenIcon } from "@token-icons/react";
 import { ethers } from "ethers";
@@ -26,6 +27,22 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
 
   return (
     <Box sx={{ overflowY: "scroll" }}>
+      {!donats.length && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+            "& svg": { width: "40px", height: "40px" },
+          }}
+        >
+          <InboxIcon />
+          <Typography fontSize={theme.fontSize.md}>No data</Typography>
+        </Box>
+      )}
+
       {donats.map((donat) => (
         <Box
           key={donat.transactionHash}
@@ -60,8 +77,8 @@ export const DonatsList = ({ donats, listLoading }: Props) => {
             }}
           >
             <Typography sx={{ fontSize: "12px" }}>
-              {new Date(donat.timestamp * 1000).toLocaleTimeString('es')}{" "}
-              {new Date(donat.timestamp * 1000).toLocaleDateString('es')}
+              {new Date(donat.timestamp * 1000).toLocaleTimeString("es")}{" "}
+              {new Date(donat.timestamp * 1000).toLocaleDateString("es")}
             </Typography>
           </Box>
         </Box>
