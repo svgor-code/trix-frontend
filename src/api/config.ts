@@ -1,9 +1,17 @@
 import axios from "axios";
 
-export const config = {
-  API: "https://trix-server.onrender.com",
-  WS_API: "https://trix-server.onrender.com",
-};
+console.log(process.env.NODE_ENV);
+
+export const config =
+  process.env.NODE_ENV === "development"
+    ? {
+        API: "http://localhost",
+        WS_API: "http://localhost",
+      }
+    : {
+        API: "https://trix-server.onrender.com",
+        WS_API: "https://trix-server.onrender.com",
+      };
 
 export const instance = axios.create({
   baseURL: config.API,

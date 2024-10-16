@@ -40,29 +40,54 @@ export const networks: Record<string, INetwork> = {
       },
     ],
   },
-  56: {
-    name: "BNB Smart Chain",
-    slug: "bnb",
-    chainId: 56,
-    rpc: "https://api.tatum.io/v3/blockchain/node/bsc-mainnet",
-    contract: "0x20De84d627D88e99dAe7C78f34b724578fE0F4C6",
+  43114: {
+    name: "Avalanche",
+    slug: "avalanche",
+    chainId: 43114,
+    rpc: "https://avalanche-c-chain-rpc.publicnode.com",
+    contract: "0x02D4E1Aedc2C00dd3e4746d6533D902091Ef22C2",
     tokens: [
       {
-        symbol: "BNB",
+        symbol: "AVAX",
         address: "",
         native: true,
-        name: "BNB",
+        name: "Avalanche",
       },
       {
         symbol: "USDT",
-        address: "0x55d398326f99059fF775485246999027B3197955",
+        address: "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
         name: "Tether USD",
       },
       {
         symbol: "USDC",
-        address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-        name: "USD Coin",
+        address: "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+        name: "USDC",
       },
     ],
   },
+  // 56: {
+  //   name: "BNB Smart Chain",
+  //   slug: "bnb",
+  //   chainId: 56,
+  //   rpc: "https://api.tatum.io/v3/blockchain/node/bsc-mainnet",
+  //   contract: "0x20De84d627D88e99dAe7C78f34b724578fE0F4C6",
+  //   tokens: [
+  //     {
+  //       symbol: "BNB",
+  //       address: "",
+  //       native: true,
+  //       name: "BNB",
+  //     },
+  //     {
+  //       symbol: "USDT",
+  //       address: "0x55d398326f99059fF775485246999027B3197955",
+  //       name: "Tether USD",
+  //     },
+  //     {
+  //       symbol: "USDC",
+  //       address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+  //       name: "USD Coin",
+  //     },
+  //   ],
+  // },
 };
