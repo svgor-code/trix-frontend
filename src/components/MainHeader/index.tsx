@@ -1,4 +1,4 @@
-import { Box, Sheet } from "@mui/joy";
+import { Box, Button, Sheet } from "@mui/joy";
 import React, { useState } from "react";
 import { HeaderLink } from "./components/HeaderButton";
 import { NetworkDropdown } from "./components/NetworksDropdown";
@@ -9,9 +9,13 @@ import {
   BellAlertIcon,
   UserIcon,
 } from "@heroicons/react/20/solid";
+import { useWalletContext } from "src/providers/WalletProvider";
+import { ConnectWalletModal } from "./components/ConnectWalletModal";
 
 export const MainHeader = () => {
   const { t } = useTranslation();
+  const { isConnected } = useWalletContext();
+  const [openConnectModal, setOpenConnectModal] = useState(false);
   const [isWalletDropdownOpen, setIsWalletDropdownOpen] = useState(false);
 
   return (
@@ -55,12 +59,24 @@ export const MainHeader = () => {
           gap: theme.spacing(2),
         })}
       >
-        <NetworkDropdown />
-        <WalletDropdown
-          open={isWalletDropdownOpen}
-          setOpen={setIsWalletDropdownOpen}
-        />
+        {isConnected && <NetworkDropdown />}
+        {isConnected && (
+          <WalletDropdown
+            open={isWalletDropdownOpen}
+            setOpen={setIsWalletDropdownOpen}
+          />
+        )}
+        {!isConnected && (
+          <Button onClick={() => setOpenConnectModal(true)}>
+            Connect Wallet
+          </Button>
+        )}
       </Box>
+
+      <ConnectWalletModal
+        open={openConnectModal}
+        setOpen={setOpenConnectModal}
+      />
     </Sheet>
   );
 };

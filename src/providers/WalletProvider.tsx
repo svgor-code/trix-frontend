@@ -29,6 +29,7 @@ interface IWalletContext {
   signer: JsonRpcSigner | null;
   provider: BrowserProvider | null;
   network: number;
+  error: string;
   walletTokens: ITokenWithBalance[];
   connect(): Promise<void>;
   disconnect(): Promise<void>;
@@ -42,6 +43,7 @@ const defaultWalletState = {
   walletAddress: "",
   network: 0,
   walletTokens: [],
+  error: "",
 };
 
 const WalletContext = React.createContext<IWalletContext | null>(null);
@@ -53,28 +55,41 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     provider: BrowserProvider | null;
     network: number;
     walletTokens: ITokenWithBalance[];
+    error: string;
   }>(defaultWalletState);
 
   const connect = async () => {
-    if (!window.ethereum) {
-      setState((prev) => ({
-        ...prev,
-        provider: ethers.getDefaultProvider("") as BrowserProvider,
-      }));
-    } else {
-      const provider = new BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []);
+    try {
+      if (!window.ethereum) {
+        setState((prev) => ({
+          ...prev,
+          provider: null,
+        }));
 
-      const signer = await provider.getSigner();
-      const currentNetwork = await getCurrentNetwork();
+        throw new Error(
+          "Wallet not detected. Connect or install wallet and retry"
+        );
+      } else {
+        const provider = new BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
 
-      setState((prev) => ({
-        ...prev,
-        provider,
-        signer,
-        isConnected: true,
-        network: currentNetwork?.chainId || 0,
-      }));
+        const signer = await provider.getSigner();
+        const currentNetwork = await getCurrentNetwork();
+
+        setState((prev) => ({
+          ...prev,
+          provider,
+          signer,
+          isConnected: true,
+          network: currentNetwork?.chainId || 0,
+          error: "",
+        }));
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+        setState((prev) => ({ ...prev, error: error.message }));
+      }
     }
   };
 
@@ -83,6 +98,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
       return;
     }
 
+    await state.provider.removeAllListeners();
     await state.provider.destroy();
 
     setState(defaultWalletState);

@@ -36,7 +36,7 @@ const UserContext = React.createContext<IUserContext | null>(null);
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const { signer } = useWalletContext();
   const { mode } = useColorScheme();
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, auth } = useAuthContext();
   const walletAddress = signer?.address;
 
   const [user, setUser] = useState<IUser>();
@@ -78,10 +78,17 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const saveAlertSettings = async (alertSettings: IAlertSettings) => {
-    if (!walletAddress) return;
+  const checkAuth = async () => {
+    return await auth();
+  };
 
-    const res = await updateAlertSettings(walletAddress, alertSettings);
+  const saveAlertSettings = async (alertSettings: IAlertSettings) => {
+    const isSuccessAuth = await checkAuth();
+    if (!isSuccessAuth) {
+      return;
+    }
+
+    const res = await updateAlertSettings(walletAddress || "", alertSettings);
 
     if (res.status === 200) {
       toast("Alert settings updated", {
@@ -95,9 +102,12 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   };
 
   const saveUserSettings = async (userSettings: IUserSettings) => {
-    if (!walletAddress) return;
+    const isSuccessAuth = await checkAuth();
+    if (!isSuccessAuth) {
+      return;
+    }
 
-    const res = await updateUserSettings(walletAddress, userSettings);
+    const res = await updateUserSettings(walletAddress || "", userSettings);
 
     if (res.status === 200) {
       toast("User settings updated", {

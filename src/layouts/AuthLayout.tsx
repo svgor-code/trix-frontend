@@ -7,14 +7,6 @@ import { useWalletContext } from "src/providers/WalletProvider";
 
 export const AuthLayout = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const { isConnected } = useWalletContext();
-
-  useEffect(() => {
-    if (!isConnected) {
-      navigate("/connect-wallet");
-    }
-  }, [isConnected]);
 
   return (
     <AuthProvider>
