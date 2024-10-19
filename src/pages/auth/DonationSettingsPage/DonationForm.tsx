@@ -4,6 +4,7 @@ import {
   Grid,
   Input,
   Sheet,
+  Typography,
   useColorScheme,
   useTheme,
 } from "@mui/joy";
@@ -30,6 +31,7 @@ export const DonationForm = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { mode } = useColorScheme();
+  const { isAuthenticated, auth } = useAuthContext();
   const { signer } = useWalletContext();
   const { user, saveUserSettings } = useUserContext();
   const ref = useRef<HTMLDivElement>(null);
@@ -149,6 +151,7 @@ export const DonationForm = () => {
                 sx={{ borderRadius: theme.radius.lg }}
                 size="lg"
                 onClick={onSave}
+                disabled={!isAuthenticated}
               >
                 {t("Save settings")}
               </Button>
@@ -157,7 +160,7 @@ export const DonationForm = () => {
         </SettingsFormWrapper>
       </Grid>
 
-      {user && (
+      {user?.id ? (
         <Grid lg={6} md={12} xs={12}>
           <SettingsFormWrapper>
             <FormField label={t("Your donation page url")}>
@@ -216,6 +219,25 @@ export const DonationForm = () => {
                 </Grid>
               </Grid>
             </FormField>
+          </SettingsFormWrapper>
+        </Grid>
+      ) : (
+        <Grid lg={6} md={12} xs={12}>
+          <SettingsFormWrapper>
+            <Box
+              width="100%"
+              height="100px"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              gap="10px"
+            >
+              <Typography>
+                Sign the message from the server for authorization
+              </Typography>
+              <Button onClick={auth}>Sign message</Button>
+            </Box>
           </SettingsFormWrapper>
         </Grid>
       )}

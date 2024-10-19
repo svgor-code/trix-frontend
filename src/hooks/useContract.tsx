@@ -17,10 +17,10 @@ export const useContract = () => {
   const [transactionStep, setTransactionStep] = useState<TxStep>("none");
   const [isError, setIsError] = useState(false);
 
-  const contractAddress =
-    networks[network]?.contract || Object.values(networks)[0]?.contract;
-
   useEffect(() => {
+    const contractAddress =
+      networks[network]?.contract || Object.values(networks)[0]?.contract;
+
     const contractInstance = new ethers.Contract(
       contractAddress,
       TrixABI,
@@ -28,7 +28,7 @@ export const useContract = () => {
     ) as unknown as TrixAbi;
 
     setContract(contractInstance);
-  }, [contractAddress, TrixABI]);
+  }, [TrixABI, signer, network]);
 
   const sendDonation = async (
     to: ethers.AddressLike,
@@ -105,7 +105,7 @@ export const useContract = () => {
 
       setTransactionStep("sending");
 
-      const gasLimit = BigInt(45000);
+      const gasLimit = BigInt(45000 * 2);
 
       console.log("Sending transaction with parameters:");
       console.log("To:", to);
@@ -159,13 +159,19 @@ export const useContract = () => {
         ERC20ABI,
         provider
       )) as unknown as Erc20Abi;
-      const approveTx = await tokenContract
-        .connect(signer)
-        .approve(contractAddress, amount);
+      const contractAddress = await contract?.getAddress();
 
-      console.log("Approve transaction sent:", approveTx);
+      if (contractAddress) {
+        const approveTx = await tokenContract
+          .connect(signer)
+          .approve(contractAddress, amount);
 
-      await approveTx.wait();
+        console.log("Approve transaction sent:", approveTx);
+
+        await approveTx.wait();
+      } else {
+        throw new Error("Contract not found");
+      }
 
       return true;
     } catch (error) {

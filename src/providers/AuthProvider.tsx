@@ -46,6 +46,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       setIsAuthenticated(true);
 
+      window.location.reload();
+
       return true;
     } catch (error) {
       console.log(error);
@@ -60,6 +62,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       return false;
     }
   };
+
+  useEffect(() => {
+    const existingToken = localStorage.getItem("access_token");
+
+    if (existingToken && isTokenValid(existingToken, signer)) {
+      setIsAuthenticated(true);
+    } else setIsAuthenticated(false);
+  }, [signer, isConnected]);
+  console.log(isAuthenticated);
 
   return (
     <AuthContext.Provider

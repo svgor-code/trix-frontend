@@ -17,6 +17,7 @@ import { FormField } from "src/components/Form/FormField";
 import { useUserContext } from "src/providers/UserProvider";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useAuthContext } from "src/providers/AuthProvider";
 
 export const AlertPreview = ({
   image,
@@ -30,6 +31,7 @@ export const AlertPreview = ({
   showUsername,
 }: IAlertSettings) => {
   const theme = useTheme();
+  const { isAuthenticated, auth } = useAuthContext();
   const { user, loading } = useUserContext();
   const { mode } = useColorScheme();
   const { t } = useTranslation();
@@ -45,6 +47,27 @@ export const AlertPreview = ({
   };
 
   const alertPageURL = `${window.location.origin}/l/?user_wallet=${user?.walletAddress}`;
+  console.log(isAuthenticated);
+  if (!isAuthenticated) {
+    return (
+      <SettingsFormWrapper>
+        <Box
+          width="100%"
+          height="100px"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap="10px"
+        >
+          <Typography>
+            Sign the message from the server for authorization
+          </Typography>
+          <Button onClick={auth}>Sign message</Button>
+        </Box>
+      </SettingsFormWrapper>
+    );
+  }
 
   return (
     <>

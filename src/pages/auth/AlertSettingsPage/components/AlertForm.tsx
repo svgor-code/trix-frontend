@@ -17,6 +17,7 @@ import { AlertPreview } from "./AlertPreview";
 import { IAlertSettings, IUser } from "src/types/user";
 import { DEFAULT_ALERT_IMAGE } from "src/globals/alert";
 import { useTranslation } from "react-i18next";
+import { useAuthContext } from "src/providers/AuthProvider";
 
 type KAlertForm = keyof IAlertSettings;
 
@@ -35,6 +36,7 @@ export const AlertForm = ({
 }: Props) => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuthContext();
 
   const onChange = (
     field: KAlertForm,
@@ -238,6 +240,7 @@ export const AlertForm = ({
             sx={{ borderRadius: theme.radius.lg }}
             size="lg"
             onClick={onSave}
+            disabled={!isAuthenticated}
           >
             {t("Save settings")}
           </Button>
