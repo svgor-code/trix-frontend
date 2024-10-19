@@ -85,7 +85,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
           error: "",
         }));
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof Error) {
         console.log(error);
         setState((prev) => ({ ...prev, error: error.message }));
